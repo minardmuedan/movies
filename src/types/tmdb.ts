@@ -31,9 +31,52 @@ export type TMovieDetails = TMovie & {
   runtime: number
   spoken_languages: TSpokenLanguage[]
   status: string
-  tagline: string
+  tagline?: string
 }
 
+export type TMovieCredits = { id: number; cast: TCast[]; crew: TCrew[] }
+
+export type TCast = {
+  adult: boolean
+  gender: number
+  id: number
+  known_for_department: string
+  name: string
+  original_name: string
+  popularity: number
+  profile_path?: string
+  cast_id: number
+  character: string
+  credit_id: string
+  order: number
+}
+
+export type TMovieReviews = {
+  id: number
+  page: number
+  results: TReviewResult[]
+  total_pages: number
+  total_results: number
+}
+
+export type TReviewResult = {
+  author: string
+  author_details: TReviewAuthorDetails
+  content: string
+  created_at: string
+  id: string
+  updated_at: string
+  url: string
+}
+
+export type TReviewAuthorDetails = {
+  name: string
+  username: string
+  avatar_path?: string
+  rating?: number
+}
+
+export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
 export type TBelongsToCollection = { id: number; name: string; poster_path: string; backdrop_path: string }
 export type TGenre = { id: number; name: string }

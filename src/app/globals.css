@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -118,12 +118,24 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@utility accent-muted {
+  @apply bg-accent/50 hover:bg-accent border transition-colors;
+}
+
+@utility sm-muted {
+  @apply text-muted-foreground text-sm;
+}
+
+@utility xs-muted {
+  @apply text-muted-foreground text-xs;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
   }
   html {
     @apply font-sans;

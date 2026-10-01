@@ -37,16 +37,13 @@ export default async function MoviesPage() {
         <section className="flex-1">
           <header className="h-36 content-center">
             <h1 className="text-3xl font-semibold">Now Playing Movies</h1>
-            <p className="text-muted-foreground text-sm">Catch the latest movies currently showing in theaters</p>
+            <p className="sm-muted">Catch the latest movies currently showing in theaters</p>
           </header>
 
           <ul className="grid grid-cols-4 gap-2">
             {movies.results.map((movie) => (
               <li key={movie.id}>
-                <Link
-                  href={`/movie/${movie.id}`}
-                  className="bg-accent/30 hover:bg-accent flex h-full flex-col gap-2 rounded-md border p-2 text-sm transition-colors"
-                >
+                <Link href={`/movie/${movie.id}`} className="accent-muted flex h-full flex-col gap-2 rounded-md p-2 text-sm">
                   <TMDBImage
                     type="poster"
                     src={movie.poster_path}
