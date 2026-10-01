@@ -29,7 +29,7 @@ export default async function MovieHero({ id }: { id: string }) {
             <PlayIcon /> Watch Now
           </ButtonLink>
 
-          <ul className="space-y-3 *:flex *:gap-3 [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
+          <ul className="space-y-4 text-sm *:flex *:gap-3 [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
             {[
               [<CalendarDaysIcon />, new Date(movie.release_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })],
               [<HourglassIcon />, `${movie.runtime > 60 && `${Math.floor(movie.runtime / 60)} hr`} ${movie.runtime % 60} min`],

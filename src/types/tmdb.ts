@@ -76,6 +76,7 @@ export type TReviewAuthorDetails = {
   rating?: number
 }
 
+export type TKeywords = { id: number; keywords: TGenre[] }
 export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
 export type TBelongsToCollection = { id: number; name: string; poster_path: string; backdrop_path: string }
