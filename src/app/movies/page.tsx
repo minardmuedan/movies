@@ -11,7 +11,7 @@ export default async function MoviesPage() {
 
   return (
     <>
-      <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-75">
+      <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
         <TMDBImage type="backdrop" src={movies.results[0].backdrop_path} alt="" sizes="100vw" className="aspect-video" />
         <div className="from-background to-background/0 absolute bottom-0 h-1/2 w-full bg-linear-to-t">
           <span className="sr-only">overlay</span>

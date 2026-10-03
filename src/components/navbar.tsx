@@ -2,7 +2,7 @@ import { ButtonLink } from './ui/button'
 
 export default function Navbar() {
   return (
-    <header className="z-50 flex h-12 items-center justify-between border-b px-5">
+    <header className="z-50 flex h-12 items-center justify-between px-5">
       <ButtonLink href="/" variant="ghost">
         Home
       </ButtonLink>

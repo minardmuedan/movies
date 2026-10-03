@@ -1,16 +1,17 @@
 import TMDBImage from '@/components/image'
-import { ButtonLink } from '@/components/ui/button'
+import { Button, ButtonLink } from '@/components/ui/button'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TMovieDetails } from '@/types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, PlayIcon } from 'lucide-react'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 
 export default async function MovieHero({ id }: { id: string }) {
   const movie = await TMDBFetch<TMovieDetails>(`https://api.themoviedb.org/3/movie/${id}`)
 
   return (
     <>
-      <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-75">
-        <TMDBImage type="backdrop" src={movie.backdrop_path} alt="" sizes="100vw" className="aspect-video" />
+      <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
+        <TMDBImage type="backdrop" src={movie.backdrop_path} alt="" sizes="100vw" className="aspect-video min-h-svh" />
         <div className="from-background to-background/0 absolute bottom-0 size-full bg-linear-to-t">
           <span className="sr-only">overlay</span>
         </div>
@@ -25,9 +26,27 @@ export default async function MovieHero({ id }: { id: string }) {
             <p className="text-muted-foreground mt-3 max-w-175">{movie.overview}</p>
           </div>
 
-          <ButtonLink href={`/movie${id}/watch`}>
-            <PlayIcon /> Watch Now
-          </ButtonLink>
+          <Drawer showSwipeHandle>
+            <DrawerTrigger render={<Button />}>
+              <PlayIcon /> Watch Now
+            </DrawerTrigger>
+            <DrawerContent className="min-h-[75svh]">
+              <DrawerHeader>
+                <DrawerTitle>Watch {movie.title}</DrawerTitle>
+              </DrawerHeader>
+
+              <div className="p-2">
+                <iframe
+                  src={`https://vidfast.vc/movie/${movie.id}`}
+                  width="100%"
+                  height="100%"
+                  allowFullScreen
+                  allow="encrypted-media"
+                  className="aspect-video"
+                />
+              </div>
+            </DrawerContent>
+          </Drawer>
 
           <ul className="space-y-4 text-sm *:flex *:gap-3 [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
             {[
