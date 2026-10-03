@@ -19,7 +19,7 @@ export default function TMDBImage({
   ...props
 }: Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' }) {
   return (
-    <div className={cn('relative size-full overflow-hidden', className, !src && 'border')}>
+    <div className={cn('relative overflow-hidden', className, !src && 'border')}>
       {src ? (
         <Image
           src={src}
