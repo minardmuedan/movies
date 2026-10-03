@@ -1,9 +1,6 @@
-import TMDBImage from '@/components/image'
 import MovieCard from '@/components/movie-card'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
-import { StarIcon } from 'lucide-react'
-import Link from 'next/link'
 
 export default async function MovieRecommendations({ id }: { id: string }) {
   const movies = await TMDBFetch<TMovies>(`https://api.themoviedb.org/3/movie/${id}/recommendations`)

@@ -3,14 +3,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
 
-export default async function MovieSimilar({ id }: { id: string }) {
-  const movies = await TMDBFetch<TMovies>(`https://api.themoviedb.org/3/movie/${id}/similar`)
-
+export default async function PersonKnownFor({ id }: { id: string }) {
+  const movies = await TMDBFetch<TMovies>(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.des&with_cast=${id}`)
   return (
-    <section className="overflow-x-hidden">
+    <section>
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
-          <h3 className="mb-0">More Like This</h3>
+          <h2>known for</h2>
 
           <div className="flex gap-1">
             <CarouselPrevious />

@@ -27,9 +27,10 @@ export default function TMDBImage({
           loading={type === 'backdrop' ? 'eager' : 'lazy'}
           className="object-cover object-center"
           loader={({ width }) => {
-            let size = 'w185'
+            let size = ''
             if (type === 'poster') size = width <= 185 ? 'w185' : width <= 342 ? 'w342' : width <= 500 ? 'w500' : width <= 780 ? 'w780' : 'original'
             if (type === 'backdrop') size = width <= 300 ? 'w300' : width <= 780 ? 'w780' : width <= 1280 ? 'w1280' : 'original'
+            if (type === 'profile') size = 'w185'
             return `https://image.tmdb.org/t/p/${size}/${src}`
           }}
           {...props}

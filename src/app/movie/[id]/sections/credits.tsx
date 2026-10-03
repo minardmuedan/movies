@@ -2,6 +2,7 @@ import TMDBImage from '@/components/image'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovieCredits } from '@/types/tmdb'
+import Link from 'next/link'
 
 export default async function MovieCredits({ id }: { id: string }) {
   const credits = await TMDBFetch<TMovieCredits>(`https://api.themoviedb.org/3/movie/${id}/credits`)
@@ -20,13 +21,13 @@ export default async function MovieCredits({ id }: { id: string }) {
         </div>
 
         <CarouselContent className="-ml-8">
-          {credits.cast.map((credit) => (
-            <CarouselItem key={credit.id} className="basis-36 pl-8">
-              <div className="text-center text-sm">
+          {credits.cast.map((credit, i) => (
+            <CarouselItem key={i} className="basis-36 pl-8">
+              <Link href={`/person/${credit.id}`} className="text-center text-sm">
                 <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
                 <div>{credit.name}</div>
                 <div className="xs-muted">{credit.character}</div>
-              </div>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>
