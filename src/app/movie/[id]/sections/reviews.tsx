@@ -4,16 +4,18 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { TMovieReviews } from '@/types/tmdb'
 
 export default async function MovieReviews({ id }: { id: string }) {
-  const reviews = await TMDBFetch<TMovieReviews>(`https://api.themoviedb.org/3/movie/${id}/reviews`)
+  const result = await TMDBFetch<TMovieReviews>(`/movie/${id}/reviews`)
+
+  if (!result.isSuccess) return <p>error</p>
 
   return (
     <section className="relative max-h-svh overflow-hidden md:max-h-[80svh]">
       <h3>
-        Review <span>{reviews.total_results}</span>
+        Review <span>{result.data.total_results}</span>
       </h3>
 
       <ul className="space-y-2">
-        {reviews.results.map((review, i) => (
+        {result.data.results.map((review, i) => (
           <li key={i} className="accent-muted rounded border p-2">
             <div className="flex items-center gap-2 text-sm">
               <TMDBImage type="profile" src={review.author_details.avatar_path} alt="" className="size-6 rounded-full" />

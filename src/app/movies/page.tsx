@@ -1,39 +1,24 @@
 import TMDBImage from '@/components/image'
 import MovieCard from '@/components/movie-card'
-import { Button } from '@/components/ui/button'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TMovies, type TGenre } from '@/types/tmdb'
-import { StarIcon } from 'lucide-react'
-import Link from 'next/link'
+import { TMovies } from '@/types/tmdb'
+import MoviesSideNav from './sidenav'
 
 export default async function MoviesPage() {
-  const { genres } = await TMDBFetch<{ genres: TGenre[] }>('https://api.themoviedb.org/3/genre/movie/list')
-  const movies = await TMDBFetch<TMovies>('https://api.themoviedb.org/3/movie/now_playing')
-
+  const result = await TMDBFetch<TMovies>('/movie/now_playing')
+  if (!result.isSuccess) return <p>error</p>
+  const movies = result.data.results
   return (
     <>
       <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
-        <TMDBImage type="backdrop" src={movies.results[0].backdrop_path} alt="" sizes="100vw" className="aspect-video" />
+        <TMDBImage type="backdrop" src={movies[0].backdrop_path} alt="" sizes="100vw" className="aspect-video" />
         <div className="from-background to-background/0 absolute bottom-0 h-1/2 w-full bg-linear-to-t">
           <span className="sr-only">overlay</span>
         </div>
       </div>
 
       <div className="flex gap-3 py-6">
-        <aside className="w-full max-w-72 space-y-6 border p-6">
-          <div>
-            <div className="text-muted-foreground mb-2 font-medium">Genres</div>
-            <ul className="flex flex-wrap gap-1">
-              {genres.map((genre) => (
-                <li key={genre.id}>
-                  <Button size="sm" variant="outline">
-                    {genre.name}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
+        <MoviesSideNav />
 
         <section className="flex-1">
           <header className="h-36 content-center">
@@ -42,7 +27,7 @@ export default async function MoviesPage() {
           </header>
 
           <ul className="grid grid-cols-4 gap-2">
-            {movies.results.map((movie) => (
+            {movies.map((movie) => (
               <li key={movie.id}>
                 <MovieCard movie={movie} />
               </li>

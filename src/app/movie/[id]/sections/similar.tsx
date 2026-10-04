@@ -4,7 +4,9 @@ import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
 
 export default async function MovieSimilar({ id }: { id: string }) {
-  const movies = await TMDBFetch<TMovies>(`https://api.themoviedb.org/3/movie/${id}/similar`)
+  const result = await TMDBFetch<TMovies>(`/movie/${id}/similar`)
+
+  if (!result.isSuccess) return <p>error</p>
 
   return (
     <section className="overflow-x-hidden">
@@ -19,7 +21,7 @@ export default async function MovieSimilar({ id }: { id: string }) {
         </div>
 
         <CarouselContent className="-ml-2">
-          {movies.results.map((movie, i) => (
+          {result.data.results.map((movie, i) => (
             <CarouselItem key={i} className="basis-2/9 pl-2">
               <MovieCard movie={movie} />
             </CarouselItem>

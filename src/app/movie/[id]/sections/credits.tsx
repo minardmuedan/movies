@@ -5,7 +5,11 @@ import type { TMovieCredits } from '@/types/tmdb'
 import Link from 'next/link'
 
 export default async function MovieCredits({ id }: { id: string }) {
-  const credits = await TMDBFetch<TMovieCredits>(`https://api.themoviedb.org/3/movie/${id}/credits`)
+  const result = await TMDBFetch<TMovieCredits>(`/movie/${id}/credits`)
+
+  if (!result.isSuccess) return <p>error</p>
+
+  const credits = result.data
   return (
     <section className="relative">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>

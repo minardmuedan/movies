@@ -3,8 +3,11 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { type TKeywords } from '@/types/tmdb'
 
 export default async function MovieKeywords({ id }: { id: string }) {
-  const { keywords } = await TMDBFetch<TKeywords>(`https://api.themoviedb.org/3/movie/${id}/keywords`)
+  const result = await TMDBFetch<TKeywords>(`/movie/${id}/keywords`)
 
+  if (!result.isSuccess) return <p>error</p>
+
+  const { keywords } = result.data
   return (
     <section className="basis-2xs">
       <h3>Keywords</h3>

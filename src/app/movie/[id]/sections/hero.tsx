@@ -1,12 +1,15 @@
 import TMDBImage from '@/components/image'
 import { Button, ButtonLink } from '@/components/ui/button'
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TMovieDetails } from '@/types/tmdb'
+import { type TMovieDetails } from '@/types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, PlayIcon } from 'lucide-react'
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 
 export default async function MovieHero({ id }: { id: string }) {
-  const movie = await TMDBFetch<TMovieDetails>(`https://api.themoviedb.org/3/movie/${id}`)
+  const result = await TMDBFetch<TMovieDetails>(`/movie/${id}`)
+
+  if (!result.isSuccess) return <p>error</p>
+  const movie = result.data
 
   return (
     <>
