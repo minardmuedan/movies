@@ -12,7 +12,7 @@ export default async function MovieKeywords({ id }: { id: string }) {
     <section className="basis-2xs">
       <h3>Keywords</h3>
 
-      <ul className="flex flex-wrap gap-1">
+      <ul className="flex flex-wrap gap-2">
         {keywords.map((keyword) => (
           <li key={keyword.id}>
             <ButtonLink href={`/keyword/${keyword.id}`} size="sm" variant="accentMuted">
