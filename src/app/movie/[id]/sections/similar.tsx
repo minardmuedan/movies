@@ -1,4 +1,5 @@
 import MovieCard from '@/components/movie-card'
+import { MovieSection } from '@/components/movie-section'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
@@ -9,7 +10,7 @@ export default async function MovieSimilar({ id }: { id: string }) {
   if (!result.isSuccess) return <p>error</p>
 
   return (
-    <section className="overflow-x-hidden">
+    <MovieSection section="Similar">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
           <h3 className="mb-0">More Like This</h3>
@@ -28,6 +29,6 @@ export default async function MovieSimilar({ id }: { id: string }) {
           ))}
         </CarouselContent>
       </Carousel>
-    </section>
+    </MovieSection>
   )
 }

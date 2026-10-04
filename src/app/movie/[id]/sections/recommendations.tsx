@@ -1,4 +1,5 @@
 import MovieCard from '@/components/movie-card'
+import { MovieSection } from '@/components/movie-section'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
 
@@ -9,7 +10,7 @@ export default async function MovieRecommendations({ id }: { id: string }) {
 
   const movies = result.data.results
   return (
-    <section>
+    <MovieSection section="Recommendations">
       <h3>Recommended For You</h3>
 
       <ul className="grid grid-cols-4 gap-2">
@@ -19,6 +20,6 @@ export default async function MovieRecommendations({ id }: { id: string }) {
           </li>
         ))}
       </ul>
-    </section>
+    </MovieSection>
   )
 }

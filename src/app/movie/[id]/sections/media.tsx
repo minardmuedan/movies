@@ -1,6 +1,8 @@
+import { MovieSection } from '@/components/movie-section'
+
 export default function MovieMedia({ id }: { id: string }) {
   return (
-    <section>
+    <MovieSection section="Media">
       <h3>Media</h3>
 
       <div className="flex w-full gap-2">
@@ -8,6 +10,6 @@ export default function MovieMedia({ id }: { id: string }) {
           <div key={i} className="bg-accent aspect-square w-full"></div>
         ))}
       </div>
-    </section>
+    </MovieSection>
   )
 }

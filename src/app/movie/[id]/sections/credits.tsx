@@ -1,4 +1,5 @@
 import TMDBImage from '@/components/image'
+import { MovieSection } from '@/components/movie-section'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovieCredits } from '@/types/tmdb'
@@ -11,7 +12,7 @@ export default async function MovieCredits({ id }: { id: string }) {
 
   const credits = result.data
   return (
-    <section className="relative">
+    <MovieSection section="Credits" className="relative">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
           <h3 className="mb-0">
@@ -24,9 +25,9 @@ export default async function MovieCredits({ id }: { id: string }) {
           </div>
         </div>
 
-        <CarouselContent className="-ml-8">
+        <CarouselContent className="-ml-7">
           {credits.cast.map((credit, i) => (
-            <CarouselItem key={i} className="basis-36 pl-8">
+            <CarouselItem key={i} className="basis-34 pl-7">
               <Link href={`/person/${credit.id}`} className="text-center text-sm">
                 <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
                 <div>{credit.name}</div>
@@ -36,6 +37,6 @@ export default async function MovieCredits({ id }: { id: string }) {
           ))}
         </CarouselContent>
       </Carousel>
-    </section>
+    </MovieSection>
   )
 }

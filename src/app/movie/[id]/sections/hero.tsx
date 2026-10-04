@@ -1,4 +1,5 @@
 import TMDBImage from '@/components/image'
+import { MovieSection } from '@/components/movie-section'
 import { Button, ButtonLink } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 import { TMDBFetch } from '@/lib/fetcher'
@@ -12,7 +13,7 @@ export default async function MovieHero({ id }: { id: string }) {
   const movie = result.data
 
   return (
-    <>
+    <MovieSection section="Details">
       <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
         <TMDBImage type="backdrop" src={movie.backdrop_path} alt="" sizes="100vw" className="aspect-video min-h-svh" />
         <div className="from-background to-background/0 absolute bottom-0 size-full bg-linear-to-t">
@@ -72,6 +73,6 @@ export default async function MovieHero({ id }: { id: string }) {
           </div>
         </div>
       </div>
-    </>
+    </MovieSection>
   )
 }

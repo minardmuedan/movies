@@ -1,3 +1,4 @@
+import { MovieSection } from '@/components/movie-section'
 import MovieCredits from './sections/credits'
 import MovieHero from './sections/hero'
 import MovieKeywords from './sections/keywords'
@@ -12,10 +13,12 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ i
     <main className="[&_h3]:[&_span]:xs-muted [&_h3]:text-muted-foreground flex-1 space-y-28 overflow-x-hidden [&_h3]:text-xl [&_h3:not([class*='mb-'])]:mb-6">
       <MovieHero id={id} />
       <MovieCredits id={id} />
-      <div className="flex gap-6">
+
+      <MovieSection section="Reviews_Keywords" className="flex gap-6">
         <MovieReviews id={id} />
         <MovieKeywords id={id} />
-      </div>
+      </MovieSection>
+
       <MovieMedia id={id} />
       <MovieSimilar id={id} />
       <MovieRecommendations id={id} />
