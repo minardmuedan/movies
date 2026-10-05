@@ -19,7 +19,7 @@ export default function TMDBImage({
   ...props
 }: Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' }) {
   return (
-    <div className={cn('relative overflow-hidden', className, !src && 'border')}>
+    <div className={cn('relative overflow-hidden', className, !src ? 'border' : 'bg-accent')}>
       {src ? (
         <Image
           src={src}
@@ -42,5 +42,17 @@ export default function TMDBImage({
         </div>
       )}
     </div>
+  )
+}
+
+export function YoutubeImage({ src, className }: { src: string; className?: string }) {
+  return (
+    <Image
+      src={src}
+      alt="youtube picture"
+      fill
+      loader={() => `https://img.youtube.com/vi/${src}/maxresdefault.jpg`}
+      className={cn('object-cover object-center', className)}
+    />
   )
 }

@@ -32,7 +32,7 @@ const MovieSection = ({ section, children, as = 'section', className }: MovieSec
       as={as}
       className={className}
       onChange={(inView) => inView && setActiveSection(section)}
-      rootMargin="-40% 0% -50% 0%"
+      rootMargin="-50% 0% -45% 0%"
     >
       {children}
     </InView>

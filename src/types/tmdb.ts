@@ -150,6 +150,34 @@ export type TPerson = {
   profile_path: string
 }
 
+export type TMovieImages = { id: number; backdrops: TImage[]; logos: TImage[]; posters: TImage[] }
+
+export type TImage = {
+  aspect_ratio: number
+  height: number
+  iso_3166_1?: string
+  iso_639_1?: string
+  file_path: string
+  vote_average: number
+  vote_count: number
+  width: number
+}
+
+export type TMovieVideos = { id: number; results: TMovieVideo[] }
+
+export interface TMovieVideo {
+  iso_639_1: string
+  iso_3166_1: string
+  name: string
+  key: string
+  site: string
+  size: number
+  type: string
+  official: boolean
+  id: string
+  published_at: string
+}
+
 export type TKeywords = { id: number; keywords: TGenre[] }
 export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
