@@ -9,7 +9,7 @@ export default async function MovieReviews({ id }: { id: string }) {
   if (!result.isSuccess) return <p>error</p>
 
   return (
-    <section className="relative max-h-svh overflow-hidden md:max-h-[80svh]">
+    <section className="relative max-h-[80svh] overflow-hidden">
       <h3>
         Review <span>{result.data.total_results}</span>
       </h3>

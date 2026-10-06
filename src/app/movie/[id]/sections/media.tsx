@@ -1,5 +1,7 @@
 import TMDBImage, { YoutubeImage } from '@/components/image'
+import { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger } from '@/components/media-dialog'
 import { MovieSection } from '@/components/movie-section'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TMovieImages, type TMovieVideos } from '@/types/tmdb'
 
@@ -24,27 +26,37 @@ export default async function MovieMedia({ id }: { id: string }) {
     <MovieSection section="Media">
       <h3>Media</h3>
 
-      <div className="grid grid-cols-3 gap-10">
-        {medias.map(({ title, data, displayCount }, i) => (
-          <div key={i}>
-            <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
+      <MovieMediaDialog>
+        <div className="grid grid-cols-3 gap-10">
+          {medias.map(({ title, data, displayCount }, i) => (
+            <div key={i}>
+              <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
 
-            <ul className="flex aspect-square flex-wrap gap-2">
-              {[...Array(Math.min(data.length, displayCount))].map((_, i) => (
-                <li key={i} className="relative grow basis-[calc(50%-0.25rem)] overflow-hidden *:size-full *:rounded">
-                  {title === 'videos' ? <YoutubeImage src={videos[i].key} /> : <TMDBImage type="poster" src={images[title][i].file_path} alt="" />}
+              <MovieMediaDialogTrigger media={title} className="w-full cursor-pointer">
+                <ul className="flex aspect-square flex-wrap gap-1 overflow-hidden rounded-md">
+                  {[...Array(Math.min(data.length, displayCount))].map((_, i) => (
+                    <li key={i} className="relative grow basis-[calc(50%-0.125rem)] *:size-full">
+                      {title === 'videos' ? (
+                        <YoutubeImage src={videos[i].key} />
+                      ) : (
+                        <TMDBImage type="poster" src={images[title][i].file_path} alt="" />
+                      )}
 
-                  {data.length > displayCount && i === displayCount - 1 && (
-                    <div className="bg-background/50 absolute inset-0 grid place-items-center text-sm font-medium">
-                      {data.length - displayCount} +
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+                      {data.length > displayCount && i === displayCount - 1 && (
+                        <div className="bg-background/50 absolute inset-0 grid place-items-center text-sm font-medium">
+                          {data.length - displayCount} +
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </MovieMediaDialogTrigger>
+            </div>
+          ))}
+        </div>
+
+        <MovieMediaDialogContentRender medias={{ posters: images.posters, backdrops: images.backdrops, videos }} />
+      </MovieMediaDialog>
     </MovieSection>
   )
 }

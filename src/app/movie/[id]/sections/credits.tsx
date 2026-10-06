@@ -12,7 +12,7 @@ export default async function MovieCredits({ id }: { id: string }) {
 
   const credits = result.data
   return (
-    <MovieSection section="Credits" className="relative">
+    <MovieSection section="Credits">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
           <h3 className="mb-0">
@@ -31,7 +31,7 @@ export default async function MovieCredits({ id }: { id: string }) {
               <Link href={`/person/${credit.id}`} className="text-center text-sm">
                 <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
                 <div>{credit.name}</div>
-                <div className="xs-muted">{credit.character}</div>
+                <p className="xs-muted line-clamp-2 text-ellipsis">{credit.character}</p>
               </Link>
             </CarouselItem>
           ))}

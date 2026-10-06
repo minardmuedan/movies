@@ -7,7 +7,7 @@ export default async function MoviesSideNav() {
 
   if (!result.isSuccess) return <p>error</p>
   return (
-    <aside className="bg-background/50 w-full max-w-72 space-y-6 rounded-xl p-6">
+    <aside className="bg-background/50 hidden w-full max-w-72 space-y-6 rounded-xl p-6 md:block">
       Filters
       <div>
         <div className="text-muted-foreground mb-2 font-medium">Genres</div>

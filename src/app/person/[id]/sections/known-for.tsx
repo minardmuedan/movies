@@ -4,7 +4,10 @@ import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
 
 export default async function PersonKnownFor({ id }: { id: string }) {
-  const movies = await TMDBFetch<TMovies>(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.des&with_cast=${id}`)
+  const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${id}`)
+
+  if (!result.isSuccess) return <p>error</p>
+
   return (
     <section>
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
@@ -18,7 +21,7 @@ export default async function PersonKnownFor({ id }: { id: string }) {
         </div>
 
         <CarouselContent className="-ml-2">
-          {movies.results.map((movie, i) => (
+          {result.data.results.map((movie, i) => (
             <CarouselItem key={i} className="basis-2/9 pl-2">
               <MovieCard movie={movie} />
             </CarouselItem>

@@ -32,7 +32,7 @@ const MovieSection = ({ section, children, as = 'section', className }: MovieSec
       as={as}
       className={className}
       onChange={(inView) => inView && setActiveSection(section)}
-      rootMargin="-50% 0% -45% 0%"
+      rootMargin="-40% 0% -50% 0%"
     >
       {children}
     </InView>
@@ -44,7 +44,7 @@ const MovieSectionSideNav = () => {
   const activeIndex = sections.indexOf(activeSection)
 
   return (
-    <aside className="sticky top-14 h-fit w-full max-w-52">
+    <aside className="sticky top-25 hidden h-fit w-full max-w-52 md:block">
       <h2 className="text-muted-foreground text-lg">On this page</h2>
 
       <nav className="mt-6">

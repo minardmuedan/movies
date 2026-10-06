@@ -5,7 +5,12 @@ import PersonKnownFor from './sections/known-for'
 
 export default async function PersonPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const person = await TMDBFetch<TPerson>(`https://api.themoviedb.org/3/person/${id}`)
+  const result = await TMDBFetch<TPerson>(`/person/${id}`)
+
+  if (!result.isSuccess) return <p>error</p>
+
+  const person = result.data
+
   return (
     <div className="space-y-28">
       <section>

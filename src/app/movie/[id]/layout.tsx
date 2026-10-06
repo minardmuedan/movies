@@ -4,7 +4,7 @@ import { MovieSectionContextProvider, MovieSectionSideNav } from '@/components/m
 export default function MovieDetailsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <BackButton />
+      <BackButton className="md:sticky md:top-14" />
 
       <div className="mt-60 flex gap-6">
         <MovieSectionContextProvider>

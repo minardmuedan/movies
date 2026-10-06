@@ -15,7 +15,7 @@ export default async function MovieHero({ id }: { id: string }) {
   return (
     <MovieSection section="Details">
       <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
-        <TMDBImage type="backdrop" src={movie.backdrop_path} alt="" sizes="100vw" className="aspect-video min-h-svh" />
+        <TMDBImage type="backdrop" src={movie.backdrop_path} alt="" sizes="100vw" className="aspect-video min-h-svh w-full" />
         <div className="from-background to-background/0 absolute bottom-0 size-full bg-linear-to-t">
           <span className="sr-only">overlay</span>
         </div>
@@ -25,9 +25,9 @@ export default async function MovieHero({ id }: { id: string }) {
         <TMDBImage type="poster" src={movie.poster_path} alt={movie.title} className="aspect-2/3 w-full max-w-80 border" />
         <div className="space-y-12">
           <div>
-            <h1 className="text-3xl font-medium">{movie.title}</h1>
             {movie.tagline && <div className="xs-muted">{movie.tagline}</div>}
-            <p className="text-muted-foreground mt-3 max-w-175">{movie.overview}</p>
+            <h1 className="text-3xl font-medium">{movie.title}</h1>
+            <p className="sm-muted mt-3 max-w-175">{movie.overview}</p>
           </div>
 
           <Drawer showSwipeHandle>
