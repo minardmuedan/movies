@@ -178,6 +178,25 @@ export interface TMovieVideo {
   published_at: string
 }
 
+export type TPersonCombinedCredits = {
+  cast: TPersonCast[]
+  crew: TPersonCast[]
+  id: number
+}
+
+export type TPersonCast = TMovie & {
+  character: string
+  credit_id: string
+  order?: number
+  media_type: string
+  origin_country?: string[]
+  original_name?: string
+  first_air_date?: string
+  name?: string
+  episode_count?: number
+  first_credit_air_date?: string
+}
+
 export type TKeywords = { id: number; keywords: TGenre[] }
 export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }

@@ -98,7 +98,7 @@ const MovieVideosDialogContent = ({ videos }: { videos: TMovieVideo[] }) => {
       </header>
 
       <section>
-        <iframe src={`https://www.youtube.com/embed/${videos[activeVideoIndex].key}`} allowFullScreen className={`aspect-video w-full`} />
+        <iframe src={`https://www.youtube.com/embed/${videos[activeVideoIndex].key}`} allowFullScreen className="bg-accent aspect-video w-full" />
       </section>
     </>
   )

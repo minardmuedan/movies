@@ -4,14 +4,6 @@ import { cn } from 'cn'
 import { ImageOffIcon } from 'lucide-react'
 import Image, { type ImageProps } from 'next/image'
 
-/*
- "profile_sizes": [
-      "w45",
-      "w185",
-      "h632",
-      "original"
-*/
-
 export default function TMDBImage({
   src,
   className,
@@ -30,7 +22,7 @@ export default function TMDBImage({
             let size = ''
             if (type === 'poster') size = width <= 185 ? 'w185' : width <= 342 ? 'w342' : width <= 500 ? 'w500' : width <= 780 ? 'w780' : 'original'
             if (type === 'backdrop') size = width <= 300 ? 'w300' : width <= 780 ? 'w780' : width <= 1280 ? 'w1280' : 'original'
-            if (type === 'profile') size = 'w185'
+            if (type === 'profile') size = width <= 45 ? 'w45' : width <= 185 ? 'w185' : width <= 650 ? 'h632' : 'original'
             return `https://image.tmdb.org/t/p/${size}/${src}`
           }}
           {...props}
