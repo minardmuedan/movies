@@ -29,7 +29,7 @@ export default async function MovieMedia({ id }: { id: string }) {
         opts={{
           dragFree: true,
           breakpoints: {
-            '(min-width: 1024px)': { active: false },
+            '(min-width: 768px)': { active: false },
           },
         }}
       >
@@ -45,7 +45,7 @@ export default async function MovieMedia({ id }: { id: string }) {
         <MovieMediaDialog>
           <CarouselContent className="-ml-10">
             {medias.map(({ title, data, displayCount }, i) => (
-              <CarouselItem key={i} className="basis-2/3 pl-10 lg:basis-1/3">
+              <CarouselItem key={i} className="basis-2/3 pl-10 md:basis-1/3">
                 <MovieMediaDialogTrigger media={title} className="w-full cursor-pointer text-start transition-opacity hover:opacity-75">
                   <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
 
