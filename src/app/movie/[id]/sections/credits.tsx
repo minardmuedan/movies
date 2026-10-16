@@ -28,7 +28,7 @@ export default async function MovieCredits({ id }: { id: string }) {
         <CarouselContent className="-ml-7">
           {credits.cast.map((credit, i) => (
             <CarouselItem key={i} className="basis-34 pl-7">
-              <Link href={`/person/${credit.id}`} className="text-center text-sm">
+              <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
                 <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
                 <div>{credit.name}</div>
                 <p className="xs-muted line-clamp-2 text-ellipsis">{credit.character}</p>

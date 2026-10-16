@@ -179,23 +179,14 @@ export interface TMovieVideo {
 }
 
 export type TPersonCombinedCredits = {
-  cast: TPersonCast[]
-  crew: TPersonCast[]
+  cast: TPersonCombinedCreditsCast[]
+  crew: TPersonCombinedCreditsCrew[]
   id: number
 }
 
-export type TPersonCast = TMovie & {
-  character: string
-  credit_id: string
-  order?: number
-  media_type: string
-  origin_country?: string[]
-  original_name?: string
-  first_air_date?: string
-  name?: string
-  episode_count?: number
-  first_credit_air_date?: string
-}
+export type TPersonCombinedCredit = TMovie & { credit_id: string; media_type: 'movie' | 'tv' }
+export type TPersonCombinedCreditsCast = TPersonCombinedCredit & { character: string; order: number }
+export type TPersonCombinedCreditsCrew = TPersonCombinedCredit & { department: string; job: string }
 
 export type TKeywords = { id: number; keywords: TGenre[] }
 export type TCrew = Omit<TCast, 'order'> & { job: string }

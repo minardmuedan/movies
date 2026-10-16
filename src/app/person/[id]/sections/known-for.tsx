@@ -12,7 +12,7 @@ export default async function PersonKnownFor({ id }: { id: string }) {
     <section>
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
-          <h2>known for</h2>
+          <h2 className="mb-0">Known for</h2>
 
           <div className="flex gap-1">
             <CarouselPrevious />
@@ -22,7 +22,7 @@ export default async function PersonKnownFor({ id }: { id: string }) {
 
         <CarouselContent className="-ml-2">
           {result.data.results.map((movie, i) => (
-            <CarouselItem key={i} className="basis-2/9 pl-2">
+            <CarouselItem key={i} className="basis-4/22 pl-2">
               <MovieCard movie={movie} />
             </CarouselItem>
           ))}

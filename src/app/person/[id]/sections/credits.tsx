@@ -1,9 +1,14 @@
+import PersonCreditsClient from '@/components/person-credits'
 import { TMDBFetch } from '@/lib/fetcher'
+import type { TPersonCombinedCredits } from '@/types/tmdb'
 
 export default async function PersonCredits({ id }: { id: string }) {
-  const data = await TMDBFetch(`/person/${id}/combined_credits`)
+  const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${id}/combined_credits`)
 
-  if (!data.isSuccess) return <p>error</p>
+  if (!result.isSuccess) return <p>error</p>
 
-  return <div>{JSON.stringify(data.data)}</div>
+  const media: Record<string, any> = { All: [...result.data.cast, ...result.data.crew], Acting: result.data.cast }
+  result.data.crew.map(({ department, ...data }) => (media[department] = media[department] ? [...media[department], data] : [data]))
+
+  return <PersonCreditsClient media={media} />
 }

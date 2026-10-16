@@ -46,10 +46,10 @@ export default async function MovieMedia({ id }: { id: string }) {
           <CarouselContent className="-ml-10">
             {medias.map(({ title, data, displayCount }, i) => (
               <CarouselItem key={i} className="basis-2/3 pl-10 lg:basis-1/3">
-                <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
+                <MovieMediaDialogTrigger media={title} className="w-full cursor-pointer text-start transition-opacity hover:opacity-75">
+                  <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
 
-                <MovieMediaDialogTrigger media={title} className="w-full cursor-pointer">
-                  <ul className="flex aspect-square flex-wrap gap-1 overflow-hidden rounded-md">
+                  <ul className="flex aspect-square flex-wrap gap-1 overflow-hidden rounded-md border">
                     {[...Array(Math.min(data.length, displayCount))].map((_, i) => (
                       <li key={i} className="relative grow basis-[calc(50%-0.125rem)] *:size-full">
                         {title === 'videos' ? (

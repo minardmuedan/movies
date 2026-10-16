@@ -2,6 +2,7 @@ import Link from 'next/link'
 import TMDBImage from './image'
 import type { TMovie } from '@/types/tmdb'
 import { StarIcon } from 'lucide-react'
+import { MovieRating } from './ui/movie'
 
 export default function MovieCard({ movie }: { movie: TMovie }) {
   return (
@@ -18,9 +19,7 @@ export default function MovieCard({ movie }: { movie: TMovie }) {
         <p>{movie.title}</p>
         <div className="text-muted-foreground flex justify-between text-xs">
           <div>{movie.release_date?.split('-')[0]}</div>
-          <div className="flex items-center gap-1 text-yellow-600">
-            <StarIcon className="size-4" /> {movie.vote_average.toFixed(1)}
-          </div>
+          <MovieRating average={movie.vote_average} />
         </div>
       </div>
     </Link>

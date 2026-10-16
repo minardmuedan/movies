@@ -22,7 +22,8 @@ export default async function MovieHero({ id }: { id: string }) {
       </div>
 
       <div className="flex gap-6">
-        <TMDBImage type="poster" src={movie.poster_path} alt={movie.title} className="aspect-2/3 w-full max-w-80 border" />
+        <TMDBImage type="poster" src={movie.poster_path} alt={movie.title} className="aspect-2/3 w-full max-w-80 shrink-0 border" />
+
         <div className="space-y-12">
           <div>
             {movie.tagline && <div className="xs-muted">{movie.tagline}</div>}
