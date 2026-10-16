@@ -9,10 +9,10 @@ export default async function MovieKeywords({ id }: { id: string }) {
 
   const { keywords } = result.data
   return (
-    <section className="basis-2xs">
-      <h3>Keywords</h3>
+    <section className="shrink-0 lg:basis-2xs">
+      <h3 className="hidden lg:block">Keywords</h3>
 
-      <ul className="flex flex-wrap gap-2">
+      <ul className="flex flex-wrap justify-center gap-2 lg:justify-start">
         {keywords.map((keyword) => (
           <li key={keyword.id}>
             <ButtonLink href={`/keyword/${keyword.id}`} size="sm" variant="accentMuted">

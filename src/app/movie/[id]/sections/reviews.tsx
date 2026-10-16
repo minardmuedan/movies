@@ -23,7 +23,7 @@ export default async function MovieReviews({ id }: { id: string }) {
               <div className="xs-muted">{review.created_at.split('-')[0]}</div>
             </div>
 
-            <p className="sm-muted mt-6 max-w-175">{review.content}</p>
+            <p className="sm-muted mt-6">{review.content}</p>
           </li>
         ))}
       </ul>

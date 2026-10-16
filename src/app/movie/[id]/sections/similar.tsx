@@ -23,7 +23,7 @@ export default async function MovieSimilar({ id }: { id: string }) {
 
         <CarouselContent className="-ml-2">
           {result.data.results.map((movie, i) => (
-            <CarouselItem key={i} className="basis-2/9 pl-2">
+            <CarouselItem key={i} className="basis-4/9 pl-2 sm:basis-3/10 xl:basis-2/9">
               <MediaCard type="movie" data={movie} />
             </CarouselItem>
           ))}

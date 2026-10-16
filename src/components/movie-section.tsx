@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { createContext, useContext, useState } from 'react'
 import { InView } from 'react-intersection-observer'
 
-const sections = ['Details', 'Credits', 'Reviews_Keywords', 'Media', 'Similar', 'Recommendations'] as const
+const sections = ['Details', 'Credits', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations'] as const
 
 type Sections = (typeof sections)[number]
 type TSectionContext = { activeSection: Sections; setActiveSection: (section: Sections) => void }
@@ -44,13 +44,13 @@ const MovieSectionSideNav = () => {
   const activeIndex = sections.indexOf(activeSection)
 
   return (
-    <aside className="sticky top-25 hidden h-fit w-full max-w-52 md:block">
+    <aside className="sticky top-25 hidden h-fit w-full max-w-52 lg:block">
       <h2 className="text-muted-foreground text-lg">On this page</h2>
 
       <nav className="mt-6">
         <ul className="relative space-y-4">
           <div
-            style={{ transform: `translateY(${(activeIndex > 2 ? activeIndex + 1 : activeIndex) * (16 + 36)}px)` }}
+            style={{ transform: `translateY(${(activeIndex > sections.indexOf('Reviews_Keywords') ? activeIndex + 1 : activeIndex) * (16 + 36)}px)` }}
             className={`from-primary to-primary/0 absolute top-0 left-0 -z-1 h-9 w-full rounded-l-md bg-linear-to-r transition-all duration-400 ${activeSection === 'Reviews_Keywords' ? 'h-22' : 'h-9'}`}
           >
             <span className="sr-only">active section indicator</span>

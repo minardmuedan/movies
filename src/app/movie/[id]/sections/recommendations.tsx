@@ -13,7 +13,7 @@ export default async function MovieRecommendations({ id }: { id: string }) {
     <MovieSection section="Recommendations">
       <h3>Recommended For You</h3>
 
-      <ul className="grid grid-cols-4 gap-2">
+      <ul className="media-card-container md:grid-cols-3 xl:grid-cols-4">
         {movies.map((movie) => (
           <li key={movie.id}>
             <MediaCard type="movie" data={movie} />

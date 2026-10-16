@@ -8,7 +8,13 @@ export default function Navbar() {
       </ButtonLink>
 
       <nav>
-        <ul>
+        <ul className="flex items-center gap-2">
+          <li>
+            <ButtonLink variant="ghost" href="/tv-shows">
+              Tv Shows
+            </ButtonLink>
+          </li>
+
           <li>
             <ButtonLink href="/movies">Movies</ButtonLink>
           </li>

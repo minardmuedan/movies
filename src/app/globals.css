@@ -130,6 +130,10 @@
   @apply text-muted-foreground text-xs;
 }
 
+@utility media-card-container {
+  @apply grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:gap-3 xl:grid-cols-5;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

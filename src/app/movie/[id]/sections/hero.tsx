@@ -21,10 +21,10 @@ export default async function MovieHero({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="flex gap-6">
-        <TMDBImage type="poster" src={movie.poster_path} alt={movie.title} className="aspect-2/3 w-full max-w-80 shrink-0 border" />
+      <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-start">
+        <TMDBImage type="poster" src={movie.poster_path} alt={movie.title} className="aspect-2/3 w-full max-w-80 shrink-0 rounded-md" />
 
-        <div className="space-y-12">
+        <div className="space-y-12 text-center lg:text-start">
           <div>
             {movie.tagline && <div className="xs-muted">{movie.tagline}</div>}
             <h1 className="text-3xl font-medium">{movie.title}</h1>
@@ -53,19 +53,19 @@ export default async function MovieHero({ id }: { id: string }) {
             </DrawerContent>
           </Drawer>
 
-          <ul className="space-y-4 text-sm *:flex *:gap-3 [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
+          <ul className="space-y-6 text-start text-sm [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
             {[
               [<CalendarDaysIcon />, new Date(movie.release_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })],
               [<HourglassIcon />, `${movie.runtime > 60 && `${Math.floor(movie.runtime / 60)} hr`} ${movie.runtime % 60} min`],
               [<Building2Icon />, movie.production_companies.map(({ name }) => `${name}, `)],
             ].map(([v1, v2], i) => (
-              <li key={i}>
+              <li key={i} className="flex gap-3">
                 {v1} {v2}
               </li>
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
             {movie.genres.map((genre) => (
               <ButtonLink key={genre.id} href={`/genre/${genre.id}`} variant="accentMuted">
                 {genre.name}
