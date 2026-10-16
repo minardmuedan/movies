@@ -1,5 +1,5 @@
 import TMDBImage from '@/components/image'
-import MovieCard from '@/components/movie-card'
+import MediaCard from '@/components/media-card'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TMovies } from '@/types/tmdb'
 import MoviesSideNav from './sidenav'
@@ -29,7 +29,7 @@ export default async function MoviesPage() {
           <ul className="grid grid-cols-4 gap-2">
             {movies.map((movie) => (
               <li key={movie.id}>
-                <MovieCard movie={movie} />
+                <MediaCard type="movie" data={movie} />
               </li>
             ))}
           </ul>

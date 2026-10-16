@@ -75,6 +75,15 @@ export type TMovie = {
   vote_count: number
 }
 
+export type TTvShows = { page: number; results: TTv[]; total_pages: number; total_results: number }
+
+export type TTv = Omit<TMovie, 'title' | 'original_title' | 'release_date'> & {
+  origin_country: string[]
+  original_name: string
+  first_air_date: string
+  name: string
+}
+
 export type TMovieDetails = TMovie & {
   belongs_to_collection: TBelongsToCollection | null
   budget: number

@@ -1,4 +1,4 @@
-import MovieCard from '@/components/movie-card'
+import MediaCard from '@/components/media-card'
 import { MovieSection } from '@/components/movie-section'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
@@ -16,7 +16,7 @@ export default async function MovieRecommendations({ id }: { id: string }) {
       <ul className="grid grid-cols-4 gap-2">
         {movies.map((movie) => (
           <li key={movie.id}>
-            <MovieCard movie={movie} />
+            <MediaCard type="movie" data={movie} />
           </li>
         ))}
       </ul>
