@@ -100,7 +100,58 @@ export type TMovieDetails = TMovie & {
   tagline?: string
 }
 
-export type TMovieCredits = { id: number; cast: TCast[]; crew: TCrew[] }
+export interface TTvDetails {
+  adult: boolean
+  backdrop_path: string
+  episode_run_time: any[]
+  first_air_date: string
+  genres: TGenre[]
+  homepage: string
+  id: number
+  in_production: boolean
+  languages: string[]
+  last_air_date: string
+  name: string
+  networks: TNetwork[]
+  number_of_episodes: number
+  number_of_seasons: number
+  origin_country: string[]
+  original_language: string
+  original_name: string
+  overview: string
+  popularity: number
+  poster_path: string
+  production_companies: TProductionCompany[]
+  production_countries: TProductionCountry[]
+  seasons: TSeason[]
+  softcore: boolean
+  spoken_languages: TSpokenLanguage[]
+  status: string
+  tagline: string
+  type: string
+  vote_average: number
+  vote_count: number
+}
+
+export type TNetwork = {
+  id: number
+  logo_path: string
+  name: string
+  origin_country: string
+}
+
+export type TSeason = {
+  air_date: string
+  episode_count: number
+  id: number
+  name: string
+  overview: string
+  poster_path?: string
+  season_number: number
+  vote_average: number
+}
+
+export type TMediaCredits = { id: number; cast: TCast[]; crew: TCrew[] }
 
 export type TCast = {
   adult: boolean
@@ -117,7 +168,7 @@ export type TCast = {
   order: number
 }
 
-export type TMovieReviews = {
+export type TMediaReviews = {
   id: number
   page: number
   results: TReviewResult[]
@@ -159,7 +210,7 @@ export type TPerson = {
   profile_path: string
 }
 
-export type TMovieImages = { id: number; backdrops: TImage[]; logos: TImage[]; posters: TImage[] }
+export type TMediaImages = { id: number; backdrops: TImage[]; logos: TImage[]; posters: TImage[] }
 
 export type TImage = {
   aspect_ratio: number
@@ -172,9 +223,9 @@ export type TImage = {
   width: number
 }
 
-export type TMovieVideos = { id: number; results: TMovieVideo[] }
+export type TMediaVideos = { id: number; results: TMediaVideo[] }
 
-export interface TMovieVideo {
+export interface TMediaVideo {
   iso_639_1: string
   iso_3166_1: string
   name: string
@@ -197,7 +248,9 @@ export type TPersonCombinedCredit = TMovie & { credit_id: string; media_type: 'm
 export type TPersonCombinedCreditsCast = TPersonCombinedCredit & { character: string; order: number }
 export type TPersonCombinedCreditsCrew = TPersonCombinedCredit & { department: string; job: string }
 
-export type TKeywords = { id: number; keywords: TGenre[] }
+export type TMovieKeywords = { id: number; keywords: TGenre[] }
+export type TTvKeywords = { id: number; results: TGenre[] }
+
 export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
 export type TBelongsToCollection = { id: number; name: string; poster_path: string; backdrop_path: string }

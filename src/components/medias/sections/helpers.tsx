@@ -4,28 +4,25 @@ import Link from 'next/link'
 import { createContext, useContext, useState } from 'react'
 import { InView } from 'react-intersection-observer'
 
-const sections = ['Details', 'Credits', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations'] as const
-
-type Sections = (typeof sections)[number]
-type TSectionContext = { activeSection: Sections; setActiveSection: (section: Sections) => void }
-
+type TSectionContext = { sections: string[]; activeSection: string; setActiveSection: (section: string) => void }
 const sectionContext = createContext<TSectionContext | null>(null)
 
-const useMovieSectionContext = () => {
+const useMediaSectionContext = () => {
   const context = useContext(sectionContext)
-  if (!context) throw 'context must be wrapped by the Provider'
+  if (!context) throw 'Context must be wrapped inside its provider'
   return context
 }
 
-const MovieSectionContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeSection, setActiveSection] = useState<Sections>('Details')
-  return <sectionContext.Provider value={{ activeSection, setActiveSection }}>{children}</sectionContext.Provider>
+const MediaSectionProvider = ({ sections, children }: { sections: string[]; children: React.ReactNode }) => {
+  const [activeSection, setActiveSection] = useState(sections[0])
+  return <sectionContext.Provider value={{ sections, activeSection, setActiveSection }}>{children}</sectionContext.Provider>
 }
 
-type MovieSectionProps = { section: Sections; children: React.ReactNode; as?: 'section' | 'div'; className?: string }
+type Props = { section: string; children: React.ReactNode; as?: 'section' | 'div'; className?: string }
 
-const MovieSection = ({ section, children, as = 'section', className }: MovieSectionProps) => {
-  const { setActiveSection } = useMovieSectionContext()
+const MediaSection = ({ section, children, as = 'section', className }: Props) => {
+  const { setActiveSection } = useMediaSectionContext()
+
   return (
     <InView
       id={section.toLocaleLowerCase()}
@@ -39,8 +36,8 @@ const MovieSection = ({ section, children, as = 'section', className }: MovieSec
   )
 }
 
-const MovieSectionSideNav = () => {
-  const { activeSection } = useMovieSectionContext()
+const MediaSectionSideNav = () => {
+  const { sections, activeSection } = useMediaSectionContext()
   const activeIndex = sections.indexOf(activeSection)
 
   return (
@@ -69,8 +66,8 @@ const MovieSectionSideNav = () => {
   )
 }
 
-const Navlink = ({ section, render }: { section: Sections; render?: string }) => {
-  const { activeSection } = useMovieSectionContext()
+const Navlink = ({ section, render }: { section: string; render?: string }) => {
+  const { activeSection } = useMediaSectionContext()
   return (
     <li>
       <Link href={`#${section.toLocaleLowerCase()}`}>
@@ -84,4 +81,4 @@ const Navlink = ({ section, render }: { section: Sections; render?: string }) =>
   )
 }
 
-export { MovieSection, MovieSectionContextProvider, MovieSectionSideNav }
+export { MediaSection, MediaSectionProvider, MediaSectionSideNav }

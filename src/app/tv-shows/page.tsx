@@ -1,5 +1,5 @@
 import TMDBImage from '@/components/image'
-import MediaCard from '@/components/media-card'
+import MediaCard from '@/components/medias/media-card'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TTvShows } from '@/types/tmdb'
 
@@ -18,7 +18,7 @@ export default async function TvShowsPage() {
       </div>
 
       <section>
-        <header className="h-36 content-center">
+        <header className="h-52 content-center">
           <h1 className="text-3xl font-semibold">Now Playing Movies</h1>
           <p className="sm-muted">Catch the latest movies currently showing in theaters</p>
         </header>
@@ -26,7 +26,7 @@ export default async function TvShowsPage() {
         <ul className="media-card-container">
           {tvShows.map((tv) => (
             <li key={tv.id}>
-              <MediaCard type="tv" data={tv} />
+              <MediaCard data={tv} />
             </li>
           ))}
         </ul>

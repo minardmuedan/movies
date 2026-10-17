@@ -1,27 +1,27 @@
-import { MovieSection } from '@/components/movie-section'
-import MovieCredits from './sections/credits'
-import MovieHero from './sections/hero'
-import MovieKeywords from './sections/keywords'
-import MovieMedia from './sections/media'
-import MovieRecommendations from './sections/recommendations'
-import MovieReviews from './sections/reviews'
-import MovieSimilar from './sections/similar'
+import { MediaSection } from '@/components/medias/sections/helpers'
+import MovieCreditSection from './sections/credits'
+import MovieHeroSection from './sections/hero'
+import MovieKeywordsSection from './sections/keywords'
+import MovieMediaSection from './sections/media'
+import MovieRecommendationsSection from './sections/recommendations'
+import MovieReviewsSection from './sections/reviews'
+import MovieSimilarSection from './sections/similar'
 
 export default async function MovieDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   return (
     <main className="[&_h3]:[&_span]:xs-muted [&_h3]:text-muted-foreground flex-1 space-y-28 overflow-x-hidden [&_h3]:text-xl [&_h3:not([class*='mb-'])]:mb-6">
-      <MovieHero id={id} />
-      <MovieCredits id={id} />
-      <MovieMedia id={id} />
+      <MovieHeroSection id={id} />
+      <MovieCreditSection id={id} />
+      <MovieMediaSection id={id} />
 
-      <MovieSection section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
-        <MovieReviews id={id} />
-        <MovieKeywords id={id} />
-      </MovieSection>
+      <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
+        <MovieReviewsSection id={id} />
+        <MovieKeywordsSection id={id} />
+      </MediaSection>
 
-      <MovieSimilar id={id} />
-      <MovieRecommendations id={id} />
+      <MovieSimilarSection id={id} />
+      <MovieRecommendationsSection id={id} />
     </main>
   )
 }

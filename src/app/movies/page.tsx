@@ -1,5 +1,5 @@
 import TMDBImage from '@/components/image'
-import MediaCard from '@/components/media-card'
+import MediaCard from '@/components/medias/media-card'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TMovies } from '@/types/tmdb'
 
@@ -25,7 +25,7 @@ export default async function MoviesPage() {
         <ul className="media-card-container">
           {movies.map((movie) => (
             <li key={movie.id}>
-              <MediaCard type="movie" data={movie} />
+              <MediaCard data={movie} />
             </li>
           ))}
         </ul>

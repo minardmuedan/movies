@@ -1,42 +1,11 @@
-import TMDBImage from '@/components/image'
-import { MovieSection } from '@/components/movie-section'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import MediaCreditsSection from '@/components/medias/sections/credits'
 import { TMDBFetch } from '@/lib/fetcher'
-import type { TMovieCredits } from '@/types/tmdb'
-import Link from 'next/link'
+import type { TMediaCredits } from '@/types/tmdb'
 
-export default async function MovieCredits({ id }: { id: string }) {
-  const result = await TMDBFetch<TMovieCredits>(`/movie/${id}/credits`)
+export default async function MovieCreditSection({ id }: { id: string }) {
+  const result = await TMDBFetch<TMediaCredits>(`/movie/${id}/credits`)
 
   if (!result.isSuccess) return <p>error</p>
 
-  const credits = result.data
-  return (
-    <MovieSection section="Credits">
-      <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
-        <div className="mb-6 flex items-center justify-between">
-          <h3 className="mb-0">
-            Cast <span>{credits.cast.length}</span>
-          </h3>
-
-          <div className="flex gap-1">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
-        </div>
-
-        <CarouselContent className="-ml-5 lg:-ml-7">
-          {credits.cast.map((credit, i) => (
-            <CarouselItem key={i} className="basis-34 pl-5 lg:pl-7">
-              <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
-                <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
-                <div>{credit.name}</div>
-                <p className="xs-muted line-clamp-2 text-ellipsis">{credit.character}</p>
-              </Link>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-    </MovieSection>
-  )
+  return <MediaCreditsSection credits={result.data} />
 }
