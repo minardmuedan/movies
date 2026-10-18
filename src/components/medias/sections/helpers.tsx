@@ -41,7 +41,7 @@ const MediaSectionSideNav = () => {
   const activeIndex = sections.indexOf(activeSection)
 
   return (
-    <aside className="sticky top-25 hidden h-fit w-full max-w-52 lg:block">
+    <aside className="sticky top-25 hidden h-fit w-full max-w-48 lg:block">
       <h2 className="text-muted-foreground text-lg">On this page</h2>
 
       <nav className="mt-6">

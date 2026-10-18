@@ -19,9 +19,9 @@ export default function MediaCreditsSection({ credits }: { credits: TMediaCredit
           </div>
         </div>
 
-        <CarouselContent className="-ml-5 lg:-ml-7">
+        <CarouselContent className="-ml-5 lg:-ml-8">
           {credits.cast.map((credit, i) => (
-            <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-7">
+            <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
               <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
                 <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
                 <div>{credit.name}</div>

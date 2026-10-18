@@ -53,8 +53,6 @@ export type TPathFilters = {
   year: number
 }
 
-export type TGenres = { genres: TGenre[] }
-
 export type TMovies = { dates: TDates; page: number; results: TMovie[]; total_pages: number; total_results: number }
 
 export type TMovie = {
@@ -123,7 +121,7 @@ export interface TTvDetails {
   poster_path: string
   production_companies: TProductionCompany[]
   production_countries: TProductionCountry[]
-  seasons: TSeason[]
+  seasons: TTvSeason[]
   softcore: boolean
   spoken_languages: TSpokenLanguage[]
   status: string
@@ -133,14 +131,7 @@ export interface TTvDetails {
   vote_count: number
 }
 
-export type TNetwork = {
-  id: number
-  logo_path: string
-  name: string
-  origin_country: string
-}
-
-export type TSeason = {
+export type TTvSeason = {
   air_date: string
   episode_count: number
   id: number
@@ -149,6 +140,30 @@ export type TSeason = {
   poster_path?: string
   season_number: number
   vote_average: number
+}
+
+export type TTVSeasonDetails = TTvSeason & {
+  _id: string
+  episodes: TTvEpisode[]
+  networks: TNetwork
+}
+
+export type TTvEpisode = {
+  air_date: string
+  episode_number: number
+  episode_type: string
+  id: number
+  name: string
+  overview: string
+  production_code: string
+  runtime: number
+  season_number: number
+  show_id: number
+  still_path: string
+  vote_average: number
+  vote_count: number
+  crew: any[]
+  guest_stars: any[]
 }
 
 export type TMediaCredits = { id: number; cast: TCast[]; crew: TCrew[] }
@@ -244,6 +259,13 @@ export type TPersonCombinedCredits = {
   id: number
 }
 
+export type TNetwork = {
+  id: number
+  logo_path: string
+  name: string
+  origin_country: string
+}
+
 export type TPersonCombinedCredit = TMovie & { credit_id: string; media_type: 'movie' | 'tv' }
 export type TPersonCombinedCreditsCast = TPersonCombinedCredit & { character: string; order: number }
 export type TPersonCombinedCreditsCrew = TPersonCombinedCredit & { department: string; job: string }
@@ -255,6 +277,7 @@ export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
 export type TBelongsToCollection = { id: number; name: string; poster_path: string; backdrop_path: string }
 export type TGenre = { id: number; name: string }
+export type TGenres = { genres: TGenre[] }
 export type TProductionCompany = { id: number; logo_path?: string; name: string; origin_country: string }
 export type TProductionCountry = { iso_3166_1: string; name: string }
 export type TSpokenLanguage = { english_name: string; iso_639_1: string; name: string }

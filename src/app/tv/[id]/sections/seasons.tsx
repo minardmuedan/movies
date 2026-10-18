@@ -44,9 +44,11 @@ export default async function TvSeasonsSection({ id }: { id: string }) {
           ))}
         </ul>
 
-        <div className="from-background to-background/0 absolute bottom-0 left-0 z-20 flex h-40 w-full items-end justify-center bg-linear-to-t from-40%">
-          <Button variant="link">View Full Seasons</Button>
-        </div>
+        {seasons.length > 4 && (
+          <div className="from-background to-background/0 absolute bottom-0 left-0 z-20 flex h-40 w-full items-end justify-center bg-linear-to-t from-40%">
+            <Button variant="link">View Full Seasons</Button>
+          </div>
+        )}
       </div>
     </MediaSection>
   )
