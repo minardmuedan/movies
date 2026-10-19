@@ -10,7 +10,7 @@ import MovieSimilarSection from './sections/similar'
 export default async function MovieDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   return (
-    <main className="[&_h3]:[&_span]:xs-muted [&_h3]:text-muted-foreground flex-1 space-y-28 overflow-x-hidden [&_h3]:text-xl [&_h3:not([class*='mb-'])]:mb-6">
+    <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
       <MovieHeroSection id={id} />
       <MovieCreditSection id={id} />
       <MovieMediaSection id={id} />

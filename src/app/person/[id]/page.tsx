@@ -14,7 +14,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   const person = result.data
 
   return (
-    <div className="[&_h2]:text-muted-foreground space-y-28 [&_h2]:text-xl [&_h2:not([class*='mb-'])]:mb-6">
+    <div className="[&_h2]:heading-title space-y-28">
       <section className="mt-4">
         <div className="flex gap-10">
           <TMDBImage type="profile" src={person.profile_path} alt="" className="aspect-2/3 h-fit w-72 shrink-0 rounded-md" />

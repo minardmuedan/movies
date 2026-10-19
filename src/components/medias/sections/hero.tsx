@@ -32,7 +32,7 @@ export default function MediaHeroSection({ media }: { media: TMovieDetails | TTv
             <PlayIcon /> Watch Now
           </Button>
 
-          <ul className="space-y-6 text-start text-sm *:flex *:gap-3 [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
+          <ul className="flex flex-wrap justify-center gap-6 text-sm *:flex *:gap-3 lg:justify-start [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
             {runtime && (
               <li>
                 <HourglassIcon /> {runtime > 60 ? `${Math.floor(runtime / 60)} hr` : ''} {`${runtime % 60} min`}
@@ -54,8 +54,8 @@ export default function MediaHeroSection({ media }: { media: TMovieDetails | TTv
               <CalendarDaysIcon /> {new Date(firstRelease).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
             </li>
 
-            <li>
-              <Building2Icon /> {media.production_companies.map(({ name }) => `${name}, `)}
+            <li className="basis-full justify-center lg:justify-start">
+              <Building2Icon /> {media.production_companies.map(({ name }) => name).join(', ')}
             </li>
           </ul>
 

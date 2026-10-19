@@ -1,25 +1,61 @@
 import BackButton from '@/components/back'
+import TMDBImage from '@/components/image'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TTVSeasonDetails } from '@/types/tmdb'
 import TvSeasonsSidebar from './sidebar'
+import { MovieRating } from '@/components/ui/movie'
 
 export default async function TvSeasonDetails({ params }: { params: Promise<{ id: string; season: string }> }) {
-  const { id, season } = await params
+  const { id, season: seasonNumber } = await params
 
-  const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${id}/season/${season}`)
+  const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${id}/season/${seasonNumber}`)
   if (!result.isSuccess) return <p>error</p>
+
+  const season = result.data
 
   return (
     <>
-      <BackButton />
+      <BackButton className="sticky top-14" />
 
-      <div className="flex gap-10">
-        <TvSeasonsSidebar id={id} activeSeason={Number(season)} />
+      <div className="flex gap-6 pt-2">
+        <TvSeasonsSidebar id={id} activeSeason={Number(seasonNumber)} />
 
-        <section className="flex-1 overflow-hidden border">
-          <h1 className="text-2xl">{result.data.name}</h1>
-          <p className="sm-muted">{result.data.overview}</p>
-        </section>
+        <div className="flex-1 py-1">
+          <section className="flex gap-10">
+            <TMDBImage type="poster" src={season.poster_path} alt="" className="aspect-2/3 w-20" />
+
+            <div className="flex-1">
+              <h1 className="text-2xl">{season.name}</h1>
+              <p className="sm-muted">{season.overview}</p>
+            </div>
+          </section>
+
+          <section className="mt-20">
+            <h3 className="heading-title">
+              Episodes <span>{season.episodes.length}</span>
+            </h3>
+
+            <ul className="space-y-3">
+              {season.episodes.map((episode, i) => (
+                <li key={i} className="accent-muted flex h-24 rounded-sm py-2 text-sm">
+                  <div className="my-auto w-10 text-center">{episode.episode_number}</div>
+
+                  <TMDBImage type="poster" src={episode.still_path} alt="" className="aspect-video h-full rounded" />
+
+                  <div className="ml-2 flex-1 *:line-clamp-2 *:text-ellipsis">
+                    {episode.name != String(episode.episode_number) && <div className="mb-2">{episode.name}</div>}
+                    <div className="xs-muted max-w-175 text-ellipsis">{episode.overview}</div>
+                  </div>
+
+                  <div className="flex flex-col justify-between pr-2 pl-6 text-xs">
+                    <MovieRating average={episode.vote_average} />
+                    <span className="text-muted-foreground">{episode.runtime} min</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
       </div>
     </>
   )

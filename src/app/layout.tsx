@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className={cn('dark h-full font-sans antialiased', inter.variable)}>
+    <html lang="en" className={cn('dark h-full font-sans antialiased', inter.variable)} data-scroll-behavior="smooth">
       <body className="flex min-h-full flex-col">
         <Navbar />
 

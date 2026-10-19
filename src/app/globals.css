@@ -118,6 +118,13 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@utility heading-title {
+  @apply [&_span]:xs-muted text-muted-foreground text-xl;
+  &:where(:not([class*='mb-'])) {
+    @apply mb-6;
+  }
+}
+
 @utility accent-muted {
   @apply bg-accent/50 hover:bg-accent border transition-colors;
 }

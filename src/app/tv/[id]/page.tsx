@@ -17,13 +17,13 @@ export default async function TvDetailsPage({ params }: { params: Promise<{ id: 
       <BackButton className="md:sticky md:top-14" />
 
       <div className="mt-60 flex gap-6">
-        <MediaSectionProvider sections={['Details', 'Credits', 'Seasons', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations']}>
+        <MediaSectionProvider sections={['Details', 'Seasons', 'Credits', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations']}>
           <MediaSectionSideNav />
 
-          <main className="[&_h3]:[&_span]:xs-muted [&_h3]:text-muted-foreground flex-1 space-y-28 overflow-x-hidden [&_h3]:text-xl [&_h3:not([class*='mb-'])]:mb-6">
+          <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
             <TvHeroSection id={id} />
-            <TvCreditsSection id={id} />
             <TvSeasonsSection id={id} />
+            <TvCreditsSection id={id} />
             <TvMediaSection id={id} />
 
             <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
