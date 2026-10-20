@@ -10,8 +10,9 @@ export default async function TvSeasonDetailsLayout({ params, children }: Props)
     <>
       <BackButton className="sticky top-14" />
 
-      <div className="flex gap-6 pt-2">
+      <div className="flex flex-col items-start gap-6 pt-2 lg:flex-row">
         <TvSeasonsSidebar id={id} />
+
         {children}
       </div>
     </>

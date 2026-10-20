@@ -13,16 +13,12 @@ export default async function TvSeasonDetailsPage({ params }: { params: Promise<
 
   return (
     <div className="flex-1 py-1">
-      <section className="flex gap-10">
-        <TMDBImage type="poster" src={season.poster_path} alt="" className="aspect-2/3 w-20" />
-
-        <div className="flex-1">
-          <h1 className="text-2xl">{season.name}</h1>
-          <p className="sm-muted">{season.overview}</p>
-        </div>
+      <section className="mb-20 text-center">
+        <h1 className="text-3xl font-semibold">{season.name}</h1>
+        {season.overview && <p className="sm-muted mt-2">{season.overview}</p>}
       </section>
 
-      <section className="mt-20">
+      <section>
         <h3 className="heading-title">
           Episodes <span>{season.episodes.length}</span>
         </h3>

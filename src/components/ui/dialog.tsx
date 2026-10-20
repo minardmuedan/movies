@@ -48,11 +48,11 @@ function DialogContent({
   return (
     <DialogPortal>
       <DialogOverlay />
-      <DialogPrimitive.Viewport className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden py-6">
+      <DialogPrimitive.Viewport className="fixed inset-0 z-50 grid place-items-center overflow-hidden py-6">
         <DialogPrimitive.Popup
           data-slot="dialog-content"
           className={cn(
-            'bg-popover text-popover-foreground ring-foreground/10 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative mx-auto my-16 flex max-h-full w-full max-w-[calc(100%-2rem)] flex-col rounded-xl text-sm ring-1 duration-100 outline-none sm:max-w-md',
+            'bg-popover text-popover-foreground ring-foreground/10 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative mx-auto my-16 flex max-h-[calc(100svh-2.5rem)] w-full max-w-[calc(100%-2rem)] flex-col overflow-hidden rounded-xl text-sm ring-1 duration-100 outline-none sm:max-w-md',
             className,
           )}
           {...props}

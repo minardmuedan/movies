@@ -46,7 +46,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
   if (!activeMedia) return null
 
   return (
-    <DialogContent className="max-h-[calc(100svh-2.5rem)] p-0 sm:max-w-xl md:max-w-3xl">
+    <DialogContent className="p-0 sm:max-w-xl md:max-w-3xl">
       <DialogHeader className="p-6">
         <DialogTitle className="first-letter:uppercase">{activeMedia}</DialogTitle>
       </DialogHeader>
