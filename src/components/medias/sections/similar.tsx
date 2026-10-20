@@ -1,4 +1,4 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import type { TMovie, TTv } from '@/types/tmdb'
 import MediaCard from '../media-card'
 import { MediaSection } from './helpers'
@@ -9,11 +9,7 @@ export default function MediaSimilarSection({ datas }: { datas: (TMovie | TTv)[]
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <div className="mb-6 flex items-center justify-between">
           <h3 className="mb-0">More Like This</h3>
-
-          <div className="flex gap-1">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          <CarouselPrevAndNext />
         </div>
 
         <CarouselContent className="-ml-2">

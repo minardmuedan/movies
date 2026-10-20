@@ -45,6 +45,7 @@ function Carousel({ orientation = 'horizontal', opts, setApi, plugins, className
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
+      watchDrag: (emblaApi) => emblaApi.canScrollPrev() || emblaApi.canScrollNext(),
     },
     plugins,
   )
@@ -146,14 +147,14 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function CarouselPrevious({ variant = 'outline', size = 'icon-sm', className, ...props }: React.ComponentProps<typeof Button>) {
-  const { scrollPrev, canScrollPrev } = useCarousel()
+  const { scrollPrev, canScrollPrev, canScrollNext } = useCarousel()
 
   return (
     <Button
       data-slot="carousel-previous"
       variant={variant}
       size={size}
-      className={cn('touch-manipulation', className)}
+      className={cn('touch-manipulation', !canScrollPrev && !canScrollNext ? 'sr-only' : '', className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
@@ -165,14 +166,14 @@ function CarouselPrevious({ variant = 'outline', size = 'icon-sm', className, ..
 }
 
 function CarouselNext({ variant = 'outline', size = 'icon-sm', className, ...props }: React.ComponentProps<typeof Button>) {
-  const { scrollNext, canScrollNext } = useCarousel()
+  const { scrollNext, canScrollPrev, canScrollNext } = useCarousel()
 
   return (
     <Button
       data-slot="carousel-next"
       variant={variant}
       size={size}
-      className={cn('touch-manipulation', className)}
+      className={cn('touch-manipulation', !canScrollPrev && !canScrollNext ? 'sr-only' : '', className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
@@ -183,4 +184,17 @@ function CarouselNext({ variant = 'outline', size = 'icon-sm', className, ...pro
   )
 }
 
-export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, useCarousel, type CarouselApi }
+function CarouselPrevAndNext() {
+  const { canScrollPrev, canScrollNext } = useCarousel()
+
+  if (!canScrollPrev && !canScrollNext) return null
+
+  return (
+    <div className="flex gap-1">
+      <CarouselPrevious />
+      <CarouselNext />
+    </div>
+  )
+}
+
+export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselPrevAndNext, useCarousel, type CarouselApi }

@@ -1,5 +1,5 @@
 import TMDBImage from '@/components/image'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import type { TMediaCredits } from '@/types/tmdb'
 import Link from 'next/link'
 import { MediaSection } from './helpers'
@@ -13,10 +13,7 @@ export default function MediaCreditsSection({ credits }: { credits: TMediaCredit
             Cast <span>{credits.cast.length}</span>
           </h3>
 
-          <div className="flex gap-1">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          <CarouselPrevAndNext />
         </div>
 
         <CarouselContent className="-ml-5 lg:-ml-8">

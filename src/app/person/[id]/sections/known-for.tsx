@@ -1,4 +1,4 @@
-import MediaCard from '@/components/media-card'
+import MediaCard from '@/components/medias/media-card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/types/tmdb'
@@ -23,7 +23,7 @@ export default async function PersonKnownFor({ id }: { id: string }) {
         <CarouselContent className="-ml-2">
           {result.data.results.map((movie, i) => (
             <CarouselItem key={i} className="basis-4/22 pl-2">
-              <MediaCard type="movie" data={movie} />
+              <MediaCard data={movie} />
             </CarouselItem>
           ))}
         </CarouselContent>

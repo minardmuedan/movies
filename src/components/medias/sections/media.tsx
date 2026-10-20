@@ -1,7 +1,7 @@
 import TMDBImage, { YoutubeImage } from '@/components/image'
 import { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger } from '@/components/media-dialog'
 import { MediaSection } from '@/components/medias/sections/helpers'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { type TMediaImages, type TMediaVideo } from '@/types/tmdb'
 
 export default async function MediaMediasSection({ images, videos }: { images: TMediaImages; videos: TMediaVideo[] }) {
@@ -13,14 +13,11 @@ export default async function MediaMediasSection({ images, videos }: { images: T
 
   return (
     <MediaSection section="Media">
-      <Carousel opts={{ dragFree: true, breakpoints: { '(min-width: 768px)': { active: false } } }}>
+      <Carousel opts={{ dragFree: true }}>
         <div className="mb-6 flex items-center justify-between">
           <h3 className="mb-0">Media</h3>
 
-          <div className="flex gap-1 lg:hidden">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          <CarouselPrevAndNext />
         </div>
 
         <MovieMediaDialog>

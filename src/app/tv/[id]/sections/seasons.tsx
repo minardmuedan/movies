@@ -1,6 +1,6 @@
 import TMDBImage from '@/components/image'
 import { MediaSection } from '@/components/medias/sections/helpers'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { MovieRating } from '@/components/ui/movie'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails } from '@/types/tmdb'
@@ -19,10 +19,7 @@ export default async function TvSeasonsSection({ id }: { id: string }) {
             Seasons <span>{seasons.length}</span>
           </h3>
 
-          <div className="flex gap-1 lg:hidden">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          <CarouselPrevAndNext />
         </div>
 
         <CarouselContent className="-ml-3">
