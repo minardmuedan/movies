@@ -9,8 +9,8 @@ import TvReviewsSection from './sections/reviews'
 import TvSeasonsSection from './sections/seasons'
 import TvSimilarSection from './sections/similar'
 
-export default async function TvDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function TvDetailsPage({ params }: { params: Promise<{ show_id: string }> }) {
+  const { show_id } = await params
 
   return (
     <>
@@ -21,18 +21,18 @@ export default async function TvDetailsPage({ params }: { params: Promise<{ id: 
           <MediaSectionSideNav />
 
           <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
-            <TvHeroSection id={id} />
-            <TvSeasonsSection id={id} />
-            <TvCreditsSection id={id} />
-            <TvMediaSection id={id} />
+            <TvHeroSection show_id={show_id} />
+            <TvSeasonsSection show_id={show_id} />
+            <TvCreditsSection show_id={show_id} />
+            <TvMediaSection show_id={show_id} />
 
             <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
-              <TvReviewsSection id={id} />
-              <TvKeywordsSection id={id} />
+              <TvReviewsSection show_id={show_id} />
+              <TvKeywordsSection show_id={show_id} />
             </MediaSection>
 
-            <TvSimilarSection id={id} />
-            <TvRecommendationsSection id={id} />
+            <TvSimilarSection show_id={show_id} />
+            <TvRecommendationsSection show_id={show_id} />
           </main>
         </MediaSectionProvider>
       </div>

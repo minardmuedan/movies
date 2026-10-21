@@ -7,21 +7,21 @@ import MovieRecommendationsSection from './sections/recommendations'
 import MovieReviewsSection from './sections/reviews'
 import MovieSimilarSection from './sections/similar'
 
-export default async function MovieDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function MovieDetailsPage({ params }: { params: Promise<{ movie_id: string }> }) {
+  const { movie_id } = await params
   return (
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
-      <MovieHeroSection id={id} />
-      <MovieCreditSection id={id} />
-      <MovieMediaSection id={id} />
+      <MovieHeroSection movie_id={movie_id} />
+      <MovieCreditSection movie_id={movie_id} />
+      <MovieMediaSection movie_id={movie_id} />
 
       <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
-        <MovieReviewsSection id={id} />
-        <MovieKeywordsSection id={id} />
+        <MovieReviewsSection movie_id={movie_id} />
+        <MovieKeywordsSection movie_id={movie_id} />
       </MediaSection>
 
-      <MovieSimilarSection id={id} />
-      <MovieRecommendationsSection id={id} />
+      <MovieSimilarSection movie_id={movie_id} />
+      <MovieRecommendationsSection movie_id={movie_id} />
     </main>
   )
 }

@@ -1,13 +1,13 @@
 import TMDBImage from '@/components/image'
+import { MediaRating } from '@/components/medias/media-rating'
 import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import { MovieRating } from '@/components/ui/movie'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails } from '@/types/tmdb'
 import Link from 'next/link'
 
-export default async function TvSeasonsSection({ id }: { id: string }) {
-  const result = await TMDBFetch<TTvDetails>(`/tv/${id}`)
+export default async function TvSeasonsSection({ show_id }: { show_id: string }) {
+  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`)
   if (!result.isSuccess) return <p>error</p>
 
   const { seasons } = result.data
@@ -25,7 +25,7 @@ export default async function TvSeasonsSection({ id }: { id: string }) {
         <CarouselContent className="-ml-3">
           {seasons.map((season, i) => (
             <CarouselItem key={i} className="basis-4/9 pl-3 sm:basis-3/10 xl:basis-2/9">
-              <Link href={`/tv/${id}/${season.season_number}`} scroll={true} className="group">
+              <Link href={`/tv/${show_id}/season/${season.season_number}`} scroll={true} className="group">
                 <div className="aspect-2/3 overflow-hidden rounded-md">
                   <TMDBImage type="poster" src={season.poster_path} alt="" className="size-full transition-transform group-hover:scale-110" />
                 </div>
@@ -34,7 +34,7 @@ export default async function TvSeasonsSection({ id }: { id: string }) {
                   <div>{season.name}</div>
                   <div className="flex items-center justify-between">
                     <div className="xs-muted">{season.air_date?.split('-')[0]}</div>
-                    <MovieRating average={season.vote_average} />
+                    <MediaRating average={season.vote_average} />
                   </div>
                 </div>
               </Link>

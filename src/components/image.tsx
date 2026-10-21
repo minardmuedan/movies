@@ -9,7 +9,7 @@ export default function TMDBImage({
   className,
   type,
   ...props
-}: Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' }) {
+}: Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' | 'still' }) {
   return (
     <div className={cn('relative overflow-hidden', className, !src ? 'border' : 'bg-accent')}>
       {src ? (
@@ -22,7 +22,8 @@ export default function TMDBImage({
             let size = ''
             if (type === 'poster') size = width <= 185 ? 'w185' : width <= 342 ? 'w342' : width <= 500 ? 'w500' : width <= 780 ? 'w780' : 'original'
             if (type === 'backdrop') size = width <= 300 ? 'w300' : width <= 780 ? 'w780' : width <= 1280 ? 'w1280' : 'original'
-            if (type === 'profile') size = width <= 45 ? 'w45' : width <= 185 ? 'w185' : width <= 650 ? 'h632' : 'original'
+            if (type === 'profile') size = width <= 45 ? 'w45' : width <= 185 ? 'w185' : width <= 600 ? 'h632' : 'original'
+            if (type === 'still') size = width <= 92 ? 'w92' : width <= 185 ? 'w185' : width <= 300 ? 'w300' : 'original'
             return `https://image.tmdb.org/t/p/${size}/${src}`
           }}
           {...props}

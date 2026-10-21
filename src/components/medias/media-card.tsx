@@ -1,7 +1,7 @@
 import type { TMovie, TTv } from '@/types/tmdb'
 import Link from 'next/link'
 import TMDBImage from '../image'
-import { MovieRating } from '../ui/movie'
+import { MediaRating } from './media-rating'
 
 export default function MediaCard({ data }: { data: TMovie | TTv }) {
   const type = 'name' in data ? 'tv' : 'movie'
@@ -21,7 +21,7 @@ export default function MediaCard({ data }: { data: TMovie | TTv }) {
         <p>{'title' in data ? data.title : data.name}</p>
         <div className="text-muted-foreground flex justify-between text-xs">
           <div>{firstReleaseDate?.split('-')[0]}</div>
-          <MovieRating average={data.vote_average} />
+          <MediaRating average={data.vote_average} />
         </div>
       </div>
     </Link>

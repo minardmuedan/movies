@@ -4,7 +4,7 @@ import type { TPersonCombinedCreditsCast, TPersonCombinedCreditsCrew } from '@/t
 import Link from 'next/link'
 import { useState } from 'react'
 import TMDBImage from './image'
-import { MovieRating } from './ui/movie'
+import { MediaRating } from './medias/media-rating'
 
 type Props = { media: Record<string, (TPersonCombinedCreditsCast | TPersonCombinedCreditsCrew)[]> }
 
@@ -45,7 +45,7 @@ export default function PersonCreditsClient({ media }: Props) {
 
                 <div className="ml-auto space-y-2 text-end">
                   <div className="xs-muted">{media.release_date?.split('-')[0]}</div>
-                  <MovieRating average={media.vote_average} />
+                  <MediaRating average={media.vote_average} />
                 </div>
               </Link>
             </li>
