@@ -13,7 +13,7 @@ import { Button } from '../ui/button'
 
 type Props = { show_id: string; seasons: TTvSeason[] }
 
-export default function SeasonSidebar({ show_id, seasons }: Props) {
+export default function SeasonSidebar({ show_id, seasons, showName }: Props & { showName: string }) {
   const { season_number } = useParams<{ season_number?: string }>()
   const [open, setOpen] = useState(false)
   const activeSeason = Number(season_number)
@@ -38,7 +38,7 @@ export default function SeasonSidebar({ show_id, seasons }: Props) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Seasons</DialogTitle>
+            <DialogTitle>{showName} Seasons</DialogTitle>
           </DialogHeader>
 
           <SeasonList show_id={show_id} seasons={seasons} isDialog className="px-2" />
