@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import Navbar from '@/components/navbar'
+import RootProvider from '@/components/root-provider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -15,9 +16,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={cn('dark h-full font-sans antialiased', inter.variable)} data-scroll-behavior="smooth">
       <body className="flex min-h-full flex-col">
-        <Navbar />
+        <RootProvider>
+          <Navbar />
 
-        <main className="mx-auto w-full px-2 py-2 sm:px-4 lg:max-w-400 lg:px-6">{children}</main>
+          <main className="mx-auto w-full px-2 py-2 sm:px-4 lg:max-w-400 lg:px-6">{children}</main>
+        </RootProvider>
       </body>
     </html>
   )

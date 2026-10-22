@@ -9,5 +9,7 @@ export async function GET(req: NextRequest) {
   if (!query) notFound()
 
   const result = await TMDBFetch(`/search/multi?query=${query}`)
-  return Response.json(result)
+  if (!result.isSuccess) throw ''
+
+  return Response.json(result.data)
 }

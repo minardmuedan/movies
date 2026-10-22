@@ -8,26 +8,22 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { ScrollArea } from './ui/scroll-area'
 import { useEffect, useState } from 'react'
 import TMDBImage from './image'
+import { useInfiniteQuery } from '@tanstack/react-query'
+
+const fetchProjects = async (query: string, pageParam: number) => {
+  const res = await fetch(`/api/search?query=${query}&page=${pageParam}`)
+  return (await res.json()) as { d: '' }
+}
 
 export default function SearchDialog() {
-  const [data, setData] = useState()
-  const [isLoading, setIsLoading] = useState(false)
   const [query, value, setValue] = useDebounce()
 
-  useEffect(() => {
-    if (!query) return
-
-    async function getData() {
-      setIsLoading(true)
-      const result = await fetch(`/api/search?query=${query}`)
-      const resultData = await result.json()
-
-      setIsLoading(false)
-      setData(resultData.data.results)
-    }
-
-    getData()
-  }, [query])
+  const { data, isLoading, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['search', query],
+    queryFn: ({ pageParam }) => fetchProjects(query, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (_lastPage, _pages, lastPageParam) => lastPageParam + 1,
+  })
 
   return (
     <Dialog>
@@ -67,7 +63,7 @@ export default function SearchDialog() {
 
           {!isLoading && data && (
             <ul className="mt-6 space-y-2">
-              {data.map((movie, i) => (
+              {data.pages[0].results.map((movie, i) => (
                 <li key={i} className="flex h-20 gap-2 rounded border p-2">
                   <TMDBImage type="poster" src={movie.poster_path} alt="" className="aspect-2/3 h-full" />
 
