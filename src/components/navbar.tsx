@@ -1,3 +1,4 @@
+import SearchDialog from './search-dialog'
 import { ButtonLink } from './ui/button'
 
 export default function Navbar() {
@@ -7,18 +8,14 @@ export default function Navbar() {
         Home
       </ButtonLink>
 
-      <nav>
-        <ul className="flex items-center gap-2">
-          <li>
-            <ButtonLink variant="ghost" href="/tv-shows">
-              Tv Shows
-            </ButtonLink>
-          </li>
+      <nav className="flex items-center gap-2">
+        <ButtonLink variant="ghost" href="/tv-shows">
+          Tv Shows
+        </ButtonLink>
 
-          <li>
-            <ButtonLink href="/movies">Movies</ButtonLink>
-          </li>
-        </ul>
+        <ButtonLink href="/movies">Movies</ButtonLink>
+
+        <SearchDialog />
       </nav>
     </header>
   )
