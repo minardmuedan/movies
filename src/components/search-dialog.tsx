@@ -1,28 +1,32 @@
 'use client'
 
 import useDebounce from '@/hooks/use-debounce'
+import { TMDB_MEDIA, type TTMDB_MEDIA } from '@/lib/tmdb'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { SearchIcon } from 'lucide-react'
+import { useState } from 'react'
+import TMDBImage from './image'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { ScrollArea } from './ui/scroll-area'
-import { useEffect, useState } from 'react'
-import TMDBImage from './image'
-import { useInfiniteQuery } from '@tanstack/react-query'
 
-const fetchProjects = async (query: string, pageParam: number) => {
-  const res = await fetch(`/api/search?query=${query}&page=${pageParam}`)
+const fetchProjects = async (mediaType: string, query: string, pageParam: number) => {
+  if (!query) return
+  const res = await fetch(`/api/search?media_type=${mediaType}&query=${query}&page=${pageParam}`)
   return (await res.json()) as { d: '' }
 }
 
-export default function SearchDialog() {
+export default function SearchDialog({ defaultMediaType = 'movie' }: { defaultMediaType?: TTMDB_MEDIA }) {
+  const [mediaType, setMediaType] = useState(defaultMediaType)
   const [query, value, setValue] = useDebounce()
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['search', query],
-    queryFn: ({ pageParam }) => fetchProjects(query, pageParam),
+    queryKey: ['search', mediaType, query],
+    queryFn: ({ pageParam }) => fetchProjects(mediaType, query, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, _pages, lastPageParam) => lastPageParam + 1,
+    enabled: !!query,
   })
 
   return (
@@ -34,12 +38,20 @@ export default function SearchDialog() {
       <DialogContent className="max-h-full max-w-full">
         <DialogHeader>
           <DialogTitle>Search</DialogTitle>
-          <DialogDescription>Search anything..</DialogDescription>
+          <DialogDescription>Have anything in mind?</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="px-3 pt-0 pb-6">
+          <div className="*:border-border mb-6 grid grid-cols-3 overflow-hidden rounded-md border *:rounded-none *:border-0 *:border-r *:last-of-type:border-r-0">
+            {TMDB_MEDIA.map((media) => (
+              <Button key={media} variant={mediaType === media ? 'default' : 'ghost'} onClick={() => setMediaType(media)}>
+                <span className="first-letter:uppercase">{media}</span>
+              </Button>
+            ))}
+          </div>
+
           <InputGroup>
-            <InputGroupInput placeholder="Search..." value={value} onChange={(e) => setValue(e.target.value)} />
+            <InputGroupInput autoFocus placeholder={`Search a ${mediaType}...`} value={value} onChange={(e) => setValue(e.target.value)} />
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
@@ -63,7 +75,7 @@ export default function SearchDialog() {
 
           {!isLoading && data && (
             <ul className="mt-6 space-y-2">
-              {data.pages[0].results.map((movie, i) => (
+              {data.pages[0]?.results.map((movie, i) => (
                 <li key={i} className="flex h-20 gap-2 rounded border p-2">
                   <TMDBImage type="poster" src={movie.poster_path} alt="" className="aspect-2/3 h-full" />
 

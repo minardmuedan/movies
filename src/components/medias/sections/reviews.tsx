@@ -1,5 +1,6 @@
 import TMDBImage from '@/components/image'
 import { Button } from '@/components/ui/button'
+import { timeAgo } from '@/lib/time-format'
 import type { TMediaReviews } from '@/types/tmdb'
 
 export default function MediaReviewsSection({ reviews }: { reviews: TMediaReviews }) {
@@ -15,7 +16,7 @@ export default function MediaReviewsSection({ reviews }: { reviews: TMediaReview
             <div className="flex items-center gap-2 text-sm">
               <TMDBImage type="profile" src={review.author_details.avatar_path} alt="" className="size-6 rounded-full" />
               <div>{review.author}</div>
-              <div className="xs-muted">{review.created_at.split('-')[0]}</div>
+              <div className="xs-muted">{timeAgo(review.created_at)}</div>
             </div>
 
             <p className="sm-muted mt-6">{review.content}</p>
