@@ -16,6 +16,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { ScrollArea } from './ui/scroll-area'
 import { Skeleton } from './ui/skeleton'
 import { Spinner } from './ui/spinner'
+import Link from 'next/link'
 
 type Props = { defaultMediaType?: TTMDB_MEDIA }
 
@@ -76,7 +77,7 @@ export function SearchContent({ defaultMediaType = 'movie' }: Props) {
       {!isLoading && query && <div className="xs-muted mb-1 text-center">{totalResult ? `${totalResult} results` : 'no result'}</div>}
 
       {query && (
-        <ul className="space-y-2 *:flex *:h-24 *:gap-2 *:rounded *:border *:p-2">
+        <ul className="*:*:accent-muted space-y-2 *:*:flex *:*:h-24 *:*:gap-2 *:*:rounded *:*:p-2">
           {results?.map((data, i) => {
             const name = 'title' in data ? data.title : data.name
             const imagePath = 'poster_path' in data ? data.poster_path : data.profile_path
@@ -87,24 +88,26 @@ export function SearchContent({ defaultMediaType = 'movie' }: Props) {
 
             return (
               <li key={i}>
-                <TMDBImage type={imageType} src={imagePath} alt="" className="aspect-2/3 h-full" />
+                <Link href={`/${mediaType}/${data.id}`}>
+                  <TMDBImage type={imageType} src={imagePath} alt="" className="aspect-2/3 h-full" />
 
-                <div className="flex-1">
-                  <div className="mb-1 line-clamp-1 text-sm">{name}</div>
-                  {'overview' in data && <div className="xs-muted line-clamp-2">{data.overview || 'no overview'}</div>}
+                  <div className="flex-1">
+                    <div className="mb-1 line-clamp-1 text-sm">{name}</div>
+                    {'overview' in data && <div className="xs-muted line-clamp-2">{data.overview || 'no overview'}</div>}
 
-                  <div className="mt-2 flex items-center gap-2">
-                    {!!releaseDate && <div className="xs-muted">{releaseDate}</div>}
-                    {!!voteAverage && <MediaRating average={voteAverage} />}
+                    <div className="mt-2 flex items-center gap-2">
+                      {!!releaseDate && <div className="xs-muted">{releaseDate}</div>}
+                      {!!voteAverage && <MediaRating average={voteAverage} />}
 
-                    {personKnownFor.length > 0 && (
-                      <div className="xs-muted flex gap-1">
-                        <PlayIcon className="size-4" />
-                        <p className="line-clamp-3 flex-1">{personKnownFor.map((v) => ('title' in v ? v.title : v.name)).join(', ')}</p>
-                      </div>
-                    )}
+                      {personKnownFor.length > 0 && (
+                        <div className="xs-muted flex gap-1">
+                          <PlayIcon className="size-4" />
+                          <p className="line-clamp-3 flex-1">{personKnownFor.map((v) => ('title' in v ? v.title : v.name)).join(', ')}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </Link>
               </li>
             )
           })}
@@ -113,12 +116,14 @@ export function SearchContent({ defaultMediaType = 'movie' }: Props) {
             isFetching &&
             [...Array(3)].map((_, i) => (
               <li key={i}>
-                <Skeleton className="aspect-2/3 h-full" />
+                <div className="pointer-events-none">
+                  <Skeleton className="aspect-2/3 h-full" />
 
-                <div className="flex-1">
-                  <Skeleton className="mb-2 h-4 w-1/2" />
-                  <Skeleton className="mb-1 h-3 w-4/5" />
-                  <Skeleton className="h-3 w-1/2" />
+                  <div className="flex-1">
+                    <Skeleton className="mb-2 h-4 w-1/2" />
+                    <Skeleton className="mb-1 h-3 w-4/5" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
                 </div>
               </li>
             ))}

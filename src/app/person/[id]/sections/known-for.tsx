@@ -22,7 +22,7 @@ export default async function PersonKnownFor({ id }: { id: string }) {
 
         <CarouselContent className="-ml-2">
           {result.data.results.map((movie, i) => (
-            <CarouselItem key={i} className="basis-4/22 pl-2">
+            <CarouselItem key={i} className="basis-4/9 pl-2 sm:basis-3/10 md:basis-2/9 lg:basis-2/11">
               <MediaCard data={movie} />
             </CarouselItem>
           ))}

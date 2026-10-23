@@ -216,7 +216,7 @@ export type TReviewAuthorDetails = {
   rating?: number
 }
 
-export type TPersonDetails = Omit<TPerson, 'known_for_department'> & {
+export type TPersonDetails = TPerson & {
   also_known_as: string[]
   biography: string
   birthday: string

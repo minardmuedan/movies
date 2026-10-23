@@ -16,10 +16,10 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   return (
     <div className="[&_h2]:heading-title space-y-28">
       <section className="mt-4">
-        <div className="flex gap-10">
-          <TMDBImage type="profile" src={person.profile_path} alt="" className="aspect-2/3 h-fit w-72 shrink-0 rounded-md" />
+        <div className="flex flex-col flex-wrap gap-20 md:flex-row md:gap-10">
+          <TMDBImage type="profile" src={person.profile_path} alt="" className="mx-auto aspect-2/3 h-fit w-72 shrink-0 rounded-md md:w-60 lg:w-72" />
 
-          <div className="[&_span]:text-muted-foreground flex-1 text-sm">
+          <div className="[&_span]:text-muted-foreground min-w-72 flex-1 text-sm">
             <h1 className="mb-2 text-2xl font-semibold">{person.name}</h1>
             <SeeMoreParagraph text={person.biography} className="sm-muted mb-20 max-w-175" />
 
@@ -39,10 +39,10 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
 
-          <div className="ml-6 text-sm">
+          <div>
             <div className="mb-3">also known as</div>
 
-            <ul className="sm-muted list-disc">
+            <ul className="sm-muted ml-6 list-disc">
               {person.also_known_as.map((name, i) => (
                 <li key={i}>{name}</li>
               ))}
