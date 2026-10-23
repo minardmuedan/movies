@@ -1,13 +1,13 @@
 import TMDBImage from '@/components/image'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TPerson } from '@/types/tmdb'
+import { TPersonDetails } from '@/types/tmdb'
 import PersonKnownFor from './sections/known-for'
 import PersonCredits from './sections/credits'
 import SeeMoreParagraph from '@/components/see-more'
 
 export default async function PersonPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const result = await TMDBFetch<TPerson>(`/person/${id}`)
+  const result = await TMDBFetch<TPersonDetails>(`/person/${id}`)
 
   if (!result.isSuccess) return <p>error</p>
 

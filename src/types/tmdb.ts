@@ -53,7 +53,9 @@ export type TPathFilters = {
   year: number
 }
 
-export type TMovies = { dates: TDates; page: number; results: TMovie[]; total_pages: number; total_results: number }
+type TResults<T> = { dates: TDates; page: number; results: T[]; total_pages: number; total_results: number }
+
+export type TMovies = TResults<TMovie>
 
 export type TMovie = {
   adult: boolean
@@ -73,7 +75,7 @@ export type TMovie = {
   vote_count: number
 }
 
-export type TTvShows = { page: number; results: TTv[]; total_pages: number; total_results: number }
+export type TTvShows = TResults<TTv>
 
 export type TTv = Omit<TMovie, 'title' | 'original_title' | 'release_date'> & {
   origin_country: string[]
@@ -166,17 +168,23 @@ export type TTvEpisode = {
   guest_stars: any[]
 }
 
-export type TMediaCredits = { id: number; cast: TCast[]; crew: TCrew[] }
-
-export type TCast = {
+export type TPerson = {
   adult: boolean
   gender: number
   id: number
-  known_for_department: string
+  known_for_department: null | string
   name: string
   original_name: string
   popularity: number
   profile_path?: string
+  known_for: (TMovie | TTv)[]
+}
+
+export type TPersons = TResults<TPerson>
+
+export type TMediaCredits = { id: number; cast: TCast[]; crew: TCrew[] }
+
+export type TCast = Omit<TPerson, 'known_for'> & {
   cast_id: number
   character: string
   credit_id: string
@@ -208,21 +216,14 @@ export type TReviewAuthorDetails = {
   rating?: number
 }
 
-export type TPerson = {
-  adult: boolean
+export type TPersonDetails = Omit<TPerson, 'known_for_department'> & {
   also_known_as: string[]
   biography: string
   birthday: string
   deathday: any
-  gender: number
   homepage: any
-  id: number
   imdb_id: string
-  known_for_department: string
-  name: string
   place_of_birth: string
-  popularity: number
-  profile_path: string
 }
 
 export type TMediaImages = { id: number; backdrops: TImage[]; logos: TImage[]; posters: TImage[] }
@@ -276,8 +277,10 @@ export type TTvKeywords = { id: number; results: TGenre[] }
 export type TCrew = Omit<TCast, 'order'> & { job: string }
 export type TDates = { maximum: string; minimum: string }
 export type TBelongsToCollection = { id: number; name: string; poster_path: string; backdrop_path: string }
+
 export type TGenre = { id: number; name: string }
 export type TGenres = { genres: TGenre[] }
+
 export type TProductionCompany = { id: number; logo_path?: string; name: string; origin_country: string }
 export type TProductionCountry = { iso_3166_1: string; name: string }
 export type TSpokenLanguage = { english_name: string; iso_639_1: string; name: string }

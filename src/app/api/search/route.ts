@@ -10,10 +10,12 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get('query')
   if (!query) notFound()
 
+  const page = Number(searchParams.get('page')) || 1
+
   const mediaType = searchParams.get('media_type') || ''
   const validatedMediaType = TMDB_MEDIA.includes(mediaType as TTMDB_MEDIA) ? mediaType : 'movie'
 
-  const result = await TMDBFetch<TMovies | TTvShows>(`/search/${validatedMediaType}?query=${query}`)
+  const result = await TMDBFetch<TMovies | TTvShows>(`/search/${validatedMediaType}?query=${query}&page=${page}`)
   if (!result.isSuccess) throw ''
 
   return Response.json(result.data)
