@@ -1,14 +1,14 @@
 'use client'
 
-import type { TImage, TMovieVideo } from '@/types/tmdb'
+import type { TImage, TMediaVideo } from '@/types/tmdb'
 import Link from 'next/link'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage, { YoutubeImage } from './image'
+import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { ScrollArea } from './ui/scroll-area'
-import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
 
-type Medias = { posters: TImage[]; backdrops: TImage[]; videos: TMovieVideo[] }
+type Medias = { posters: TImage[]; backdrops: TImage[]; videos: TMediaVideo[] }
 type MediaKeys = keyof Medias
 type DialogContext = {
   activeMedia: MediaKeys | undefined
@@ -76,7 +76,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
   )
 }
 
-const MovieVideosDialogContent = ({ videos }: { videos: TMovieVideo[] }) => {
+const MovieVideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
   const [activeVideoIndex, setActiveVideoIndex] = useState(0)
 
   return (
@@ -85,11 +85,15 @@ const MovieVideosDialogContent = ({ videos }: { videos: TMovieVideo[] }) => {
         <Carousel opts={{ dragFree: true }}>
           <CarouselContent className="-ml-3 p-2">
             {videos.map((video, i) => (
-              <CarouselItem key={i} className="basis-[28%] cursor-pointer pl-3" onClick={() => setActiveVideoIndex(i)}>
+              <CarouselItem key={i} className="basis-3/7 cursor-pointer pl-3 sm:basis-2/7 md:basis-2/9" onClick={() => setActiveVideoIndex(i)}>
                 <div
-                  className={`relative aspect-video overflow-hidden rounded-md outline-offset-1 ${activeVideoIndex == i ? 'outline-primary outline-2' : ''}`}
+                  className={`${activeVideoIndex == i ? 'outline-primary bg-primary/30 hover:bg-primary/30 outline-2' : ''} accent-muted h-full overflow-hidden rounded-lg p-1`}
                 >
-                  <YoutubeImage src={video.key} />
+                  <div className="relative aspect-video overflow-hidden rounded-md outline-offset-1">
+                    <YoutubeImage src={video.key} />
+                  </div>
+
+                  <div className="sm-muted mt-2 text-center">{video.type}</div>
                 </div>
               </CarouselItem>
             ))}

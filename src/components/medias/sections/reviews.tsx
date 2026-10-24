@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import type { TMediaReviews } from '@/types/tmdb'
 import { ExpandIcon } from 'lucide-react'
@@ -25,9 +25,9 @@ export default function MediaReviewsSection({ media, mediaId, reviews }: Props) 
           </ul>
 
           <div className="from-background to-background/0 absolute bottom-0 flex h-1/3 w-full items-end justify-center bg-linear-to-t from-30%">
-            <Button render={<div />} variant="link">
+            <div className={buttonVariants({ variant: 'link' })}>
               <ExpandIcon /> Expand
-            </Button>
+            </div>
           </div>
         </DialogTrigger>
 
