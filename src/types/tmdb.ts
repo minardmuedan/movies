@@ -194,12 +194,12 @@ export type TCast = Omit<TPerson, 'known_for'> & {
 export type TMediaReviews = {
   id: number
   page: number
-  results: TReviewResult[]
+  results: TReview[]
   total_pages: number
   total_results: number
 }
 
-export type TReviewResult = {
+export type TReview = {
   author: string
   author_details: TReviewAuthorDetails
   content: string

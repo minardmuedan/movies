@@ -51,7 +51,7 @@ export default function PersonCreditsClient({ media }: Props) {
                 <div>
                   <div className="text-sm">{'name' in media ? (media.name as string) : media.title}</div>
                   <span className="xs-muted">{'job' in media ? media.job : `as ${media.character}`}</span>
-                  <p className="sm-muted mt-4 line-clamp-3 max-w-175 text-ellipsis">{media.overview}</p>
+                  <p className="sm-muted mt-4 line-clamp-3 max-w-175">{media.overview}</p>
                 </div>
 
                 <div className="ml-auto space-y-2 text-end">

@@ -3,7 +3,7 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { TPersonDetails } from '@/types/tmdb'
 import PersonKnownFor from './sections/known-for'
 import PersonCredits from './sections/credits'
-import SeeMoreParagraph from '@/components/see-more'
+import ExpandableText from '@/components/expandable-text'
 
 export default async function PersonPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -21,7 +21,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
 
           <div className="[&_span]:text-muted-foreground min-w-72 flex-1 text-sm">
             <h1 className="mb-2 text-2xl font-semibold">{person.name}</h1>
-            <SeeMoreParagraph text={person.biography} className="sm-muted mb-20 max-w-175" />
+            <ExpandableText text={person.biography} />
 
             <div className="mb-2">
               <span>Age: </span>

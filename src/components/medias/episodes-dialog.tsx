@@ -38,9 +38,9 @@ const EpisodeDialogTrigger = ({ episode }: { episode: TTvEpisode }) => {
 
       <TMDBImage type="still" src={episode.still_path} alt="" className="aspect-video h-full rounded" />
 
-      <div className="ml-2 flex-1 *:line-clamp-2 *:text-ellipsis md:*:line-clamp-3">
+      <div className="*: ml-2 flex-1 *:line-clamp-2 md:*:line-clamp-3">
         {episode.name != String(episode.episode_number) && <div className="mb-2">{episode.name}</div>}
-        <div className="xs-muted max-w-175 text-ellipsis">{episode.overview}</div>
+        <div className="xs-muted max-w-175">{episode.overview}</div>
       </div>
 
       <div className="flex flex-col justify-between pr-2 pl-6 text-xs">

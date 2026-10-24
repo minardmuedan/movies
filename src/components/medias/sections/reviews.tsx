@@ -1,32 +1,45 @@
-import TMDBImage from '@/components/image'
 import { Button } from '@/components/ui/button'
-import { timeAgo } from '@/lib/time-format'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import type { TMediaReviews } from '@/types/tmdb'
+import { ExpandIcon } from 'lucide-react'
+import { MediaReviews, Review } from '../media-reviews'
 
-export default function MediaReviewsSection({ reviews }: { reviews: TMediaReviews }) {
+type Props = { media: 'movie' | 'tv'; mediaId: string; reviews: TMediaReviews }
+
+export default function MediaReviewsSection({ media, mediaId, reviews }: Props) {
+  const resultsCount = reviews.results.length
+  const totalResults = reviews.total_results
+
   return (
     <section className="relative max-h-[80svh] flex-1 overflow-hidden">
-      <h3>
-        Review <span>{reviews.total_results}</span>
-      </h3>
+      <Dialog>
+        <DialogTrigger className="text-start">
+          <h3>
+            Review <span>{totalResults}</span>
+          </h3>
 
-      <ul className="space-y-2">
-        {reviews.results.map((review, i) => (
-          <li key={i} className="accent-muted rounded border p-2">
-            <div className="flex items-center gap-2 text-sm">
-              <TMDBImage type="profile" src={review.author_details.avatar_path} alt="" className="size-6 rounded-full" />
-              <div>{review.author}</div>
-              <div className="xs-muted">{timeAgo(review.created_at)}</div>
-            </div>
+          <ul className="pointer-events-none space-y-2">
+            {reviews.results.slice(0, 5).map((review, i) => (
+              <Review key={i} review={review} />
+            ))}
+          </ul>
 
-            <p className="sm-muted mt-6">{review.content}</p>
-          </li>
-        ))}
-      </ul>
+          <div className="from-background to-background/0 absolute bottom-0 flex h-1/3 w-full items-end justify-center bg-linear-to-t from-30%">
+            <Button render={<div />} variant="link">
+              <ExpandIcon /> Expand
+            </Button>
+          </div>
+        </DialogTrigger>
 
-      <div className="from-background to-background/0 absolute bottom-0 flex h-1/3 w-full items-end justify-center bg-linear-to-t from-25%">
-        <Button variant="link">View Full Reviews</Button>
-      </div>
+        <DialogContent className="sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="first-letter:uppercase">{media} Reviews</DialogTitle>
+            <DialogDescription>See what others are saying</DialogDescription>
+          </DialogHeader>
+
+          <MediaReviews media={media} mediaId={mediaId} initialData={reviews} />
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }

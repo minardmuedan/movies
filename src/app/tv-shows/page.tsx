@@ -35,7 +35,7 @@ export default async function TvShowsPage({ searchParams }: { searchParams: Prom
           ))}
         </ul>
 
-        <MediaPagination page={currentPage} totalPages={result.data.total_pages} route="/movies" />
+        <MediaPagination page={currentPage} totalPages={result.data.total_pages} route="/tv-shows" />
       </section>
     </>
   )

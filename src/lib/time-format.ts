@@ -11,7 +11,7 @@ export function timeAgo(date: Date | string) {
   if (hours < 24) return `${hours}h ago`
 
   const days = Math.floor(hours / 24)
-  if (days < 30) return `${days}d ago`
+  if (days < 365) return `${days}d ago`
 
   const years = Math.floor(days / 365)
   return `${years}y ago`

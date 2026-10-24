@@ -7,5 +7,5 @@ export default async function MovieReviewsSection({ movie_id }: { movie_id: stri
 
   if (!result.isSuccess) return <p>error</p>
 
-  return <MediaReviewsSection reviews={result.data} />
+  return <MediaReviewsSection media="movie" mediaId={movie_id} reviews={result.data} />
 }
