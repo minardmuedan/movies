@@ -2,9 +2,13 @@
 
 import type { TPersonCombinedCreditsCast, TPersonCombinedCreditsCrew } from '@/types/tmdb'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage from './image'
 import { MediaRating } from './medias/media-rating'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog'
+import { Button } from './ui/button'
+import { ChevronDown } from 'lucide-react'
+import { ScrollArea } from './ui/scroll-area'
 
 type Props = { media: Record<string, (TPersonCombinedCreditsCast | TPersonCombinedCreditsCrew)[]> }
 
@@ -15,22 +19,29 @@ export default function PersonCreditsClient({ media }: Props) {
     <section className="flex gap-14">
       <aside className="sticky top-16 hidden h-fit min-w-52 shrink-0 md:inline-block">
         <h2>Department</h2>
-        <nav className="space-y-2">
-          {Object.entries(media).map(([department, data], i) => (
-            <button
-              key={i}
-              className={`${activeDepartment === department ? 'accent-muted' : 'border-transparent'} hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-6 rounded-md border px-3 py-3 text-sm transition-colors`}
-              onClick={() => setActiveDepartment(department)}
-            >
-              <h3>{department}</h3>
-              <span className="sm-muted">{data.length}</span>
-            </button>
-          ))}
-        </nav>
+        <Navlinks media={media} activeDepartment={activeDepartment} setActiveDepartment={setActiveDepartment} />
       </aside>
 
       <div className="flex-1">
-        <h2>Credits</h2>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="mb-0">Credits</h2>
+          <Dialog key={activeDepartment}>
+            <DialogTrigger render={<Button variant="outline" />} className="md:hidden">
+              {activeDepartment} <ChevronDown />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Departments</DialogTitle>
+                <DialogDescription>Filter {"person's"} department</DialogDescription>
+              </DialogHeader>
+
+              <ScrollArea className="px-3 pb-6">
+                <Navlinks media={media} activeDepartment={activeDepartment} setActiveDepartment={setActiveDepartment} />
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
+        </div>
+
         <ul className="space-y-3">
           {media[activeDepartment].map((media, i) => (
             <li key={i}>
@@ -53,5 +64,24 @@ export default function PersonCreditsClient({ media }: Props) {
         </ul>
       </div>
     </section>
+  )
+}
+
+type DepartmentState = { activeDepartment: string; setActiveDepartment: Dispatch<SetStateAction<string>> }
+
+function Navlinks({ media, activeDepartment, setActiveDepartment }: Props & DepartmentState) {
+  return (
+    <nav className="space-y-2">
+      {Object.entries(media).map(([department, data], i) => (
+        <button
+          key={i}
+          className={`${activeDepartment === department ? 'accent-muted' : 'border-transparent'} hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-6 rounded-md border px-3 py-3 text-sm transition-colors`}
+          onClick={() => setActiveDepartment(department)}
+        >
+          <h3>{department}</h3>
+          <span className="sm-muted">{data.length}</span>
+        </button>
+      ))}
+    </nav>
   )
 }

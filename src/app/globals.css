@@ -126,7 +126,7 @@
 }
 
 @utility accent-muted {
-  @apply bg-accent/50 hover:bg-accent border transition-colors;
+  @apply bg-input/30 hover:bg-accent border transition-colors;
 }
 
 @utility sm-muted {

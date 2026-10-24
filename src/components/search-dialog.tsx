@@ -6,7 +6,7 @@ import { TMDB_MEDIA, type TTMDB_MEDIA } from '@/lib/tmdb'
 import type { TMovies, TPersons, TTvShows } from '@/types/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { PlayIcon, SearchIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type Dispatch, type SetStateAction } from 'react'
 import { InView } from 'react-intersection-observer'
 import TMDBImage from './image'
 import { MediaRating } from './medias/media-rating'
@@ -21,8 +21,9 @@ import Link from 'next/link'
 type Props = { defaultMediaType?: TTMDB_MEDIA }
 
 export default function SearchDialog(props: Props) {
+  const [open, setOpen] = useState(false)
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button variant="outline" />} className="w-fit justify-start md:w-52">
         <SearchIcon /> <span className="sr-only md:not-sr-only">Search</span>
       </DialogTrigger>
@@ -33,13 +34,13 @@ export default function SearchDialog(props: Props) {
           <DialogDescription>Have anything in mind?</DialogDescription>
         </DialogHeader>
 
-        <SearchContent defaultMediaType={props.defaultMediaType} />
+        <SearchContent defaultMediaType={props.defaultMediaType} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   )
 }
 
-export function SearchContent({ defaultMediaType = 'movie' }: Props) {
+export function SearchContent({ defaultMediaType = 'movie', setOpen }: Props & { setOpen: Dispatch<SetStateAction<boolean>> }) {
   const [mediaType, setMediaType] = useState(defaultMediaType)
   const [query, value, setValue] = useDebounce()
 
@@ -88,7 +89,7 @@ export function SearchContent({ defaultMediaType = 'movie' }: Props) {
 
             return (
               <li key={i}>
-                <Link href={`/${mediaType}/${data.id}`}>
+                <Link href={`/${mediaType}/${data.id}`} onClick={() => setOpen(false)}>
                   <TMDBImage type={imageType} src={imagePath} alt="" className="aspect-2/3 h-full" />
 
                   <div className="flex-1">
