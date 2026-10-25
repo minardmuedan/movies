@@ -138,7 +138,7 @@
 }
 
 @utility media-card-container {
-  @apply grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:gap-3 xl:grid-cols-5;
+  @apply grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:gap-3 group-aria-expanded:lg:grid-cols-3 xl:grid-cols-5 group-aria-expanded:xl:grid-cols-4 group-aria-expanded:2xl:grid-cols-5;
 }
 
 @layer base {

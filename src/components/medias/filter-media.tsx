@@ -1,11 +1,12 @@
 'use client'
 
-import { ChevronDownIcon, XIcon } from 'lucide-react'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { cn } from 'cn'
+import { ChevronDownIcon, Wand2Icon } from 'lucide-react'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Textarea } from '../ui/textarea'
-import { cn } from 'cn'
 
 type FilterBarState = { open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }
 const context = createContext<FilterBarState | null>(null)
@@ -18,14 +19,20 @@ const useFilterBarContext = () => {
 
 const FilterBar = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false)
-  return <context.Provider value={{ open, setOpen }}>{children}</context.Provider>
+  return (
+    <context.Provider value={{ open, setOpen }}>
+      <div aria-expanded={open} className="group flex">
+        {children}
+      </div>
+    </context.Provider>
+  )
 }
 
 const FilterBarTrigger = ({ variant = 'accentMuted', children, ...props }: React.ComponentProps<typeof Button>) => {
-  const { open, setOpen } = useFilterBarContext()
+  const { setOpen } = useFilterBarContext()
 
   return (
-    <Button aria-expanded={open} variant={variant} onClick={() => setOpen((v) => !v)} {...props}>
+    <Button variant={variant} onClick={() => setOpen((v) => !v)} {...props}>
       {children}
     </Button>
   )
@@ -33,7 +40,7 @@ const FilterBarTrigger = ({ variant = 'accentMuted', children, ...props }: React
 
 const FilterBarContent = ({ className }: { className?: string }) => {
   return (
-    <ScrollArea className={cn('[&_h3]:text-muted-foreground *:space-y-12 [&_h3]:mb-2', className)}>
+    <ScrollArea className={cn('[&_h3]:text-muted-foreground px-6 py-3 *:space-y-12 [&_h3]:mb-2', className)}>
       <div>
         <h3>Genre</h3>
         <ul className="flex flex-wrap gap-1">
@@ -91,17 +98,37 @@ const FilterSidebarContent = () => {
     <div inert={!open} style={{ width: open ? 300 + 24 : 0 }} className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out">
       <div className="bg-background/50 mr-6 flex h-[calc(100svh-4rem)] min-w-75 flex-col rounded-xl border backdrop-blur-sm">
         <div className="border-b p-6 pb-3">
-          <h2 className="text-xl">Filter</h2>
+          <h2 className="text-xl">Filters</h2>
           <div className="sm-muted">Customize the experience</div>
         </div>
 
-        <FilterBarContent className="p-6 pt-3" />
+        <FilterBarContent />
       </div>
     </div>
   )
 }
 
-export { FilterBar, FilterBarTrigger, FilterBarContent, FilterSidebarContent }
+const FilterBarDialog = () => {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button variant="outline" className="mx-auto w-3/4 lg:hidden" />}>
+        Filter
+        <Wand2Icon />
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader className="border-b pb-3">
+          <DialogTitle>Filters</DialogTitle>
+          <DialogDescription>Customize the experience</DialogDescription>
+        </DialogHeader>
+
+        <FilterBarContent />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export { FilterBar, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent }
 
 const genres = [
   { id: 28, name: 'Action' },
