@@ -2,11 +2,13 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { cn } from 'cn'
-import { ChevronDownIcon, Wand2Icon } from 'lucide-react'
+import { ChevronDownIcon, Wand2Icon, XIcon } from 'lucide-react'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Textarea } from '../ui/textarea'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { looseEqual } from '@/lib/utils'
 
 type FilterBarState = { open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }
 const context = createContext<FilterBarState | null>(null)
@@ -18,7 +20,10 @@ const useFilterBarContext = () => {
 }
 
 const FilterBar = ({ children }: { children: React.ReactNode }) => {
-  const [open, setOpen] = useState(false)
+  const searchParams = useSearchParams()
+  const genres = searchParams.get('genres')
+  const [open, setOpen] = useState(!!genres)
+
   return (
     <context.Provider value={{ open, setOpen }}>
       <div aria-expanded={open} className="group flex">
@@ -39,54 +44,91 @@ const FilterBarTrigger = ({ variant = 'accentMuted', children, ...props }: React
 }
 
 const FilterBarContent = ({ className }: { className?: string }) => {
-  return (
-    <ScrollArea className={cn('[&_h3]:text-muted-foreground px-6 py-3 *:space-y-12 [&_h3]:mb-2', className)}>
-      <div>
-        <h3>Genre</h3>
-        <ul className="flex flex-wrap gap-1">
-          {genres.map((genre) => (
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const genres = searchParams.getAll('genres')
+  const certifications = searchParams.getAll('certifications')
+
+  const activeFilter = { genres, certifications }
+  const [filter, setFilter] = useState(activeFilter)
+
+  function handleFilter() {
+    const params = new URLSearchParams()
+    Object.entries(filter).map(([key, value]) => (Array.isArray(value) ? value.map((v) => params.append(key, v)) : params.set(key, value)))
+    router.push(`/movies?${params}`)
+  }
+
+  const sections = [
+    [
+      'Genre',
+      <ul className="flex flex-wrap gap-1">
+        {GENRES.map((genre) => {
+          const id = String(genre.id)
+          return (
             <li key={genre.id}>
-              <Button variant="accentMuted" size="sm">
+              <Button
+                variant={filter.genres.includes(id) ? 'default' : 'accentMuted'}
+                size="sm"
+                onClick={() => setFilter((f) => ({ ...f, genres: f.genres.includes(id) ? f.genres.filter((g) => g != id) : [id, ...f.genres] }))}
+              >
                 {genre.name}
               </Button>
             </li>
-          ))}
-        </ul>
-      </div>
+          )
+        })}
+      </ul>,
+    ],
+    ['Ratings', <></>],
+    [
+      'Certifications',
+      <ul className="flex flex-wrap gap-1">
+        {['NR', 'G', 'PG', 'R-13', 'R-16', 'R-18', 'X'].map((certificate) => (
+          <li key={certificate}>
+            <Button
+              variant={filter.certifications.includes(certificate) ? 'default' : 'accentMuted'}
+              size="sm"
+              onClick={() =>
+                setFilter((f) => ({
+                  ...f,
+                  certifications: f.certifications.includes(certificate)
+                    ? f.certifications.filter((c) => c != certificate)
+                    : [certificate, ...f.certifications],
+                }))
+              }
+            >
+              {certificate}
+            </Button>
+          </li>
+        ))}
+      </ul>,
+    ],
+    [
+      'Language',
+      <Button variant="accentMuted" className="w-full justify-between">
+        <div>English</div>
+        <ChevronDownIcon />
+      </Button>,
+    ],
+    ['Keywords', <Textarea placeholder="type some keyworkds" />],
+  ]
 
-      <div>
-        <h3>Ratings</h3>
-      </div>
+  return (
+    <ScrollArea className={cn('[&_h3]:text-muted-foreground px-6 py-3 *:space-y-12 [&_h3]:mb-2', className)}>
+      {sections.map(([title, comp], i) => (
+        <div key={i}>
+          <h3>{title}</h3>
+          {comp}
+        </div>
+      ))}
 
-      <div>
-        <h3>Certifications</h3>
-        <ul className="flex flex-wrap gap-1">
-          {['NR', 'G', 'PG', 'R-13', 'R-16', 'R-18', 'X'].map((v) => (
-            <li key={v}>
-              <Button variant="accentMuted" size="sm">
-                {v}
-              </Button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3>Language</h3>
-        <Button variant="accentMuted" className="w-full justify-between">
-          <div>English</div>
-          <ChevronDownIcon />
-        </Button>
-      </div>
-
-      <div>
-        <h3>Keywords</h3>
-        <Textarea placeholder="type some keyworkds" />
-      </div>
-
-      <div className="sticky bottom-0">
-        <Button className="w-full">Save Changes</Button>
-      </div>
+      {!looseEqual(activeFilter, filter) && (
+        <div className="animate-in fade-in sticky bottom-0">
+          <Button className="w-full" onClick={handleFilter}>
+            Save Changes
+          </Button>
+        </div>
+      )}
     </ScrollArea>
   )
 }
@@ -97,9 +139,16 @@ const FilterSidebarContent = () => {
   return (
     <div inert={!open} style={{ width: open ? 300 + 24 : 0 }} className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out">
       <div className="bg-background/50 mr-6 flex h-[calc(100svh-4rem)] min-w-75 flex-col rounded-xl border backdrop-blur-sm">
-        <div className="border-b p-6 pb-3">
-          <h2 className="text-xl">Filters</h2>
-          <div className="sm-muted">Customize the experience</div>
+        <div className="relative flex justify-between border-b p-6 pb-3">
+          <div>
+            <h2 className="text-lg">Filters</h2>
+            <div className="sm-muted">Customize the experience</div>
+          </div>
+
+          <FilterBarTrigger variant="ghost" size="icon-sm" className="absolute top-3 right-3">
+            <XIcon />
+            <span className="sr-only">close the filter sidebar</span>
+          </FilterBarTrigger>
         </div>
 
         <FilterBarContent />
@@ -130,7 +179,7 @@ const FilterBarDialog = () => {
 
 export { FilterBar, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent }
 
-const genres = [
+const GENRES = [
   { id: 28, name: 'Action' },
   { id: 12, name: 'Adventure' },
   { id: 16, name: 'Animation' },

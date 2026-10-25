@@ -17,7 +17,7 @@ export default function PersonCreditsClient({ media }: Props) {
 
   return (
     <section className="flex gap-14">
-      <aside className="sticky top-16 hidden h-fit min-w-52 shrink-0 md:inline-block">
+      <aside className="sticky top-16 h-fit min-w-52 shrink-0 max-md:hidden">
         <h2>Department</h2>
         <Navlinks media={media} activeDepartment={activeDepartment} setActiveDepartment={setActiveDepartment} />
       </aside>

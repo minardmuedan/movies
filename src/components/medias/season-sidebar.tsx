@@ -27,7 +27,7 @@ export default function SeasonSidebar({ show_id, seasons, showName }: Props & { 
 
   return (
     <>
-      <aside className="sticky top-25 hidden h-fit w-72 lg:block">
+      <aside className="sticky top-25 h-fit w-72 max-lg:hidden">
         <SeasonList show_id={show_id} seasons={seasons} />
       </aside>
 
