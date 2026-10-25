@@ -21,22 +21,15 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
         </div>
       </div>
 
-      <section>
-        <header className="h-36 content-center">
-          <h1 className="text-3xl font-semibold">Now Playing Movies</h1>
-          <p className="sm-muted">Catch the latest movies currently showing in theaters</p>
-        </header>
+      <ul className="media-card-container">
+        {movies.map((movie) => (
+          <li key={movie.id}>
+            <MediaCard data={movie} />
+          </li>
+        ))}
+      </ul>
 
-        <ul className="media-card-container">
-          {movies.map((movie) => (
-            <li key={movie.id}>
-              <MediaCard data={movie} />
-            </li>
-          ))}
-        </ul>
-
-        <MediaPagination page={currentPage} totalPages={result.data.total_pages} route="/movies" />
-      </section>
+      <MediaPagination page={currentPage} totalPages={result.data.total_pages} route="/movies" />
     </>
   )
 }
