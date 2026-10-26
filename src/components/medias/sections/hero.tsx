@@ -1,5 +1,6 @@
 import TMDBImage from '@/components/image'
-import { Button, ButtonLink } from '@/components/ui/button'
+import { ButtonLink } from '@/components/ui/button'
+import WatchDrawer from '@/components/watch'
 import { type TMovieDetails, type TTvDetails } from '@/types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, LeafIcon, PlayIcon } from 'lucide-react'
 import { MediaSection } from './helpers'
@@ -28,9 +29,7 @@ export default function MediaHeroSection({ media }: { media: TMovieDetails | TTv
             <p className="sm-muted mt-3 max-w-175">{media.overview}</p>
           </div>
 
-          <Button>
-            <PlayIcon /> Watch Now
-          </Button>
+          <WatchDrawer tmdbId={media.id} title={title} type={'title' in media ? 'movie' : 'tv'} />
 
           <ul className="flex flex-wrap justify-center gap-6 text-sm *:flex *:gap-3 lg:justify-start [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
             {runtime && (
