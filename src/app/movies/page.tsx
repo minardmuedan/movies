@@ -1,4 +1,4 @@
-import TMDBImage from '@/components/image'
+import MediaBackdrop from '@/components/medias/media-backdrop'
 import MediaCard from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
 import { TMDBFetch } from '@/lib/fetcher'
@@ -14,12 +14,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
   const movies = result.data.results
   return (
     <>
-      <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-25">
-        <TMDBImage type="backdrop" src={movies[0].backdrop_path} alt="" sizes="100vw" className="aspect-video" />
-        <div className="from-background to-background/0 absolute bottom-0 h-1/2 w-full bg-linear-to-t">
-          <span className="sr-only">overlay</span>
-        </div>
-      </div>
+      <MediaBackdrop backdrops={result.data.results.map(({ backdrop_path }) => backdrop_path)} />
 
       <ul className="media-card-container">
         {movies.map((movie) => (
