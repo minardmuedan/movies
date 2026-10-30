@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import type { TMediaReviews } from '@/types/tmdb'
+import type { TMediaReviews } from '@/schema & types/tmdb'
 import { ExpandIcon } from 'lucide-react'
 import { MediaReviews, Review } from '../media-reviews'
 

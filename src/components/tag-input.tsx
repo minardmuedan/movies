@@ -82,8 +82,8 @@ export function TagInput({ value, onChange, placeholder = 'Add a keyword and pre
       )}
     >
       {tags.map((tag, i) => (
-        <Badge key={tag} variant="secondary" className="gap-1 pr-1 text-sm font-normal">
-          {tag}
+        <Badge key={tag} variant="secondary" className="max-w-full gap-1 pr-1 text-sm font-normal">
+          <div className="overflow-hidden text-ellipsis">{tag}</div>
           <button
             type="button"
             onClick={(e) => {

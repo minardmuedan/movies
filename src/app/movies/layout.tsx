@@ -1,10 +1,10 @@
-import { FilterBar, FilterBarDialog, FilterBarTrigger, FilterSidebarContent } from '@/components/medias/filter-media'
+import { FilterBar, FilterBarDialog, FilterBarTrigger, FilterSidebarContent } from '@/components/filter/dialog'
 import { SidebarIcon, Wand2Icon, XIcon } from 'lucide-react'
 import { Suspense } from 'react'
 
 export default function MoviesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense>
+    <Suspense fallback={<p>movies layout loading suspense</p>}>
       <FilterBar>
         <aside className="max-lg:hidden">
           <FilterSidebarContent />

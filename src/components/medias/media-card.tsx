@@ -1,4 +1,4 @@
-import type { TMovie, TTv } from '@/types/tmdb'
+import type { TMovie, TTv } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import TMDBImage from '../image'
 import { MediaRating } from './media-rating'

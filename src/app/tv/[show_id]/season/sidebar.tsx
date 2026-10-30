@@ -1,6 +1,6 @@
 import SeasonSidebar from '@/components/medias/season-sidebar'
 import { TMDBFetch } from '@/lib/fetcher'
-import type { TTvDetails } from '@/types/tmdb'
+import type { TTvDetails } from '@/schema & types/tmdb'
 
 export default async function TvSeasonsSidebar({ show_id }: { show_id: string }) {
   const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`)

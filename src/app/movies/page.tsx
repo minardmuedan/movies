@@ -1,14 +1,22 @@
 import MediaBackdrop from '@/components/medias/media-backdrop'
 import MediaCard from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
-import { TMDBFetch } from '@/lib/fetcher'
-import { TMovies } from '@/types/tmdb'
+import { TMDBDiscoverFetch } from '@/lib/fetcher'
+import { ratingsSchema } from '@/schema & types/params'
 
-export default async function MoviesPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  const { page } = await searchParams
-  const currentPage = Math.max(Number(page) || 1, 1)
+export default async function MoviesPage({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
+  const { page, language, genres, ratings, keywords } = await searchParams
+  const parsedRatings = ratingsSchema.parse(ratings)
 
-  const result = await TMDBFetch<TMovies>(`/movie/now_playing?page=${currentPage}`)
+  const result = await TMDBDiscoverFetch('movie', {
+    page,
+    with_original_language: language,
+    with_genres: genres,
+    'vote_average.lte': Math.max(...parsedRatings),
+    'vote_average.gte': Math.min(...parsedRatings),
+    with_keywords: keywords,
+  })
+
   if (!result.isSuccess) return <p>error</p>
 
   const movies = result.data.results
@@ -24,7 +32,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
         ))}
       </ul>
 
-      <MediaPagination page={currentPage} totalPages={result.data.total_pages} route="/movies" />
+      <MediaPagination page={Number(result.data.page)} totalPages={result.data.total_pages} route="/movies" />
     </>
   )
 }

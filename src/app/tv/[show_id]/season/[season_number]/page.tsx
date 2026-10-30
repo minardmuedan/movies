@@ -1,7 +1,7 @@
 import TMDBImage from '@/components/image'
 import { EpisodeDialogTrigger, EpisodesDialog, EpisodesDialogContent } from '@/components/medias/episodes-dialog'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TTVSeasonDetails } from '@/types/tmdb'
+import { TTVSeasonDetails } from '@/schema & types/tmdb'
 
 export default async function TvSeasonDetailsPage({ params }: { params: Promise<{ show_id: string; season_number: string }> }) {
   const { show_id, season_number } = await params

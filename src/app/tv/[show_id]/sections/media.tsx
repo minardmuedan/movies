@@ -1,6 +1,6 @@
 import MediaMediasSection from '@/components/medias/sections/media'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TMediaImages, type TMediaVideos } from '@/types/tmdb'
+import { TMediaImages, type TMediaVideos } from '@/schema & types/tmdb'
 
 export default async function TvMediaSection({ show_id }: { show_id: string }) {
   const [imagesResult, videosResult] = await Promise.all([

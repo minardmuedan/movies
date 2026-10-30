@@ -3,7 +3,7 @@ import { MediaRating } from '@/components/medias/media-rating'
 import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
-import type { TTvDetails } from '@/types/tmdb'
+import type { TTvDetails } from '@/schema & types/tmdb'
 import Link from 'next/link'
 
 export default async function TvSeasonsSection({ show_id }: { show_id: string }) {

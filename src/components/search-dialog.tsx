@@ -3,7 +3,7 @@
 import useDebounce from '@/hooks/use-debounce'
 import { clientFetch } from '@/lib/client-fetcher'
 import { TMDB_MEDIA, type TTMDB_MEDIA } from '@/lib/tmdb'
-import type { TMovies, TPersons, TTvShows } from '@/types/tmdb'
+import type { TMovies, TPersons, TTvShows } from '@/schema & types/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { PlayIcon, SearchIcon } from 'lucide-react'
 import { useState, type Dispatch, type SetStateAction } from 'react'

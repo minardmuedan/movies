@@ -2,7 +2,7 @@ import TMDBImage from '@/components/image'
 import MediaCard from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TTvShows } from '@/types/tmdb'
+import { TTvShows } from '@/schema & types/tmdb'
 
 export default async function TvShowsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page } = await searchParams

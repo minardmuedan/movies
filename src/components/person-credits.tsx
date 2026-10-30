@@ -1,6 +1,6 @@
 'use client'
 
-import type { TPersonCombinedCreditsCast, TPersonCombinedCreditsCrew } from '@/types/tmdb'
+import type { TPersonCombinedCreditsCast, TPersonCombinedCreditsCrew } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage from './image'

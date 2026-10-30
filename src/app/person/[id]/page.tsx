@@ -1,6 +1,6 @@
 import TMDBImage from '@/components/image'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TPersonDetails } from '@/types/tmdb'
+import { TPersonDetails } from '@/schema & types/tmdb'
 import PersonKnownFor from './sections/known-for'
 import PersonCredits from './sections/credits'
 import ExpandableText from '@/components/expandable-text'

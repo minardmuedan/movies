@@ -1,6 +1,6 @@
 'use client'
 
-import { TTvEpisode } from '@/types/tmdb'
+import { TTvEpisode } from '@/schema & types/tmdb'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage from '../image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'

@@ -1,6 +1,6 @@
 'use client'
 
-import type { TTvSeason } from '@/types/tmdb'
+import type { TTvSeason } from '@/schema & types/tmdb'
 import { cn } from 'cn'
 import { MenuIcon } from 'lucide-react'
 import Link from 'next/link'

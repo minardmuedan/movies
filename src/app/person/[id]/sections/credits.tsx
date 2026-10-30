@@ -1,6 +1,6 @@
 import PersonCreditsClient from '@/components/person-credits'
 import { TMDBFetch } from '@/lib/fetcher'
-import type { TPersonCombinedCredits } from '@/types/tmdb'
+import type { TPersonCombinedCredits } from '@/schema & types/tmdb'
 
 export default async function PersonCredits({ id }: { id: string }) {
   const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${id}/combined_credits`)

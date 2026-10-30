@@ -2,7 +2,7 @@ import TMDBImage, { YoutubeImage } from '@/components/image'
 import { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger } from '@/components/media-dialog'
 import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import { type TMediaImages, type TMediaVideo } from '@/types/tmdb'
+import { type TMediaImages, type TMediaVideo } from '@/schema & types/tmdb'
 
 export default async function MediaMediasSection({ images, videos }: { images: TMediaImages; videos: TMediaVideo[] }) {
   const medias = [

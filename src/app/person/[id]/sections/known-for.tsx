@@ -1,7 +1,7 @@
 import MediaCard from '@/components/medias/media-card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { TMDBFetch } from '@/lib/fetcher'
-import type { TMovies } from '@/types/tmdb'
+import type { TMovies } from '@/schema & types/tmdb'
 
 export default async function PersonKnownFor({ id }: { id: string }) {
   const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${id}`)

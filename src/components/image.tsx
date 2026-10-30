@@ -4,12 +4,9 @@ import { cn } from 'cn'
 import { ImageOffIcon } from 'lucide-react'
 import Image, { type ImageProps } from 'next/image'
 
-export default function TMDBImage({
-  src,
-  className,
-  type,
-  ...props
-}: Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' | 'still' }) {
+type Props = Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' | 'still'; showError?: boolean }
+
+export default function TMDBImage({ src, className, type, showError = true, ...props }: Props) {
   return (
     <div className={cn('relative overflow-hidden', className, !src ? 'border' : 'bg-accent')}>
       {src ? (
@@ -29,10 +26,12 @@ export default function TMDBImage({
           {...props}
         />
       ) : (
-        <div className="text-muted-foreground grid size-full place-items-center">
-          <ImageOffIcon className="mx-auto" />
-          <span className="sr-only">no image</span>
-        </div>
+        showError && (
+          <div className="text-muted-foreground grid size-full place-items-center">
+            <ImageOffIcon className="mx-auto" />
+            <span className="sr-only">no image</span>
+          </div>
+        )
       )}
     </div>
   )

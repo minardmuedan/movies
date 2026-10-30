@@ -1,4 +1,4 @@
-import type { TMovie, TTv } from '@/types/tmdb'
+import type { TMovie, TTv } from '@/schema & types/tmdb'
 import MediaCard from '../media-card'
 import { MediaSection } from './helpers'
 

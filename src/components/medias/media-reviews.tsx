@@ -2,7 +2,7 @@
 
 import { clientFetch } from '@/lib/client-fetcher'
 import { timeAgo } from '@/lib/time-format'
-import type { TMediaReviews, TReview } from '@/types/tmdb'
+import type { TMediaReviews, TReview } from '@/schema & types/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { InView } from 'react-intersection-observer'

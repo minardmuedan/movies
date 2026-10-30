@@ -1,6 +1,6 @@
 import TMDBImage from '@/components/image'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import type { TMediaCredits } from '@/types/tmdb'
+import type { TMediaCredits } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import { MediaSection } from './helpers'
 

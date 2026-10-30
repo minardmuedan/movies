@@ -1,6 +1,6 @@
 'use client'
 
-import type { TImage, TMediaVideo } from '@/types/tmdb'
+import type { TImage, TMediaVideo } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage, { YoutubeImage } from './image'

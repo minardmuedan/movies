@@ -1,7 +1,7 @@
 import TMDBImage from '@/components/image'
 import { ButtonLink } from '@/components/ui/button'
 import WatchDrawer from '@/components/watch'
-import { type TMovieDetails, type TTvDetails } from '@/types/tmdb'
+import { type TMovieDetails, type TTvDetails } from '@/schema & types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, LeafIcon, PlayIcon } from 'lucide-react'
 import { MediaSection } from './helpers'
 

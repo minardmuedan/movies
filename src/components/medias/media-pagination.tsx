@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/pagination'
 
 export default function MediaPagination({ page, totalPages, route }: { page: number; totalPages: number; route: string }) {
-  const href = (p: number) => `${route}?page=${p}`
+  const href = (p: number) => `${route}${route.includes('?') ? '&' : '?'}page=${p}`
 
   return (
     <Pagination className="mt-10">
