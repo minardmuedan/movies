@@ -4,7 +4,7 @@ import MediaPagination from '@/components/medias/media-pagination'
 import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
 
-export default async function MoviesPage({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
+export default async function MoviesPage({ searchParams }: { searchParams: Promise<Record<string, unknown>> }) {
   const { page, language, genres, ratings, keywords } = await searchParams
   const parsedRatings = ratingsSchema.parse(ratings)
 
@@ -22,7 +22,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
   const movies = result.data.results
   return (
     <>
-      <MediaBackdrop backdrops={result.data.results.map(({ backdrop_path }) => backdrop_path)} />
+      <MediaBackdrop backdrops={movies.map(({ backdrop_path }) => backdrop_path)} />
 
       <ul className="media-card-container">
         {movies.map((movie) => (
@@ -32,7 +32,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
         ))}
       </ul>
 
-      <MediaPagination page={Number(result.data.page)} totalPages={result.data.total_pages} route="/movies" />
+      <MediaPagination page={Number(result.data.page)} totalPages={result.data.total_pages} />
     </>
   )
 }

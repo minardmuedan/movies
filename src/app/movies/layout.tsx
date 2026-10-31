@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 export default function MoviesLayout({ children }: { children: React.ReactNode }) {
   return (
     <Suspense fallback={<p>movies layout loading suspense</p>}>
-      <FilterBar>
+      <FilterBar mediaType="movie">
         <aside className="max-lg:hidden">
           <FilterSidebarContent />
         </aside>
@@ -21,8 +21,8 @@ export default function MoviesLayout({ children }: { children: React.ReactNode }
           </FilterBarTrigger>
 
           <header className="my-12 flex flex-col max-lg:text-center">
-            <h1 className="mb-2 text-3xl font-semibold">Now Playing Movies</h1>
-            <p className="sm-muted mb-6">Catch the latest movies currently showing in theaters</p>
+            <h1 className="mb-2 text-3xl font-semibold">Explore Movies</h1>
+            <p className="sm-muted mb-6">Discover something new to watch.</p>
 
             <FilterBarDialog />
           </header>

@@ -1,40 +1,52 @@
+'use client'
+
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationEllipsis,
-  PaginationPrevious,
   PaginationNext,
+  PaginationPrevious,
 } from '@/components/ui/pagination'
+import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function MediaPagination({ page, totalPages, route }: { page: number; totalPages: number; route: string }) {
-  const href = (p: number) => `${route}${route.includes('?') ? '&' : '?'}page=${p}`
+export default function MediaPagination({ page, totalPages }: { page: number; totalPages: number }) {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const href = (item: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', String(item))
+    return `${pathname}?${params.toString()}`
+  }
 
   return (
-    <Pagination className="mt-10">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href={href(page - 1)} className={`${page <= 1 ? 'pointer-events-none opacity-50' : ''}`} />
-        </PaginationItem>
-
-        {getPageRange(page, totalPages).map((item, i) => (
-          <PaginationItem key={i}>
-            {item === '...' ? (
-              <PaginationEllipsis />
-            ) : (
-              <PaginationLink href={href(item)} isActive={item === page}>
-                {item}
-              </PaginationLink>
-            )}
+    <>
+      <Pagination className="mt-10">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href={href(page - 1)} className={`${page <= 1 ? 'pointer-events-none opacity-50' : ''}`} />
           </PaginationItem>
-        ))}
 
-        <PaginationItem>
-          <PaginationNext href={href(page + 1)} className={`${page >= totalPages ? 'pointer-events-none opacity-50' : ''}`} />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          {getPageRange(page, totalPages).map((item, i) => (
+            <PaginationItem key={i}>
+              {item === '...' ? (
+                <PaginationEllipsis />
+              ) : (
+                <PaginationLink href={href(item)} isActive={item === page}>
+                  {item}
+                </PaginationLink>
+              )}
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <PaginationNext href={href(page + 1)} className={`${page >= totalPages ? 'pointer-events-none opacity-50' : ''}`} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   )
 }
 

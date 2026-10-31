@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { looseEqual } from '@/lib/utils'
 import { cn } from 'cn'
 import { Undo2Icon, Wand2Icon, XIcon } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
@@ -13,11 +13,9 @@ import FilterKeywords from './keywords'
 import FilterLanguage from './language'
 import FilterRatings from './ratings'
 
-type FilterBarState = { open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }
+type TFilterData = { genres: string[]; ratings: string; language: string; keywords: string[] }
 
-export type TFilterData = { genres: string[]; ratings: string; language: string; keywords: string[] }
-
-const context = createContext<FilterBarState | null>(null)
+const context = createContext<{ open: boolean; setOpen: Dispatch<SetStateAction<boolean>> } | null>(null)
 
 const useFilterBarContext = () => {
   const filterBarContext = useContext(context)
@@ -38,7 +36,7 @@ const useFilterSearchParams = () => {
 const FilterBar = ({ children }: { children: React.ReactNode }) => {
   const { genres, ratings, language, keywords } = useFilterSearchParams()
 
-  const defaultOpen = genres.length > 0 || ratings !== '0-5' || language !== 'en' || keywords.length > 0
+  const defaultOpen = genres.length > 0 || ratings !== '0-10' || language !== 'en' || keywords.length > 0
   const [open, setOpen] = useState(defaultOpen)
   return (
     <context.Provider value={{ open, setOpen }}>
@@ -61,6 +59,7 @@ const FilterBarTrigger = ({ variant = 'accentMuted', children, className, ...pro
 
 const FilterBarContent = ({ className, onSave }: { className?: string; onSave?: () => void }) => {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParamsFilter = useFilterSearchParams()
 
   const [filter, setFilter] = useState<TFilterData>(searchParamsFilter)
@@ -74,15 +73,14 @@ const FilterBarContent = ({ className, onSave }: { className?: string; onSave?: 
     Object.entries(filter).map(([key, value]) => {
       if (Array.isArray(value)) value.map((v) => params.append(key, v))
       else {
-        if (key === 'language' && value === 'en') return
-        if (key === 'ratings' && value === '0-10') return
+        if ((key === 'language' && value === 'en') || (key === 'ratings' && value === '0-10')) return
         params.set(key, value)
       }
     })
 
     onSave?.()
     setPrevFilter(undefined)
-    router.replace(`/movies?${params}`)
+    router.replace(`${pathname}?${params}`)
   }
 
   function clearFilter() {
@@ -193,4 +191,4 @@ const FilterCount = () => {
     )
 }
 
-export { FilterBar, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent }
+export { FilterBar, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent, useFilterBarContext, type TFilterData }

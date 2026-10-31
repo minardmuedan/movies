@@ -24,7 +24,7 @@ export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
   }
 }
 
-export async function TMDBDiscoverFetch(type: string, params: Partial<Record<keyof TSearchSchema, unknown>>) {
+export async function TMDBDiscoverFetch(type: 'movie' | 'tv', params: Partial<Record<keyof TSearchSchema, unknown>>) {
   const searchParams = new URLSearchParams()
 
   Object.entries(searchSchema.parse(params)).map(([key, value]) => {
@@ -33,6 +33,5 @@ export async function TMDBDiscoverFetch(type: string, params: Partial<Record<key
   })
 
   const route = `/discover/${type}?${searchParams}`
-  console.log({ fetch: route })
   return await TMDBFetch<TMovies | TTvShows>(route)
 }
