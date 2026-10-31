@@ -1,14 +1,13 @@
 'use client'
 
 import type { TPersonCombinedCreditsCast, TPersonCombinedCreditsCrew } from '@/schema & types/tmdb'
+import { ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage from './image'
 import { MediaRating } from './medias/media-rating'
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog'
 import { Button } from './ui/button'
-import { ChevronDown } from 'lucide-react'
-import { ScrollArea } from './ui/scroll-area'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 
 type Props = { media: Record<string, (TPersonCombinedCreditsCast | TPersonCombinedCreditsCrew)[]> }
 
@@ -35,9 +34,9 @@ export default function PersonCreditsClient({ media }: Props) {
                 <DialogDescription>Filter {"person's"} department</DialogDescription>
               </DialogHeader>
 
-              <ScrollArea className="px-3 pb-6">
+              <div className="overflow-y-auto px-2 pb-6">
                 <Navlinks media={media} activeDepartment={activeDepartment} setActiveDepartment={setActiveDepartment} />
-              </ScrollArea>
+              </div>
             </DialogContent>
           </Dialog>
         </div>

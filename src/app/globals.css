@@ -151,4 +151,7 @@
   html {
     @apply scroll-smooth font-sans;
   }
+  .overflow-y-auto {
+    @apply [&::-webkit-scrollbar-thumb]:bg-border overflow-y-auto [&::-webkit-scrollbar]:w-3.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding;
+  }
 }

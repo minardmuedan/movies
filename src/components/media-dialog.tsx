@@ -6,7 +6,6 @@ import { createContext, useContext, useState, type Dispatch, type SetStateAction
 import TMDBImage, { YoutubeImage } from './image'
 import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
-import { ScrollArea } from './ui/scroll-area'
 
 type Medias = { posters: TImage[]; backdrops: TImage[]; videos: TMediaVideo[] }
 type MediaKeys = keyof Medias
@@ -46,12 +45,12 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
   if (!activeMedia) return null
 
   return (
-    <DialogContent className="p-0 sm:max-w-xl md:max-w-3xl">
-      <DialogHeader className="p-6">
+    <DialogContent className="sm:max-w-xl md:max-w-3xl">
+      <DialogHeader>
         <DialogTitle className="first-letter:uppercase">{activeMedia}</DialogTitle>
       </DialogHeader>
 
-      <ScrollArea className="px-6 pb-6">
+      <div className="overflow-y-auto px-2 pb-6">
         {activeMedia === 'videos' ? (
           <MovieVideosDialogContent videos={medias[activeMedia]} />
         ) : (
@@ -71,7 +70,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
             ))}
           </ul>
         )}
-      </ScrollArea>
+      </div>
     </DialogContent>
   )
 }

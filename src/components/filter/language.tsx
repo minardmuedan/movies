@@ -2,8 +2,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDownIcon } from 'lucide-react'
 import type { Dispatch, SetStateAction } from 'react'
 import { Button } from '../ui/button'
-import { ScrollArea } from '../ui/scroll-area'
-import type { TFilterData } from './dialog'
+import type { TFilterData } from './filter-bar'
 import { TMDB_LANGUAGE } from '@/lib/tmdb'
 
 export default function FilterLanguage({ filter, setFilter }: { filter: TFilterData; setFilter: Dispatch<SetStateAction<TFilterData>> }) {
@@ -19,7 +18,7 @@ export default function FilterLanguage({ filter, setFilter }: { filter: TFilterD
           <ChevronDownIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="overflow-hidden p-0">
-          <ScrollArea className="max-h-(--available-height) p-1">
+          <div className="max-h-(--available-height) overflow-y-auto p-1 pr-0">
             {[
               TMDB_LANGUAGE.sort((a, b) => a.english_name.localeCompare(b.english_name)).map(({ iso_639_1, english_name }) => (
                 <DropdownMenuItem
@@ -32,7 +31,7 @@ export default function FilterLanguage({ filter, setFilter }: { filter: TFilterD
                 </DropdownMenuItem>
               )),
             ]}
-          </ScrollArea>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

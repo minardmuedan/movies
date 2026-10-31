@@ -2,7 +2,7 @@ import { TMDB_MOVIE_GENRES, TMDB_TV_GENRES } from '@/lib/tmdb'
 import { usePathname } from 'next/navigation'
 import type { Dispatch, SetStateAction } from 'react'
 import { Button } from '../ui/button'
-import { type TFilterData } from './dialog'
+import { type TFilterData } from './filter-bar'
 
 export default function FilterGenre({ filter, setFilter }: { filter: TFilterData; setFilter: Dispatch<SetStateAction<TFilterData>> }) {
   const pathname = usePathname()

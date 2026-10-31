@@ -4,7 +4,6 @@ import { TTvEpisode } from '@/schema & types/tmdb'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import TMDBImage from '../image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import { ScrollArea } from '../ui/scroll-area'
 import { MediaRating } from './media-rating'
 
 type TContext = { episodes: TTvEpisode[]; activeEpisode?: number; setActiveEpisode: Dispatch<SetStateAction<number | undefined>> }
@@ -63,11 +62,11 @@ const EpisodesDialogContent = () => {
         <DialogTitle className="text-xl text-pretty">{episode.name}</DialogTitle>
       </DialogHeader>
 
-      <ScrollArea className="p-6 pt-0">
+      <div className="overflow-y-auto px-6 pb-6">
         <TMDBImage type="still" src={episode.still_path} alt="" className="mx-auto aspect-video w-full rounded-lg" />
 
         <p className="sm-muted mt-6">{episode.overview || 'no overview'}</p>
-      </ScrollArea>
+      </div>
     </DialogContent>
   )
 }

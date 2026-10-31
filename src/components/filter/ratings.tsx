@@ -1,6 +1,6 @@
 import { Fragment, type Dispatch, type SetStateAction } from 'react'
 import { Slider } from '../ui/slider'
-import type { TFilterData } from './dialog'
+import type { TFilterData } from './filter-bar'
 import { ratingsSchema } from '@/schema & types/params'
 
 export default function FilterRatings({ filter, setFilter }: { filter: TFilterData; setFilter: Dispatch<SetStateAction<TFilterData>> }) {

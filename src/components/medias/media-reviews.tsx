@@ -7,7 +7,6 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { InView } from 'react-intersection-observer'
 import TMDBImage from '../image'
-import { ScrollArea } from '../ui/scroll-area'
 import { Skeleton } from '../ui/skeleton'
 import { Spinner } from '../ui/spinner'
 
@@ -27,7 +26,7 @@ export function MediaReviews({ media, mediaId, initialData }: { media: 'movie' |
   const results = data?.pages.map((results) => (results ? results.results : [])).flat()
 
   return (
-    <ScrollArea className="px-3 pb-6">
+    <div className="overflow-y-auto px-2 pb-6">
       <ul className="space-y-2">
         {results.map((review, i) => (
           <Review key={i} review={review} />
@@ -41,7 +40,7 @@ export function MediaReviews({ media, mediaId, initialData }: { media: 'movie' |
           <Spinner />
         </InView>
       )}
-    </ScrollArea>
+    </div>
   )
 }
 

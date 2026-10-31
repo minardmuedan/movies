@@ -7,9 +7,8 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import TMDBImage from '../image'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import { ScrollArea } from '../ui/scroll-area'
 import { Button } from '../ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 
 type Props = { show_id: string; seasons: TTvSeason[] }
 
@@ -73,7 +72,7 @@ function SeasonList({ show_id, seasons, isDialog, className }: Props & { isDialo
   }, [activeSeason])
 
   return (
-    <ScrollArea ref={listRef} className={cn('max-h-[calc(100svh-7.25rem)] pr-4', className)}>
+    <div ref={listRef} className={cn('max-h-[calc(100svh-6.75rem)] overflow-y-auto', className)}>
       <nav className="p-1">
         <ul className="space-y-3">
           {seasons.map((season, i) => {
@@ -102,6 +101,6 @@ function SeasonList({ show_id, seasons, isDialog, className }: Props & { isDialo
           })}
         </ul>
       </nav>
-    </ScrollArea>
+    </div>
   )
 }

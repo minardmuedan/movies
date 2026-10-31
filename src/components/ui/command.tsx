@@ -38,7 +38,7 @@ function CommandDialog({
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
-      <DialogContent className={cn('top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0', className)} showCloseButton={showCloseButton}>
+      <DialogContent className={cn('top-1/2 -translate-y-1/2 overflow-hidden rounded-xl! p-0', className)} showCloseButton={showCloseButton}>
         {children}
       </DialogContent>
     </Dialog>
@@ -62,13 +62,16 @@ function CommandInput({ className, ...props }: React.ComponentProps<typeof Comma
   )
 }
 
-function CommandList({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.List>) {
+function CommandList({ className, children, ...props }: React.ComponentProps<typeof CommandPrimitive.List>) {
   return (
     <CommandPrimitive.List
       data-slot="command-list"
-      className={cn('no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none', className)}
+      className={cn('max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none', className)}
       {...props}
-    />
+    >
+      {children}
+      {/* <ScrollArea className="max-h-full">{children}</ScrollArea> */}
+    </CommandPrimitive.List>
   )
 }
 
@@ -98,13 +101,12 @@ function CommandItem({ className, children, ...props }: React.ComponentProps<typ
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item data-selected:bg-muted data-selected:text-foreground data-selected:**:[svg]:text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group/command-item data-selected:bg-muted data-selected:text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
     >
       {children}
-      <CheckIcon className="ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" />
     </CommandPrimitive.Item>
   )
 }

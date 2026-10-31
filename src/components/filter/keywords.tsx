@@ -8,7 +8,7 @@ import { Badge } from '../ui/badge'
 import { Command, CommandEmpty, CommandItem, CommandList } from '../ui/command'
 import { Skeleton } from '../ui/skeleton'
 import { Spinner } from '../ui/spinner'
-import type { TFilterData } from './dialog'
+import type { TFilterData } from './filter-bar'
 import { keywordSchema } from '@/schema & types/params'
 
 type Tag = { id: number; name: string }

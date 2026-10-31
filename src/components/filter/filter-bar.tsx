@@ -7,7 +7,6 @@ import { Undo2Icon, Wand2Icon, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 import { Button } from '../ui/button'
-import { ScrollArea } from '../ui/scroll-area'
 import FilterGenre from './genre'
 import FilterKeywords from './keywords'
 import FilterLanguage from './language'
@@ -15,7 +14,8 @@ import FilterRatings from './ratings'
 
 type TFilterData = { genres: string[]; ratings: string; language: string; keywords: string[] }
 
-const context = createContext<{ open: boolean; setOpen: Dispatch<SetStateAction<boolean>> } | null>(null)
+type Ctx = { sidebarOpen: boolean; toggleSidebarOpen: () => void }
+const context = createContext<Ctx | null>(null)
 
 const useFilterBarContext = () => {
   const filterBarContext = useContext(context)
@@ -33,14 +33,21 @@ const useFilterSearchParams = () => {
   }
 }
 
-const FilterBar = ({ children }: { children: React.ReactNode }) => {
+const FilterBar = ({ defaultOpen, children }: { defaultOpen: boolean; children: React.ReactNode }) => {
   const { genres, ratings, language, keywords } = useFilterSearchParams()
+  const shouldOpen = defaultOpen || genres.length > 0 || ratings !== '0-10' || language !== 'en' || keywords.length > 0
+  const [sidebarOpen, setCollapsed] = useState(shouldOpen)
 
-  const defaultOpen = genres.length > 0 || ratings !== '0-10' || language !== 'en' || keywords.length > 0
-  const [open, setOpen] = useState(defaultOpen)
+  const toggleSidebarOpen = () =>
+    setCollapsed((prev) => {
+      const next = !prev
+      document.cookie = `filter-sidebar=${next ? 'open' : 'closed'}; path=/; max-age=31536000; SameSite=Lax`
+      return next
+    })
+
   return (
-    <context.Provider value={{ open, setOpen }}>
-      <div aria-expanded={open} className="group flex">
+    <context.Provider value={{ sidebarOpen, toggleSidebarOpen }}>
+      <div aria-expanded={sidebarOpen} className="group flex">
         {children}
       </div>
     </context.Provider>
@@ -48,16 +55,16 @@ const FilterBar = ({ children }: { children: React.ReactNode }) => {
 }
 
 const FilterBarTrigger = ({ variant = 'accentMuted', children, className, ...props }: React.ComponentProps<typeof Button>) => {
-  const { setOpen } = useFilterBarContext()
+  const { toggleSidebarOpen } = useFilterBarContext()
 
   return (
-    <Button variant={variant} onClick={() => setOpen((v) => !v)} {...props} className={`relative ${className}`}>
+    <Button variant={variant} onClick={toggleSidebarOpen} {...props} className={`relative ${className}`}>
       {children} <FilterCount />
     </Button>
   )
 }
 
-const FilterBarContent = ({ className, onSave }: { className?: string; onSave?: () => void }) => {
+const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParamsFilter = useFilterSearchParams()
@@ -94,7 +101,7 @@ const FilterBarContent = ({ className, onSave }: { className?: string; onSave?: 
   }
 
   return (
-    <ScrollArea className={cn(className, prevFilter ? '*:data-[slot=scroll-area-viewport]:*:pointer-events-none' : '')}>
+    <div className="overflow-y-auto">
       <div className="[&_h3]:text-muted-foreground mb-6 space-y-12 px-6 pt-2 [&_h3]:mb-2">
         <FilterGenre filter={filter} setFilter={setFilter} />
         <FilterRatings filter={filter} setFilter={setFilter} />
@@ -119,15 +126,19 @@ const FilterBarContent = ({ className, onSave }: { className?: string; onSave?: 
           Save Changes
         </Button>
       </div>
-    </ScrollArea>
+    </div>
   )
 }
 
 const FilterSidebarContent = () => {
-  const { open } = useFilterBarContext()
+  const { sidebarOpen } = useFilterBarContext()
 
   return (
-    <div inert={!open} style={{ width: open ? 300 + 24 : 0 }} className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out">
+    <div
+      inert={!sidebarOpen}
+      style={{ width: sidebarOpen ? 300 + 24 : 0 }}
+      className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out"
+    >
       <div className="bg-background/50 mr-6 flex h-[calc(100svh-4rem)] min-w-75 flex-col rounded-xl border backdrop-blur-sm">
         <div className="relative flex justify-between border-b p-6 pb-3">
           <div>
@@ -158,13 +169,13 @@ const FilterBarDialog = () => {
         <FilterCount />
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="**:aria-[label='filter-actions']:bg-popover">
         <DialogHeader className="border-b pb-3">
           <DialogTitle>Filters</DialogTitle>
           <DialogDescription>Customize the experience</DialogDescription>
         </DialogHeader>
 
-        <FilterBarContent onSave={() => setOpen(false)} className="**:aria-[label='filter-actions']:bg-popover" />
+        <FilterBarContent onSave={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   )

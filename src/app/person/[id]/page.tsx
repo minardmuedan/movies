@@ -23,7 +23,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
             <h1 className="mb-2 text-2xl font-semibold">{person.name}</h1>
             <ExpandableText text={person.biography} />
 
-            <div className="mb-2">
+            <div className="mt-12 mb-2">
               <span>Age: </span>
               {Math.floor((Date.now() - new Date(person.birthday).getTime()) / 31557600000)}
             </div>
