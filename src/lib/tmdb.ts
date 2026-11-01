@@ -1,7 +1,39 @@
-import { keywordSchema } from '@/schema & types/params'
-
 export const TMDB_MEDIA = ['movie', 'tv', 'person'] as const
 export type TTMDB_MEDIA = (typeof TMDB_MEDIA)[number]
+
+export const TMDB_MOVIE_SORT_BY = [
+  'original_title.asc',
+  'original_title.desc',
+  'popularity.asc',
+  'popularity.desc',
+  'revenue.asc',
+  'revenue.desc',
+  'primary_release_date.asc',
+  'primary_release_date.desc',
+  'title.asc',
+  'title.desc',
+  'vote_average.asc',
+  'vote_average.desc',
+  'vote_count.asc',
+  'vote_count.desc',
+] as const
+
+export const TMDB_TV_SORT_BY = [
+  'first_air_date.asc',
+  'first_air_date.desc',
+  'name.asc',
+  'name.desc',
+  'original_name.asc',
+  'original_name.desc',
+  'popularity.asc',
+  'popularity.desc',
+  'vote_average.asc',
+  'vote_average.desc',
+  'vote_count.asc',
+  'vote_count.desc',
+] as const
+
+export type TTMDB_SORT_BY = [...typeof TMDB_MOVIE_SORT_BY, ...typeof TMDB_TV_SORT_BY]
 
 export const TMDB_MOVIE_GENRES = [
   { id: 28, name: 'Action' },

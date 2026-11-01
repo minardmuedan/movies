@@ -15,28 +15,29 @@ import { Button } from './ui/button'
 import { Skeleton } from './ui/skeleton'
 import { Spinner } from './ui/spinner'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
-type Props = { defaultMediaType?: TTMDB_MEDIA }
-
-export default function SearchDialog(props: Props) {
+export default function SearchDialog() {
   const [open, setOpen] = useState(false)
 
   return (
     <div className="flex flex-col gap-4">
       <Button onClick={() => setOpen(true)} variant="outline" className="w-fit justify-start md:w-52">
-        <SearchIcon /> <span className="sr-only md:not-sr-only">Search</span>
+        <SearchIcon /> <span className="sr-only md:not-sr-only">Search...</span>
       </Button>
 
       <CommandDialog title="Search" description="Have anything in mind?" open={open} onOpenChange={setOpen}>
-        <CommandContent defaultMediaType="movie" setOpen={setOpen} />
+        <CommandContent setOpen={setOpen} />
       </CommandDialog>
     </div>
   )
 }
 
-function CommandContent({ defaultMediaType = 'movie', setOpen }: Props & { setOpen: Dispatch<SetStateAction<boolean>> }) {
+function CommandContent({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) {
   const router = useRouter()
+  const pathname = usePathname()
+
+  const defaultMediaType = pathname.startsWith('/person') ? 'person' : pathname.startsWith('/tv') ? 'tv' : 'movie'
   const [mediaType, setMediaType] = useState(defaultMediaType)
   const [query, value, setValue] = useDebounce()
 
@@ -130,7 +131,9 @@ function CommandContent({ defaultMediaType = 'movie', setOpen }: Props & { setOp
 
           {showFallback && <FetchingFallback />}
           {showSpinner && <FetchMore fetchNextPage={fetchNextPage} />}
-          {noResult && <CommandEmpty>{query ? 'No results found.' : 'Type in some keywords'}</CommandEmpty>}
+          {noResult && (
+            <CommandEmpty>{query ? 'No results found.' : <span className="text-muted-foreground">Type in some keywords</span>}</CommandEmpty>
+          )}
         </CommandList>
       </Command>
     </>

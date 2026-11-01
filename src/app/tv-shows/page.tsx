@@ -5,11 +5,12 @@ import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
 
 export default async function TvShowsPage({ searchParams }: { searchParams: Promise<Record<string, unknown>> }) {
-  const { page, language, genres, ratings, keywords } = await searchParams
+  const { page, sortby, language, genres, ratings, keywords } = await searchParams
   const parsedRatings = ratingsSchema.parse(ratings)
 
   const result = await TMDBDiscoverFetch('tv', {
     page,
+    sort_by: sortby,
     with_original_language: language,
     with_genres: genres,
     'vote_average.lte': Math.max(...parsedRatings),

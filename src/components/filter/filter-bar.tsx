@@ -1,18 +1,20 @@
 'use client'
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { type TTMDB_SORT_BY } from '@/lib/tmdb'
 import { looseEqual } from '@/lib/utils'
-import { cn } from 'cn'
+import { sortbySchema } from '@/schema & types/params'
 import { Undo2Icon, Wand2Icon, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { Button } from '../ui/button'
 import FilterGenre from './genre'
 import FilterKeywords from './keywords'
 import FilterLanguage from './language'
 import FilterRatings from './ratings'
+import FilterSortBy from './sort-by'
 
-type TFilterData = { genres: string[]; ratings: string; language: string; keywords: string[] }
+type TFilterData = { sortby: TTMDB_SORT_BY[number]; genres: string[]; ratings: string; language: string; keywords: string[] }
 
 type Ctx = { sidebarOpen: boolean; toggleSidebarOpen: () => void }
 const context = createContext<Ctx | null>(null)
@@ -23,9 +25,10 @@ const useFilterBarContext = () => {
   return filterBarContext
 }
 
-const useFilterSearchParams = () => {
+const useFilterSearchParams = (): TFilterData => {
   const searchParams = useSearchParams()
   return {
+    sortby: sortbySchema.parse(searchParams.get('sortby')),
     genres: searchParams.getAll('genres'),
     ratings: searchParams.get('ratings') || '0-10',
     language: searchParams.get('language') || 'en',
@@ -80,7 +83,9 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
     Object.entries(filter).map(([key, value]) => {
       if (Array.isArray(value)) value.map((v) => params.append(key, v))
       else {
-        if ((key === 'language' && value === 'en') || (key === 'ratings' && value === '0-10')) return
+        if (key === 'language' && value === 'en') return
+        if (key === 'ratings' && value === '0-10') return
+        if (key === 'sortby' && value === 'popularity.desc') return
         params.set(key, value)
       }
     })
@@ -92,7 +97,7 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
 
   function clearFilter() {
     setPrevFilter(filter)
-    setFilter({ genres: [], ratings: '0-10', language: 'en', keywords: [] })
+    setFilter({ sortby: 'popularity.desc', genres: [], ratings: '0-10', language: 'en', keywords: [] })
   }
 
   function undoClearFilter() {
@@ -103,6 +108,7 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
   return (
     <div className="overflow-y-auto">
       <div className="[&_h3]:text-muted-foreground mb-6 space-y-12 px-6 pt-2 [&_h3]:mb-2">
+        <FilterSortBy filter={filter} setFilter={setFilter} />
         <FilterGenre filter={filter} setFilter={setFilter} />
         <FilterRatings filter={filter} setFilter={setFilter} />
         <FilterLanguage filter={filter} setFilter={setFilter} />
@@ -186,7 +192,9 @@ const FilterCount = () => {
   const searchParamsFilter = useFilterSearchParams()
 
   Object.entries(searchParamsFilter).map(([k, v]) => {
-    if ((k === 'language' && v === 'en') || (k === 'ratings' && v === '0-10')) return
+    if (k === 'language' && v === 'en') return
+    if (k === 'ratings' && v === '0-10') return
+    if (k === 'sortby' && v === 'popularity.desc') return
     if (Array.isArray(v)) count += v.length
     else if (!!v) count += 1
   })
