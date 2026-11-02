@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 
 export default function TvShowsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<p>movies layout loading suspense</p>}>
+    <Suspense fallback={<p>tv shows layout loading suspense</p>}>
       <Content>{children}</Content>
     </Suspense>
   )

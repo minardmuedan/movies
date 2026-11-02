@@ -1,4 +1,4 @@
-import { TMDB_MOVIE_SORT_BY, TMDB_TV_SORT_BY } from '@/lib/tmdb'
+import { TMDB_MOVIE_SORT_BY, TMDB_TV_SORT_BY, type TTMDB_SORT_BY } from '@/lib/tmdb'
 import { ArrowDownIcon, ArrowUpIcon, ChevronDownIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { type Dispatch, type SetStateAction } from 'react'
@@ -56,7 +56,7 @@ export default function FilterSortBy({ filter, setFilter }: { filter: TFilterDat
 }
 const OrderByArrow = ({ order }: { order: TOrder }) => (order === 'asc' ? <ArrowUpIcon /> : <ArrowDownIcon />)
 
-const generateSortby = (key: string, order: 'asc' | 'desc') => `${key}.${order}`
+const generateSortby = (key: string, order: 'asc' | 'desc') => `${key}.${order}` as TTMDB_SORT_BY[number]
 
 const getSortByTitle = (sortby: string) => {
   const title = sortby.split('.')[0]
