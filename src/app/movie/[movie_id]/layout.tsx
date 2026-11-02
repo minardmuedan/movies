@@ -4,7 +4,7 @@ import { MediaSectionProvider, MediaSectionSideNav } from '@/components/medias/s
 export default function MovieDetailsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <BackButton className="md:sticky md:top-14" />
+      <BackButton className="bg-background/50 md:sticky md:top-14" />
 
       <div className="mt-60 flex gap-6">
         <MediaSectionProvider sections={['Details', 'Credits', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations']}>

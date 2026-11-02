@@ -1,6 +1,9 @@
 import TMDBImage from '@/components/image'
+import { Button } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import type { TMediaCredits } from '@/schema & types/tmdb'
+import { ExpandIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MediaSection } from './helpers'
 
@@ -28,6 +31,52 @@ export default function MediaCreditsSection({ credits }: { credits: TMediaCredit
           ))}
         </CarouselContent>
       </Carousel>
+
+      <div className="mt-2 flex justify-center">
+        <CreditsDialog credits={credits} />
+      </div>
     </MediaSection>
+  )
+}
+
+function CreditsDialog({ credits }: { credits: TMediaCredits }) {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button variant="link" />}>
+        Expand Credits <ExpandIcon />
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Full Credits</DialogTitle>
+          <DialogDescription>View all media credits</DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-6 overflow-y-auto px-2 pb-3">
+          {(['cast', 'crew'] as const).map(
+            (label) =>
+              credits[label].length > 0 && (
+                <div key={label}>
+                  <div className="text-muted-foreground mb-1 text-xl font-medium first-letter:uppercase">{label}</div>
+                  <ul className="space-y-2">
+                    {credits[label].map((c, i) => (
+                      <li key={i}>
+                        <Link href={`/person/${c.id}`} key={i} className="accent-muted flex items-center gap-3 rounded-lg border p-1 text-sm">
+                          <TMDBImage type="profile" src={c.profile_path} alt={`${c.name} profile`} className="aspect-square h-14 rounded-full" />
+
+                          <div className="flex-1">
+                            <div>{c.name}</div>
+                            <div className="xs-muted">{'job' in c ? c.job : c.character}</div>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ),
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }

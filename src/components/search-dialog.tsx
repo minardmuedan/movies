@@ -85,7 +85,7 @@ function CommandContent({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>
       </nav>
 
       <Command shouldFilter={false}>
-        <CommandInput placeholder={`Search a ${mediaType}...`} value={value} onValueChange={setValue} />
+        <CommandInput autoFocus placeholder={`Search a ${mediaType}...`} value={value} onValueChange={setValue} />
 
         <CommandList className="max-h-full **:data-[slot=command-item]:mb-2 **:data-[slot=command-item]:h-24 **:data-[slot=command-item]:gap-3 **:data-[slot=command-item]:border">
           {query && (

@@ -151,7 +151,19 @@
   html {
     @apply scroll-smooth font-sans;
   }
-  .overflow-y-auto {
-    @apply [&::-webkit-scrollbar-thumb]:bg-border overflow-y-auto [&::-webkit-scrollbar]:w-3.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 14px;
+  }
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
   }
 }
