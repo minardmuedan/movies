@@ -89,7 +89,7 @@ function SeasonList({ show_id, seasons, isDialog, className }: Props & { isDialo
                     <span className="sr-only">Season</span> {season.season_number}
                   </h2>
 
-                  <TMDBImage type="poster" src={season.poster_path} alt="" className="size-12 rounded" />
+                  <TMDBImage type="poster" src={season.poster_path} alt={season.name} sizes="48px" className="size-12 rounded" />
 
                   <div className="flex-1">
                     <div className="line-clamp-1 text-sm">{season.name}</div>

@@ -10,7 +10,10 @@ export default function MediaRecommendationsSection({ datas }: { datas: (TMovie 
       <ul className="media-card-container md:grid-cols-3 xl:grid-cols-4">
         {datas.map((data) => (
           <li key={data.id}>
-            <MediaCard data={data} />
+            <MediaCard
+              data={data}
+              imageSizes="(min-width: 1680px) 307px, (min-width: 1280px) calc(21.05vw - 42px), (min-width: 1040px) calc(33.18vw - 112px), (min-width: 640px) calc(33.16vw - 32px), calc(50vw - 30px)"
+            />
           </li>
         ))}
       </ul>

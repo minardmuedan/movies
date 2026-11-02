@@ -13,14 +13,20 @@ export default function MediaHeroSection({ media }: { media: TMovieDetails | TTv
   return (
     <MediaSection section="Details">
       <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
-        <TMDBImage type="backdrop" src={media.backdrop_path} alt="" sizes="100vw" className="aspect-video min-h-svh w-full" />
+        <TMDBImage preload type="backdrop" src={media.backdrop_path} alt={title} sizes="100.07vw" className="aspect-video min-h-svh w-full" />
         <div className="from-background to-background/0 absolute bottom-0 size-full bg-linear-to-t">
           <span className="sr-only">overlay</span>
         </div>
       </div>
 
       <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-start">
-        <TMDBImage type="poster" src={media.poster_path} alt={title} className="aspect-2/3 w-full max-w-80 shrink-0 rounded-md" />
+        <TMDBImage
+          type="poster"
+          src={media.poster_path}
+          alt={title}
+          sizes="(min-width: 380px) 320px, calc(60vw + 104px)"
+          className="aspect-2/3 w-full max-w-80 shrink-0 rounded-md"
+        />
 
         <div className="space-y-12 text-center lg:text-start">
           <div>

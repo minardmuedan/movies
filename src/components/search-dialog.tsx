@@ -104,7 +104,7 @@ function CommandContent({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>
                     className="bg-input/20 hover:ring-ring/75 cursor-pointer data-selected:ring"
                   >
                     <Link href={href}>
-                      <TMDBImage type={imageType} src={imagePath} alt="" className="aspect-2/3 h-full rounded" />
+                      <TMDBImage type={imageType} src={imagePath} alt={name} sizes="55px" className="aspect-2/3 h-full rounded" />
 
                       <div className="flex-1">
                         <div className="mb-1 line-clamp-1 text-sm">{name}</div>

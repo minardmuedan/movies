@@ -17,7 +17,14 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
     <div className="[&_h2]:heading-title space-y-28">
       <section className="mt-4">
         <div className="flex flex-col flex-wrap gap-20 md:flex-row md:gap-10">
-          <TMDBImage type="profile" src={person.profile_path} alt="" className="mx-auto aspect-2/3 h-fit w-72 shrink-0 rounded-md md:w-60 lg:w-72" />
+          <TMDBImage
+            loading="eager"
+            type="profile"
+            src={person.profile_path}
+            alt={person.name}
+            sizes="(min-width: 1040px) 288px, (min-width: 780px) 240px, 288px"
+            className="mx-auto aspect-2/3 h-fit w-72 shrink-0 rounded-md md:w-60 lg:w-72"
+          />
 
           <div className="[&_span]:text-muted-foreground min-w-72 flex-1 text-sm">
             <h1 className="mb-2 text-2xl font-semibold">{person.name}</h1>

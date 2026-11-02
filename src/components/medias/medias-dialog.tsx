@@ -3,9 +3,9 @@
 import type { TImage, TMediaVideo } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
-import TMDBImage, { YoutubeImage } from './image'
-import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import TMDBImage, { YoutubeImage } from '../image'
+import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 
 type Medias = { posters: TImage[]; backdrops: TImage[]; videos: TMediaVideo[] }
 type MediaKeys = keyof Medias
@@ -62,7 +62,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
                     type="poster"
                     src={media.file_path}
                     alt="movie media picure"
-                    sizes="(min-width: 640px) 170px, calc(50vw - 44px)"
+                    sizes="(min-width: 640px) 176px, calc(50vw - 35px)"
                     className="size-full"
                   />
                 </Link>
@@ -89,7 +89,10 @@ const MovieVideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
                   className={`${activeVideoIndex == i ? 'outline-primary bg-primary/30 hover:bg-primary/30 outline-2' : ''} accent-muted h-full overflow-hidden rounded-lg p-1`}
                 >
                   <div className="relative aspect-video overflow-hidden rounded-md outline-offset-1">
-                    <YoutubeImage src={video.key} />
+                    <YoutubeImage
+                      src={video.key}
+                      sizes="(min-width: 2280px) 144px, (min-width: 640px) 129px, (min-width: 340px) calc(42.14vw - 46px), calc(-55vw + 263px)"
+                    />
                   </div>
 
                   <div className="sm-muted mt-2 text-center">{video.type}</div>
@@ -107,4 +110,4 @@ const MovieVideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
   )
 }
 
-export { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger }
+export { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger, MovieVideosDialogContent }

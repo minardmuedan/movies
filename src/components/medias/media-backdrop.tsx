@@ -20,7 +20,7 @@ export default function MediaBackdrop({ backdrops }: { backdrops: string[] }) {
           key={i}
           type="backdrop"
           src={src}
-          alt=""
+          alt={`Number ${i}`}
           sizes="100vw"
           className={`absolute inset-0 transition-opacity duration-1000 ${i === activeIndex ? 'opacity-100' : 'opacity-0'}`}
           showError={false}

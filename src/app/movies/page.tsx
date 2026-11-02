@@ -18,7 +18,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
     with_keywords: keywords,
   })
 
-  if (!result.isSuccess) return <p>error</p>
+  if (!result.isSuccess) return <p>{result.message}</p>
 
   const movies = result.data.results
   return (

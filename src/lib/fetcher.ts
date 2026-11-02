@@ -11,6 +11,7 @@ export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
     })
 
     if (!res.ok) {
+      console.log({ res })
       if (res.status === 404) notFound()
 
       throw '' // todo: put proper error handling
@@ -19,7 +20,10 @@ export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
     const data = await res.json()
     return { isSuccess: true, data }
   } catch (err) {
+    console.log('ERROR!:', err)
+
     unstable_rethrow(err)
+    if (err instanceof Error) return { isSuccess: false, status: 500, message: err.message }
     return { isSuccess: false, status: 500, message: 'Something went wrong getting the data!' }
   }
 }
@@ -33,6 +37,5 @@ export async function TMDBDiscoverFetch(type: 'movie' | 'tv', params: Partial<Re
   })
 
   const route = `/discover/${type}?${searchParams}`
-  console.log('TMDB FETCH', route)
   return await TMDBFetch<TMovies | TTvShows>(route)
 }

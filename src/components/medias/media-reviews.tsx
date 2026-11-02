@@ -50,7 +50,13 @@ export function Review({ review }: { review: TReview }) {
   return (
     <li className="accent-muted rounded-md p-2" onClick={() => setExpanded(!expanded)}>
       <div className="mb-3 flex items-center gap-2 text-sm">
-        <TMDBImage type="profile" src={review.author_details.avatar_path} alt="" className="size-6 rounded-full" />
+        <TMDBImage
+          type="profile"
+          src={review.author_details.avatar_path}
+          alt={review.author_details.name}
+          sizes="24px"
+          className="size-6 rounded-full"
+        />
         <div>{review.author}</div>
         <div className="xs-muted">{timeAgo(review.created_at)}</div>
       </div>

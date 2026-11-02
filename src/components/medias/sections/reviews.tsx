@@ -7,7 +7,6 @@ import { MediaReviews, Review } from '../media-reviews'
 type Props = { media: 'movie' | 'tv'; mediaId: string; reviews: TMediaReviews }
 
 export default function MediaReviewsSection({ media, mediaId, reviews }: Props) {
-  const resultsCount = reviews.results.length
   const totalResults = reviews.total_results
 
   return (

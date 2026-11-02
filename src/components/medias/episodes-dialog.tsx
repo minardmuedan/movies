@@ -35,7 +35,13 @@ const EpisodeDialogTrigger = ({ episode }: { episode: TTvEpisode }) => {
     >
       <div className="my-auto w-10 text-center">{episode.episode_number}</div>
 
-      <TMDBImage type="still" src={episode.still_path} alt="" className="aspect-video h-full rounded" />
+      <TMDBImage
+        type="still"
+        src={episode.still_path}
+        alt={episode.name}
+        sizes="(min-width: 780px) 167px, 138px"
+        className="aspect-video h-full rounded"
+      />
 
       <div className="*: ml-2 flex-1 *:line-clamp-2 md:*:line-clamp-3">
         {episode.name != String(episode.episode_number) && <div className="mb-2">{episode.name}</div>}
@@ -63,7 +69,13 @@ const EpisodesDialogContent = () => {
       </DialogHeader>
 
       <div className="overflow-y-auto px-6 pb-6">
-        <TMDBImage type="still" src={episode.still_path} alt="" className="mx-auto aspect-video w-full rounded-lg" />
+        <TMDBImage
+          type="still"
+          src={episode.still_path}
+          alt={episode.name}
+          sizes="(min-width: 640px) 446px, (min-width: 340px) calc(98.93vw - 86px), calc(-130vw + 642px)"
+          className="mx-auto aspect-video w-full rounded-lg"
+        />
 
         <p className="sm-muted mt-6">{episode.overview || 'no overview'}</p>
       </div>

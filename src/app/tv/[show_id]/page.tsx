@@ -25,12 +25,10 @@ export default async function TvDetailsPage({ params }: { params: Promise<{ show
             <TvSeasonsSection show_id={show_id} />
             <TvCreditsSection show_id={show_id} />
             <TvMediaSection show_id={show_id} />
-
             <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
               <TvReviewsSection show_id={show_id} />
               <TvKeywordsSection show_id={show_id} />
             </MediaSection>
-
             <TvSimilarSection show_id={show_id} />
             <TvRecommendationsSection show_id={show_id} />
           </main>

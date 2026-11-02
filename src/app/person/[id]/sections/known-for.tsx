@@ -23,7 +23,10 @@ export default async function PersonKnownFor({ id }: { id: string }) {
         <CarouselContent className="-ml-2">
           {result.data.results.map((movie, i) => (
             <CarouselItem key={i} className="basis-4/9 pl-2 sm:basis-3/10 md:basis-2/9 lg:basis-2/11">
-              <MediaCard data={movie} />
+              <MediaCard
+                data={movie}
+                imageSizes="(min-width: 1700px) 258px, (min-width: 1040px) calc(15.94vw - 10px), (min-width: 780px) calc(22.5vw - 34px), (min-width: 640px) calc(30vw - 33px), calc(44.38vw - 29px)"
+              />
             </CarouselItem>
           ))}
         </CarouselContent>

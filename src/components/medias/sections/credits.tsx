@@ -23,7 +23,13 @@ export default function MediaCreditsSection({ credits }: { credits: TMediaCredit
           {credits.cast.map((credit, i) => (
             <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
               <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
-                <TMDBImage type="profile" src={credit.profile_path} alt="" className="mb-2 aspect-square w-full rounded-full" />
+                <TMDBImage
+                  type="profile"
+                  src={credit.profile_path}
+                  alt={credit.name}
+                  sizes="(min-width: 1040px) 104px, (min-width: 780px) 116px, 100px"
+                  className="mb-2 aspect-square w-full rounded-full"
+                />
                 <div>{credit.name}</div>
                 <p className="xs-muted line-clamp-2">{credit.character}</p>
               </Link>
@@ -62,7 +68,13 @@ function CreditsDialog({ credits }: { credits: TMediaCredits }) {
                     {credits[label].map((c, i) => (
                       <li key={i}>
                         <Link href={`/person/${c.id}`} key={i} className="accent-muted flex items-center gap-3 rounded-lg border p-1 text-sm">
-                          <TMDBImage type="profile" src={c.profile_path} alt={`${c.name} profile`} className="aspect-square h-14 rounded-full" />
+                          <TMDBImage
+                            type="profile"
+                            src={c.profile_path}
+                            alt={`${c.name} profile`}
+                            sizes="56px"
+                            className="aspect-square h-14 rounded-full"
+                          />
 
                           <div className="flex-1">
                             <div>{c.name}</div>

@@ -6,12 +6,13 @@ import Image, { type ImageProps } from 'next/image'
 
 type Props = Omit<ImageProps, 'src'> & { src?: string; type: 'poster' | 'backdrop' | 'profile' | 'still'; showError?: boolean }
 
-export default function TMDBImage({ src, className, type, showError = true, ...props }: Props) {
+export default function TMDBImage({ src, alt, className, type, showError = true, ...props }: Props) {
   return (
     <div className={cn('relative overflow-hidden', className, !src ? 'border' : 'bg-accent')}>
       {src ? (
         <Image
           src={src}
+          alt={`${alt} ${type} image`}
           fill
           loading={type === 'backdrop' ? 'eager' : 'lazy'}
           className="object-cover object-center"
@@ -37,14 +38,15 @@ export default function TMDBImage({ src, className, type, showError = true, ...p
   )
 }
 
-export function YoutubeImage({ src, className }: { src: string; className?: string }) {
+export function YoutubeImage({ src, className, ...props }: Omit<ImageProps, 'alt'>) {
   return (
     <Image
-      src={src}
-      alt="youtube picture"
       fill
+      src={src}
       loader={() => `https://img.youtube.com/vi/${src}/maxresdefault.jpg`}
       className={cn('object-cover object-center', className)}
+      {...props}
+      alt="youtube thumbnail picture"
     />
   )
 }

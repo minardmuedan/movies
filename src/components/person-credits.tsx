@@ -45,11 +45,11 @@ export default function PersonCreditsClient({ media }: Props) {
           {media[activeDepartment].map((media, i) => (
             <li key={i}>
               <Link href={`/${media.media_type}/${media.id}`} className="accent-muted flex h-40 w-full gap-3 rounded-lg border p-2">
-                <TMDBImage type="poster" src={media.poster_path} alt="" className="aspect-2/3 h-full shrink-0" />
+                <TMDBImage type="poster" src={media.poster_path} alt={media.title} sizes="95px" className="aspect-2/3 h-full shrink-0" />
 
                 <div>
                   <div className="text-sm">{'name' in media ? (media.name as string) : media.title}</div>
-                  <span className="xs-muted">{'job' in media ? media.job : `as ${media.character}`}</span>
+                  <span className="xs-muted line-clamp-1">{'job' in media ? media.job : `as ${media.character}`}</span>
                   <p className="sm-muted mt-4 line-clamp-3 max-w-175">{media.overview}</p>
                 </div>
 

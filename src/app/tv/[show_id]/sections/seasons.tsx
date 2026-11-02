@@ -27,7 +27,13 @@ export default async function TvSeasonsSection({ show_id }: { show_id: string })
             <CarouselItem key={i} className="basis-4/9 pl-3 sm:basis-3/10 xl:basis-2/9">
               <Link href={`/tv/${show_id}/season/${season.season_number}`} scroll={true} className="group">
                 <div className="aspect-2/3 overflow-hidden rounded-md">
-                  <TMDBImage type="poster" src={season.poster_path} alt="" className="size-full transition-transform group-hover:scale-110" />
+                  <TMDBImage
+                    type="poster"
+                    src={season.poster_path}
+                    alt={season.name}
+                    sizes="(min-width: 1700px) 288px, (min-width: 1280px) 17.75vw, (min-width: 1040px) calc(30.45vw - 93px), (min-width: 640px) calc(30vw - 18px), calc(44.38vw - 13px)"
+                    className="size-full transition-transform group-hover:scale-110"
+                  />
                 </div>
 
                 <div className="group-hover:text-primary mt-1 space-y-0.5 text-sm">

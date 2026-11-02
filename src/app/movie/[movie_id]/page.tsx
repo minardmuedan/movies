@@ -13,13 +13,11 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ m
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
       <MovieHeroSection movie_id={movie_id} />
       <MovieCreditSection movie_id={movie_id} />
-      <MovieMediaSection movie_id={movie_id} />
-
       <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
         <MovieReviewsSection movie_id={movie_id} />
         <MovieKeywordsSection movie_id={movie_id} />
       </MediaSection>
-
+      <MovieMediaSection movie_id={movie_id} />
       <MovieSimilarSection movie_id={movie_id} />
       <MovieRecommendationsSection movie_id={movie_id} />
     </main>

@@ -7,7 +7,7 @@ export default function MovieDetailsLayout({ children }: { children: React.React
       <BackButton className="bg-background/50 md:sticky md:top-14" />
 
       <div className="mt-60 flex gap-6">
-        <MediaSectionProvider sections={['Details', 'Credits', 'Media', 'Reviews_Keywords', 'Similar', 'Recommendations']}>
+        <MediaSectionProvider sections={['Details', 'Credits', 'Reviews_Keywords', 'Media', 'Similar', 'Recommendations']}>
           <MediaSectionSideNav />
 
           {children}
