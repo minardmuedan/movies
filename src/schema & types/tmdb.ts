@@ -48,6 +48,7 @@ export type TMovieDetails = TMovie & {
 export interface TTvDetails {
   adult: boolean
   backdrop_path: string
+  episode_run_time: number[]
   first_air_date: string
   genres: TGenre[]
   homepage: string
@@ -164,6 +165,8 @@ export type TPersonDetails = TPerson & {
   also_known_as: string[]
   biography: string
   birthday: string
+  deathday: any
+  homepage: any
   imdb_id: string
   place_of_birth: string
 }

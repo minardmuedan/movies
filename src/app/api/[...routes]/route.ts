@@ -4,7 +4,7 @@ import { TMovies, type TTvShows } from '@/schema & types/tmdb'
 import { notFound } from 'next/navigation'
 import type { NextRequest } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ routes: string | undefined[] }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ routes: string[] }> }) {
   const { routes } = await params
   const { searchParams } = req.nextUrl
   const page = Number(searchParams.get('page')) || 1
