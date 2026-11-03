@@ -6,42 +6,58 @@ import type { TMediaCredits } from '@/schema & types/tmdb'
 import { ExpandIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MediaSection } from './helpers'
+import type { FetchReturn } from '@/lib/fetcher'
+import { ErrorFallback } from '@/components/ui/empty-error'
 
-export default function MediaCreditsSection({ credits }: { credits: TMediaCredits }) {
+export default function MediaCreditsSection({ result }: { result: FetchReturn<TMediaCredits> }) {
   return (
     <MediaSection section="Credits">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
-        <div className="mb-6 flex items-center justify-between">
-          <h3 className="mb-0">
-            Cast <span>{credits.cast.length}</span>
-          </h3>
-
-          <CarouselPrevAndNext />
-        </div>
-
-        <CarouselContent className="-ml-5 lg:-ml-8">
-          {credits.cast.map((credit, i) => (
-            <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
-              <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
-                <TMDBImage
-                  type="profile"
-                  src={credit.profile_path}
-                  alt={credit.name}
-                  sizes="(min-width: 1040px) 104px, (min-width: 780px) 116px, 100px"
-                  className="mb-2 aspect-square w-full rounded-full"
-                />
-                <div>{credit.name}</div>
-                <p className="xs-muted line-clamp-2">{credit.character}</p>
-              </Link>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+        {!result.isSuccess ? (
+          <>
+            <h3>Cast</h3>
+            <ErrorFallback message={result.message} />
+          </>
+        ) : (
+          <CreditsContent credits={result.data} />
+        )}
       </Carousel>
+    </MediaSection>
+  )
+}
+
+function CreditsContent({ credits }: { credits: TMediaCredits }) {
+  return (
+    <>
+      <div className="mb-6 flex items-center justify-between">
+        <h3 className="mb-0">
+          Cast <span>{credits.cast.length}</span>
+        </h3>
+        <CarouselPrevAndNext />
+      </div>
+
+      <CarouselContent className="-ml-5 lg:-ml-8">
+        {credits.cast.map((credit, i) => (
+          <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
+            <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
+              <TMDBImage
+                type="profile"
+                src={credit.profile_path}
+                alt={credit.name}
+                sizes="(min-width: 1040px) 104px, (min-width: 780px) 116px, 100px"
+                className="mb-2 aspect-square w-full rounded-full"
+              />
+              <div>{credit.name}</div>
+              <p className="xs-muted line-clamp-2">{credit.character}</p>
+            </Link>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
 
       <div className="mt-2 flex justify-center">
         <CreditsDialog credits={credits} />
       </div>
-    </MediaSection>
+    </>
   )
 }
 

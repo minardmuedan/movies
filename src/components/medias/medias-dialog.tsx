@@ -22,7 +22,7 @@ const useMediaDialogContext = () => {
   return context
 }
 
-const MovieMediaDialog = ({ children }: { children: React.ReactNode }) => {
+const MediaDialog = ({ children }: { children: React.ReactNode }) => {
   const [activeMedia, setActiveMedia] = useState<MediaKeys>()
   return (
     <mediaDialogContext.Provider value={{ activeMedia, setActiveMedia }}>
@@ -31,7 +31,7 @@ const MovieMediaDialog = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-const MovieMediaDialogTrigger = ({ media, children, className }: { media: MediaKeys; children: React.ReactNode; className?: string }) => {
+const MediaDialogTrigger = ({ media, children, className }: { media: MediaKeys; children: React.ReactNode; className?: string }) => {
   const { setActiveMedia } = useMediaDialogContext()
   return (
     <DialogTrigger className={className} onClick={() => setActiveMedia(media)}>
@@ -40,7 +40,7 @@ const MovieMediaDialogTrigger = ({ media, children, className }: { media: MediaK
   )
 }
 
-const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
+const MediaDialogContentRender = ({ medias }: { medias: Medias }) => {
   const { activeMedia } = useMediaDialogContext()
   if (!activeMedia) return null
 
@@ -52,7 +52,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
 
       <div className="overflow-y-auto px-2 pb-6">
         {activeMedia === 'videos' ? (
-          <MovieVideosDialogContent videos={medias[activeMedia]} />
+          <VideosDialogContent videos={medias[activeMedia]} />
         ) : (
           <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             {medias[activeMedia].map((media, i) => (
@@ -75,7 +75,7 @@ const MovieMediaDialogContentRender = ({ medias }: { medias: Medias }) => {
   )
 }
 
-const MovieVideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
+const VideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
   const [activeVideoIndex, setActiveVideoIndex] = useState(0)
 
   return (
@@ -110,4 +110,4 @@ const MovieVideosDialogContent = ({ videos }: { videos: TMediaVideo[] }) => {
   )
 }
 
-export { MovieMediaDialog, MovieMediaDialogContentRender, MovieMediaDialogTrigger, MovieVideosDialogContent }
+export { MediaDialog, MediaDialogContentRender, MediaDialogTrigger, VideosDialogContent }

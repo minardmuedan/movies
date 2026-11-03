@@ -1,12 +1,19 @@
 import MediaCard from '@/components/medias/media-card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/schema & types/tmdb'
 
-export default async function PersonKnownFor({ id }: { id: string }) {
+export default async function PersonKnownForSection({ id }: { id: string }) {
   const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${id}`)
 
-  if (!result.isSuccess) return <p>error</p>
+  if (!result.isSuccess)
+    return (
+      <section>
+        <h2>Known For</h2>
+        <ErrorFallback message={result.message} />
+      </section>
+    )
 
   return (
     <section>

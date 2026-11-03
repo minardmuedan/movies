@@ -3,7 +3,5 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { TMediaCredits } from '@/schema & types/tmdb'
 
 export default async function TvCreditsSection({ show_id }: { show_id: string }) {
-  const result = await TMDBFetch<TMediaCredits>(`/tv/${show_id}/credits`)
-  if (!result.isSuccess) return <p>error</p>
-  return <MediaCreditsSection credits={result.data} />
+  return <MediaCreditsSection result={await TMDBFetch<TMediaCredits>(`/tv/${show_id}/credits`)} />
 }

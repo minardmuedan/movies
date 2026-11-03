@@ -3,9 +3,5 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { type TMovieKeywords } from '@/schema & types/tmdb'
 
 export default async function MovieKeywordsSection({ movie_id }: { movie_id: string }) {
-  const result = await TMDBFetch<TMovieKeywords>(`/movie/${movie_id}/keywords`)
-
-  if (!result.isSuccess) return <p>error</p>
-
-  return <MediaKeywordsSection type="movies" keywords={result.data.keywords} />
+  return <MediaKeywordsSection type="movies" result={await TMDBFetch<TMovieKeywords>(`/movie/${movie_id}/keywords`)} />
 }

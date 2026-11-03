@@ -1,5 +1,6 @@
 import TMDBImage from '@/components/image'
 import { EpisodeDialogTrigger, EpisodesDialog, EpisodesDialogContent } from '@/components/medias/episodes-dialog'
+import { ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TTVSeasonDetails } from '@/schema & types/tmdb'
 
@@ -7,10 +8,9 @@ export default async function TvSeasonDetailsPage({ params }: { params: Promise<
   const { show_id, season_number } = await params
 
   const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${show_id}/season/${season_number}`)
-  if (!result.isSuccess) return <p>error</p>
+  if (!result.isSuccess) return <ErrorFallback message={result.message} className="h-[calc(100dvh-7rem)] w-full" />
 
   const season = result.data
-
   return (
     <div className="flex-1 py-1">
       <section className="mb-20 text-center">

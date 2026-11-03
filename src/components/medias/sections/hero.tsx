@@ -1,17 +1,27 @@
 import TMDBImage from '@/components/image'
 import { ButtonLink } from '@/components/ui/button'
+import { ErrorFallback } from '@/components/ui/empty-error'
 import WatchDrawer from '@/components/watch'
+import type { FetchReturn } from '@/lib/fetcher'
 import { type TMovieDetails, type TTvDetails } from '@/schema & types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, LeafIcon, PlayIcon } from 'lucide-react'
 import { MediaSection } from './helpers'
 
-export default function MediaHeroSection({ media }: { media: TMovieDetails | TTvDetails }) {
+export default function MediaHeroSection({ result }: { result: FetchReturn<TMovieDetails | TTvDetails> }) {
+  return (
+    <MediaSection section="Details">
+      {!result.isSuccess ? <ErrorFallback message={result.message} /> : <MediaHeroContent media={result.data} />}
+    </MediaSection>
+  )
+}
+
+function MediaHeroContent({ media }: { media: TMovieDetails | TTvDetails }) {
   const title = 'title' in media ? media.title : media.name
   const firstRelease = 'release_date' in media ? media.release_date : media.first_air_date
   const runtime = 'runtime' in media ? media.runtime : media.episode_run_time[0]
 
   return (
-    <MediaSection section="Details">
+    <>
       <div aria-label="background" className="absolute -top-14 left-0 -z-1 w-full opacity-50">
         <TMDBImage preload type="backdrop" src={media.backdrop_path} alt={title} sizes="100.07vw" className="aspect-video min-h-svh w-full" />
         <div className="from-background to-background/0 absolute bottom-0 size-full bg-linear-to-t">
@@ -73,6 +83,6 @@ export default function MediaHeroSection({ media }: { media: TMovieDetails | TTv
           </div>
         </div>
       </div>
-    </MediaSection>
+    </>
   )
 }

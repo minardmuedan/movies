@@ -1,6 +1,7 @@
 import MediaBackdrop from '@/components/medias/media-backdrop'
 import MediaCard from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
 
@@ -18,7 +19,7 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
     with_keywords: keywords,
   })
 
-  if (!result.isSuccess) return <p>{result.message}</p>
+  if (!result.isSuccess) return <ErrorFallback message={result.message} />
 
   const movies = result.data.results
   return (
