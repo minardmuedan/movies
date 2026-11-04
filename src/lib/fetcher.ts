@@ -2,10 +2,13 @@ import 'server-only'
 import { searchSchema, type TSearchSchema } from '@/schema & types/params'
 import type { TMovies, TTvShows } from '@/schema & types/tmdb'
 import { notFound, unstable_rethrow } from 'next/navigation'
+import { sleep } from './sleep'
 
 export type FetchReturn<T> = { isSuccess: true; data: T } | { isSuccess: false; status: number; message: string }
 
 export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
+  await sleep()
+
   try {
     const res = await fetch(`https://api.themoviedb.org/3${route}`, {
       headers: { Authorization: `Bearer ${process.env.TMDB_KEY}` },

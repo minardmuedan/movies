@@ -2,6 +2,7 @@ import type { TMovie, TTv } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import TMDBImage from '../image'
 import { MediaRating } from './media-rating'
+import { Skeleton } from '../ui/skeleton'
 
 export default function MediaCard({ data, imageSizes }: { data: TMovie | TTv; imageSizes?: string }) {
   const type = 'name' in data ? 'tv' : 'movie'
@@ -24,5 +25,28 @@ export default function MediaCard({ data, imageSizes }: { data: TMovie | TTv; im
         </div>
       </div>
     </Link>
+  )
+}
+
+export function MediaCardSkeleton() {
+  return (
+    <div aria-label="media card skeleton" className="rounded-md border p-2">
+      <Skeleton className="aspect-2/3 rounded" />
+
+      <Skeleton className="mt-2 mb-1 h-4 w-32" />
+      <Skeleton className="h-3 w-16" />
+    </div>
+  )
+}
+
+export function MediaCardsLoadingFallback() {
+  return (
+    <ul className="media-card-container">
+      {[...Array(20)].map((_, i) => (
+        <li key={i}>
+          <MediaCardSkeleton />
+        </li>
+      ))}
+    </ul>
   )
 }

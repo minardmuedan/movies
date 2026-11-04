@@ -1,12 +1,25 @@
 import MediaBackdrop from '@/components/medias/media-backdrop'
-import MediaCard from '@/components/medias/media-card'
+import MediaCard, { MediaCardsLoadingFallback } from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
 import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
+import { Suspense } from 'react'
 
-export default async function MoviesPage({ searchParams }: { searchParams: Promise<Record<string, unknown>> }) {
-  const { page, sortby, genres, language, ratings, keywords } = await searchParams
+type SearchParams = Promise<Record<string, unknown>>
+
+export default async function MoviesPage({ searchParams }: { searchParams: SearchParams }) {
+  const search = await searchParams
+
+  return (
+    <Suspense key={JSON.stringify(search)} fallback={<MediaCardsLoadingFallback />}>
+      <PageContent searchParams={search} />
+    </Suspense>
+  )
+}
+
+async function PageContent({ searchParams }: { searchParams: Awaited<SearchParams> }) {
+  const { page, sortby, genres, language, ratings, keywords } = searchParams
   const parsedRatings = ratingsSchema.parse(ratings)
 
   const result = await TMDBDiscoverFetch('movie', {
@@ -22,8 +35,8 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
 
   const movies = result.data.results
-
   if (movies.length < 1) return <EmptyFallback />
+
   return (
     <>
       <MediaBackdrop backdrops={movies.map(({ backdrop_path }) => backdrop_path)} />

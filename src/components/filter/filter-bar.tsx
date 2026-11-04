@@ -75,7 +75,12 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
   const [filter, setFilter] = useState<TFilterData>(searchParamsFilter)
   const [prevFilter, setPrevFilter] = useState<TFilterData | undefined>(undefined)
 
-  const hasFilter = filter.genres.length > 0 || filter.ratings !== '0-10' || filter.language !== 'en' || filter.keywords.length > 0
+  const hasFilter =
+    filter.sortby !== 'popularity.desc' ||
+    filter.genres.length > 0 ||
+    filter.ratings !== '0-10' ||
+    filter.language !== 'en' ||
+    filter.keywords.length > 0
 
   function handleFilter() {
     const params = new URLSearchParams()
