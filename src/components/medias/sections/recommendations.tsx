@@ -2,7 +2,7 @@ import type { FetchReturn } from '@/lib/fetcher'
 import type { TMovies, TTvShows } from '@/schema & types/tmdb'
 import MediaCard from '../media-card'
 import { MediaSection } from './helpers'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 
 export default function MediaRecommendationsSection({ result }: { result: FetchReturn<TMovies | TTvShows> }) {
   return (
@@ -11,6 +11,8 @@ export default function MediaRecommendationsSection({ result }: { result: FetchR
 
       {!result.isSuccess ? (
         <ErrorFallback message={result.message} className="h-120" />
+      ) : result.data.results.length < 1 ? (
+        <EmptyFallback className="h-60" />
       ) : (
         <ul className="media-card-container md:grid-cols-3 xl:grid-cols-4">
           {result.data.results.map((data) => (

@@ -7,7 +7,7 @@ import { ExpandIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MediaSection } from './helpers'
 import type { FetchReturn } from '@/lib/fetcher'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 
 export default function MediaCreditsSection({ result }: { result: FetchReturn<TMediaCredits> }) {
   return (
@@ -17,6 +17,11 @@ export default function MediaCreditsSection({ result }: { result: FetchReturn<TM
           <>
             <h3>Cast</h3>
             <ErrorFallback message={result.message} />
+          </>
+        ) : result.data.cast.length < 1 ? (
+          <>
+            <h3>Cast</h3>
+            <EmptyFallback className="min-h-41" />
           </>
         ) : (
           <CreditsContent credits={result.data} />

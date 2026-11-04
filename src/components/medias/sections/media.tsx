@@ -1,10 +1,10 @@
 import TMDBImage, { YoutubeImage } from '@/components/image'
-import { MediaDialog, MediaDialogContentRender, MediaDialogTrigger } from '../medias-dialog'
 import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import { type TMediaImages, type TMediaVideo, type TMediaVideos } from '@/schema & types/tmdb'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import type { FetchReturn } from '@/lib/fetcher'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { type TMediaImages, type TMediaVideo, type TMediaVideos } from '@/schema & types/tmdb'
+import { MediaDialog, MediaDialogContentRender, MediaDialogTrigger } from '../medias-dialog'
 
 type Props = { results: [FetchReturn<TMediaImages>, FetchReturn<TMediaVideos>] }
 
@@ -43,35 +43,38 @@ function MediaMediasContent({ images, videos }: { images: TMediaImages; videos: 
         <CarouselContent className="-ml-10">
           {medias.map(({ title, data, displayCount }, i) => (
             <CarouselItem key={i} className="basis-2/3 pl-10 md:basis-1/3">
-              <MediaDialogTrigger media={title} className="w-full cursor-pointer text-start transition-opacity hover:opacity-75">
-                <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
+              <h4 className="sm-muted mb-2 first-letter:uppercase">{title}</h4>
+              {data.length < 1 ? (
+                <EmptyFallback className="aspect-square" />
+              ) : (
+                <MediaDialogTrigger media={title} className="w-full cursor-pointer text-start transition-opacity hover:opacity-75">
+                  <ul className="flex aspect-square flex-wrap gap-1 overflow-hidden rounded-md border">
+                    {[...Array(Math.min(data.length, displayCount))].map((_, i) => (
+                      <li key={i} className="relative grow basis-[calc(50%-0.125rem)] *:size-full">
+                        {title === 'videos' ? (
+                          <YoutubeImage
+                            src={videos[i].key}
+                            sizes="(min-width: 1680px) 367px, (min-width: 1040px) calc(26.61vw - 76px), (min-width: 780px) calc(29.58vw - 39px), calc(57.39vw - 21px)"
+                          />
+                        ) : (
+                          <TMDBImage
+                            type={title == 'backdrops' ? 'backdrop' : 'poster'}
+                            src={images[title][i].file_path}
+                            alt={`media index ${i}`}
+                            sizes="(min-width: 1680px) 206px, (min-width: 1040px) calc(15vw - 43px), (min-width: 780px) calc(16.67vw - 22px), calc(32.17vw - 12px)"
+                          />
+                        )}
 
-                <ul className="flex aspect-square flex-wrap gap-1 overflow-hidden rounded-md border">
-                  {[...Array(Math.min(data.length, displayCount))].map((_, i) => (
-                    <li key={i} className="relative grow basis-[calc(50%-0.125rem)] *:size-full">
-                      {title === 'videos' ? (
-                        <YoutubeImage
-                          src={videos[i].key}
-                          sizes="(min-width: 1680px) 367px, (min-width: 1040px) calc(26.61vw - 76px), (min-width: 780px) calc(29.58vw - 39px), calc(57.39vw - 21px)"
-                        />
-                      ) : (
-                        <TMDBImage
-                          type={title == 'backdrops' ? 'backdrop' : 'poster'}
-                          src={images[title][i].file_path}
-                          alt={`media index ${i}`}
-                          sizes="(min-width: 1680px) 206px, (min-width: 1040px) calc(15vw - 43px), (min-width: 780px) calc(16.67vw - 22px), calc(32.17vw - 12px)"
-                        />
-                      )}
-
-                      {data.length > displayCount && i === displayCount - 1 && (
-                        <div className="bg-background/50 absolute inset-0 grid place-items-center text-sm font-medium">
-                          {data.length - displayCount} +
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </MediaDialogTrigger>
+                        {data.length > displayCount && i === displayCount - 1 && (
+                          <div className="bg-background/50 absolute inset-0 grid place-items-center text-sm font-medium">
+                            {data.length - displayCount} +
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </MediaDialogTrigger>
+              )}
             </CarouselItem>
           ))}
         </CarouselContent>

@@ -1,6 +1,6 @@
 import TMDBImage from '@/components/image'
 import { EpisodeDialogTrigger, EpisodesDialog, EpisodesDialogContent } from '@/components/medias/episodes-dialog'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { ErrorFallback, EmptyFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TTVSeasonDetails } from '@/schema & types/tmdb'
 
@@ -25,17 +25,21 @@ export default async function TvSeasonDetailsPage({ params }: { params: Promise<
           Episodes <span>{season.episodes.length}</span>
         </h3>
 
-        <EpisodesDialog episodes={season.episodes}>
-          <ul className="space-y-3">
-            {season.episodes.map((episode, i) => (
-              <li key={i}>
-                <EpisodeDialogTrigger episode={episode} />
-              </li>
-            ))}
-          </ul>
+        {season.episodes.length < 1 ? (
+          <EmptyFallback />
+        ) : (
+          <EpisodesDialog episodes={season.episodes}>
+            <ul className="space-y-3">
+              {season.episodes.map((episode, i) => (
+                <li key={i}>
+                  <EpisodeDialogTrigger episode={episode} />
+                </li>
+              ))}
+            </ul>
 
-          <EpisodesDialogContent />
-        </EpisodesDialog>
+            <EpisodesDialogContent />
+          </EpisodesDialog>
+        )}
       </section>
     </div>
   )

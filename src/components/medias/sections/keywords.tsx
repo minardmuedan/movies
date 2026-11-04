@@ -1,7 +1,7 @@
 import { ButtonLink } from '@/components/ui/button'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import type { FetchReturn } from '@/lib/fetcher'
-import { type TGenre, type TMovieKeywords, type TTvKeywords } from '@/schema & types/tmdb'
+import { type TMovieKeywords, type TTvKeywords } from '@/schema & types/tmdb'
 
 type Props = { type: 'movies' | 'tv-shows'; result: FetchReturn<TMovieKeywords | TTvKeywords> }
 export default function MediaKeywordsSection({ type, result }: Props) {
@@ -11,9 +11,11 @@ export default function MediaKeywordsSection({ type, result }: Props) {
 
       {!result.isSuccess ? (
         <ErrorFallback message={result.message} />
+      ) : !('keywords' in result.data) || !('results' in result.data) ? (
+        <EmptyFallback />
       ) : (
         <ul className="flex flex-wrap justify-center gap-2 lg:justify-start">
-          {('keywords' in result.data ? result.data.keywords : result.data.results).map(({ id, name }) => (
+          {(result.data.keywords || result.data.results).map(({ id, name }) => (
             <li key={id}>
               <ButtonLink href={`/${type}/?keywords=${id}-${name}`} size="sm" variant="accentMuted">
                 {name}

@@ -22,6 +22,8 @@ export default async function MoviesPage({ searchParams }: { searchParams: Promi
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
 
   const movies = result.data.results
+
+  if (movies.length < 1) return <EmptyFallback />
   return (
     <>
       <MediaBackdrop backdrops={movies.map(({ backdrop_path }) => backdrop_path)} />

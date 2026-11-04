@@ -1,6 +1,7 @@
 import MediaBackdrop from '@/components/medias/media-backdrop'
 import MediaCard from '@/components/medias/media-card'
 import MediaPagination from '@/components/medias/media-pagination'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
 
@@ -18,9 +19,11 @@ export default async function TvShowsPage({ searchParams }: { searchParams: Prom
     with_keywords: keywords,
   })
 
-  if (!result.isSuccess) return <p>error</p>
-
+  if (!result.isSuccess) return <ErrorFallback message={result.message} />
   const tvShows = result.data.results
+
+  if (tvShows.length < 1) return <EmptyFallback />
+
   return (
     <>
       <MediaBackdrop backdrops={tvShows.map(({ backdrop_path }) => backdrop_path)} />

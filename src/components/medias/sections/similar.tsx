@@ -1,5 +1,5 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import type { FetchReturn } from '@/lib/fetcher'
 import type { TMovies, TTvShows } from '@/schema & types/tmdb'
 import MediaCard from '../media-card'
@@ -12,6 +12,11 @@ export default function MediaSimilarSection({ result }: { result: FetchReturn<TM
         <>
           <h3>More Like This</h3>
           <ErrorFallback message={result.message} />
+        </>
+      ) : result.data.results.length < 1 ? (
+        <>
+          <h3>More Like This</h3>
+          <EmptyFallback />
         </>
       ) : (
         <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>

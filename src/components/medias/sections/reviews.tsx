@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import type { FetchReturn } from '@/lib/fetcher'
 import type { TMediaReviews } from '@/schema & types/tmdb'
 import { ExpandIcon } from 'lucide-react'
@@ -15,6 +15,11 @@ export default function MediaReviewsSection({ media, mediaId, result }: Props & 
         <>
           <h3>Review</h3>
           <ErrorFallback message={result.message} />
+        </>
+      ) : result.data.results.length < 1 ? (
+        <>
+          <h3>Review</h3>
+          <EmptyFallback />
         </>
       ) : (
         <MediaReviewsContent media={media} mediaId={mediaId} reviews={result.data} />

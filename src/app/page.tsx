@@ -1,3 +1,9 @@
+import { EmptyFallback } from '@/components/ui/empty-error'
+
 export default function Homepage() {
-  return <div>Homepage</div>
+  return (
+    <div>
+      <EmptyFallback />
+    </div>
+  )
 }

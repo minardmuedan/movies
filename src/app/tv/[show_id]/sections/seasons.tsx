@@ -2,7 +2,7 @@ import TMDBImage from '@/components/image'
 import { MediaRating } from '@/components/medias/media-rating'
 import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
-import { ErrorFallback } from '@/components/ui/empty-error'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails, TTvSeason } from '@/schema & types/tmdb'
 import Link from 'next/link'
@@ -15,6 +15,11 @@ export default async function TvSeasonsSection({ show_id }: { show_id: string })
         <>
           <h3>Seasons</h3>
           <ErrorFallback message={result.message} />
+        </>
+      ) : result.data.seasons.length < 1 ? (
+        <>
+          <h3>Seasons</h3>
+          <EmptyFallback />
         </>
       ) : (
         <SeasonsContent show_id={show_id} seasons={result.data.seasons} />
