@@ -1,14 +1,24 @@
 import TMDBImage from '@/components/image'
 import { MediaRating } from '@/components/medias/media-rating'
-import { MediaSection } from '@/components/medias/sections/helpers'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
+import { MediaSection } from '@/details-sections/helpers'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails, TTvSeason } from '@/schema & types/tmdb'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
-export default async function TvSeasonsSection({ show_id }: { show_id: string }) {
-  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`)
+export default function TvSeasonsSection({ id }: { id: string }) {
+  return (
+    <Suspense fallback={'seasons loading'}>
+      <Data id={id} />
+    </Suspense>
+  )
+}
+
+async function Data({ id }: { id: string }) {
+  const result = await TMDBFetch<TTvDetails>(`/tv/${id}`)
+
   return (
     <MediaSection section="Seasons">
       {!result.isSuccess ? (
@@ -22,7 +32,7 @@ export default async function TvSeasonsSection({ show_id }: { show_id: string })
           <EmptyFallback />
         </>
       ) : (
-        <SeasonsContent show_id={show_id} seasons={result.data.seasons} />
+        <SeasonsContent show_id={id} seasons={result.data.seasons} />
       )}
     </MediaSection>
   )

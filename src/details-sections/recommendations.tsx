@@ -1,10 +1,20 @@
-import type { FetchReturn } from '@/lib/fetcher'
-import type { TMovies, TTvShows } from '@/schema & types/tmdb'
-import MediaCard from '../media-card'
-import { MediaSection } from './helpers'
+import MediaCard from '@/components/medias/media-card'
 import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
+import { TMDBFetch } from '@/lib/fetcher'
+import type { TMovies, TTvShows } from '@/schema & types/tmdb'
+import { Suspense } from 'react'
+import { MediaSection, type SectionProps } from './helpers'
 
-export default function MediaRecommendationsSection({ result }: { result: FetchReturn<TMovies | TTvShows> }) {
+export default function MediaRecommendationsSection(props: SectionProps) {
+  return (
+    <Suspense fallback={'recommendations loading'}>
+      <Data {...props} />
+    </Suspense>
+  )
+}
+async function Data({ media, id }: SectionProps) {
+  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/recommendations`)
+
   return (
     <MediaSection section="Recommendations">
       <h3>Recommended For You</h3>

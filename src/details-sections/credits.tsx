@@ -2,45 +2,56 @@ import TMDBImage from '@/components/image'
 import { Button } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
+import { Skeleton } from '@/components/ui/skeleton'
+import { TMDBFetch } from '@/lib/fetcher'
 import type { TMediaCredits } from '@/schema & types/tmdb'
 import { ExpandIcon } from 'lucide-react'
 import Link from 'next/link'
-import { MediaSection } from './helpers'
-import type { FetchReturn } from '@/lib/fetcher'
-import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
+import { Suspense } from 'react'
+import { MediaSection, type SectionProps } from './helpers'
 
-export default function MediaCreditsSection({ result }: { result: FetchReturn<TMediaCredits> }) {
+export default function MediaCreditsSection(props: SectionProps) {
   return (
-    <MediaSection section="Credits">
+    <MediaSection section="Credits" className="relative">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
-        {!result.isSuccess ? (
-          <>
-            <h3>Cast</h3>
-            <ErrorFallback message={result.message} />
-          </>
-        ) : result.data.cast.length < 1 ? (
-          <>
-            <h3>Cast</h3>
-            <EmptyFallback className="min-h-41" />
-          </>
-        ) : (
-          <CreditsContent credits={result.data} />
-        )}
+        <Suspense fallback={<LoadingFallback />}>
+          <Data {...props} />
+        </Suspense>
       </Carousel>
     </MediaSection>
   )
 }
 
-function CreditsContent({ credits }: { credits: TMediaCredits }) {
+function Header({ count }: { count?: number }) {
+  return (
+    <div className="mb-6 flex items-center justify-between">
+      <h3 className="mb-0">Cast {count && <span>{count}</span>} </h3>
+      <CarouselPrevAndNext />
+    </div>
+  )
+}
+
+async function Data({ media, id }: SectionProps) {
+  const result = await TMDBFetch<TMediaCredits>(`/${media}/${id}/credits`)
   return (
     <>
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="mb-0">
-          Cast <span>{credits.cast.length}</span>
-        </h3>
-        <CarouselPrevAndNext />
-      </div>
+      <Header count={result.isSuccess ? result.data.cast.length : undefined} />
 
+      {!result.isSuccess ? (
+        <ErrorFallback message={result.message} />
+      ) : result.data.cast.length < 1 ? (
+        <EmptyFallback className="min-h-41" />
+      ) : (
+        <Content credits={result.data} />
+      )}
+    </>
+  )
+}
+
+function Content({ credits }: { credits: TMediaCredits }) {
+  return (
+    <>
       <CarouselContent className="-ml-5 lg:-ml-8">
         {credits.cast.map((credit, i) => (
           <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
@@ -111,5 +122,22 @@ function CreditsDialog({ credits }: { credits: TMediaCredits }) {
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <>
+      <Header />
+      <ul className="flex gap-5 overflow-hidden lg:gap-8">
+        {[...Array(6)].map((_, i) => (
+          <li key={i} className="shrink-0 basis-25 md:basis-26">
+            <Skeleton className="mb-2 aspect-square w-full rounded-full" />
+            <Skeleton className="mb-1 h-4 w-full" />
+            <Skeleton className="mx-auto h-3 w-3/4" />
+          </li>
+        ))}
+      </ul>
+    </>
   )
 }

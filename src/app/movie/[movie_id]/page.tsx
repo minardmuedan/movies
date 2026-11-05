@@ -1,25 +1,26 @@
-import { MediaSection } from '@/components/medias/sections/helpers'
-import MovieCreditSection from './sections/credits'
-import MovieHeroSection from './sections/hero'
-import MovieKeywordsSection from './sections/keywords'
-import MovieMediaSection from './sections/media'
-import MovieRecommendationsSection from './sections/recommendations'
-import MovieReviewsSection from './sections/reviews'
-import MovieSimilarSection from './sections/similar'
+import MediaCreditsSection from '@/details-sections/credits'
+import { MediaSection } from '@/details-sections/helpers'
+import MediaHeroSection from '@/details-sections/hero'
+import MediaKeywordsSection from '@/details-sections/keywords'
+import MediaMediasSection from '@/details-sections/media'
+import MediaRecommendationsSection from '@/details-sections/recommendations'
+import MediaReviewsSection from '@/details-sections/reviews'
+import MediaSimilarSection from '@/details-sections/similar'
 
 export default async function MovieDetailsPage({ params }: { params: Promise<{ movie_id: string }> }) {
   const { movie_id } = await params
   return (
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
-      <MovieHeroSection movie_id={movie_id} />
-      <MovieCreditSection movie_id={movie_id} />
+      <MediaHeroSection media="movie" id={movie_id} />
+      <MediaCreditsSection media="movie" id={movie_id} />
       <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
-        <MovieReviewsSection movie_id={movie_id} />
-        <MovieKeywordsSection movie_id={movie_id} />
+        <MediaReviewsSection media="movie" id={movie_id} />
+        <MediaKeywordsSection media="movie" id={movie_id} />
       </MediaSection>
-      <MovieMediaSection movie_id={movie_id} />
-      <MovieSimilarSection movie_id={movie_id} />
-      <MovieRecommendationsSection movie_id={movie_id} />
+
+      <MediaMediasSection media="movie" id={movie_id} />
+      {/* <MediaSimilarSection media="movie" id={movie_id} />
+      <MediaRecommendationsSection media="movie" id={movie_id} /> */}
     </main>
   )
 }

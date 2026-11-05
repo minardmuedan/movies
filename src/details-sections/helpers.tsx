@@ -1,7 +1,8 @@
 'use client'
 
+import { Carousel, CarouselPrevAndNext } from '@/components/ui/carousel'
 import Link from 'next/link'
-import { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { InView } from 'react-intersection-observer'
 
 type TSectionContext = { sections: string[]; activeSection: string; setActiveSection: (section: string) => void }
@@ -81,4 +82,6 @@ const Navlink = ({ section, render }: { section: string; render?: string }) => {
   )
 }
 
-export { MediaSection, MediaSectionProvider, MediaSectionSideNav }
+type SectionProps = { media: 'movie' | 'tv'; id: string }
+
+export { MediaSection, MediaSectionProvider, MediaSectionSideNav, type SectionProps }

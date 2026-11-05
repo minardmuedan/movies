@@ -4,10 +4,12 @@ import type { TMovies, TTvShows } from '@/schema & types/tmdb'
 import { notFound, unstable_rethrow } from 'next/navigation'
 import { sleep } from './sleep'
 
-export type FetchReturn<T> = { isSuccess: true; data: T } | { isSuccess: false; status: number; message: string }
+type FetchReturn<T> = { isSuccess: true; data: T } | { isSuccess: false; status: number; message: string }
+
+const delays = [5000]
 
 export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
-  await sleep()
+  await sleep(delays[Math.floor(Math.random() * delays.length)])
 
   try {
     const res = await fetch(`https://api.themoviedb.org/3${route}`, {

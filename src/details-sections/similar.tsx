@@ -1,11 +1,21 @@
+import MediaCard from '@/components/medias/media-card'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
-import type { FetchReturn } from '@/lib/fetcher'
+import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies, TTvShows } from '@/schema & types/tmdb'
-import MediaCard from '../media-card'
-import { MediaSection } from './helpers'
+import { Suspense } from 'react'
+import { MediaSection, type SectionProps } from './helpers'
 
-export default function MediaSimilarSection({ result }: { result: FetchReturn<TMovies | TTvShows> }) {
+export default function MediaSimilarSection(props: SectionProps) {
+  return (
+    <Suspense fallback={'similar loading'}>
+      <Data {...props} />
+    </Suspense>
+  )
+}
+async function Data({ media, id }: SectionProps) {
+  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/similar`)
+
   return (
     <MediaSection section="Similar">
       {!result.isSuccess ? (

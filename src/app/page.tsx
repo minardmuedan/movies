@@ -1,4 +1,3 @@
-import { EmptyFallback } from '@/components/ui/empty-error'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Homepage() {

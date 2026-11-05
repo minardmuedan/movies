@@ -1,5 +1,5 @@
 import BackButton from '@/components/back'
-import { MediaSectionProvider, MediaSectionSideNav } from '@/components/medias/sections/helpers'
+import { MediaSectionProvider, MediaSectionSideNav } from '@/details-sections/helpers'
 
 export default function MovieDetailsLayout({ children }: { children: React.ReactNode }) {
   return (
