@@ -32,36 +32,30 @@ async function Data({ media, id }: SectionProps) {
       ) : result.data.results.length < 1 ? (
         <EmptyFallback />
       ) : (
-        <Content media={media} id={id} reviews={result.data} />
+        <Dialog>
+          <ul className="pointer-events-none space-y-2">
+            {result.data.results.slice(0, 5).map((review, i) => (
+              <Review key={i} review={review} />
+            ))}
+          </ul>
+
+          <div className="from-background to-background/0 absolute bottom-0 flex h-1/3 w-full items-end justify-center bg-linear-to-t from-30%">
+            <DialogTrigger render={<Button variant="link" />}>
+              <ExpandIcon /> Expand
+            </DialogTrigger>
+          </div>
+
+          <DialogContent className="sm:max-w-xl">
+            <DialogHeader>
+              <DialogTitle className="first-letter:uppercase">{media} Reviews</DialogTitle>
+              <DialogDescription>See what others are saying</DialogDescription>
+            </DialogHeader>
+
+            <MediaReviews media={media} mediaId={id} initialData={result.data} />
+          </DialogContent>
+        </Dialog>
       )}
     </>
-  )
-}
-
-function Content({ media, id, reviews }: SectionProps & { reviews: TMediaReviews }) {
-  return (
-    <Dialog>
-      <ul className="pointer-events-none space-y-2">
-        {reviews.results.slice(0, 5).map((review, i) => (
-          <Review key={i} review={review} />
-        ))}
-      </ul>
-
-      <div className="from-background to-background/0 absolute bottom-0 flex h-1/3 w-full items-end justify-center bg-linear-to-t from-30%">
-        <DialogTrigger render={<Button variant="link" />}>
-          <ExpandIcon /> Expand
-        </DialogTrigger>
-      </div>
-
-      <DialogContent className="sm:max-w-xl">
-        <DialogHeader>
-          <DialogTitle className="first-letter:uppercase">{media} Reviews</DialogTitle>
-          <DialogDescription>See what others are saying</DialogDescription>
-        </DialogHeader>
-
-        <MediaReviews media={media} mediaId={id} initialData={reviews} />
-      </DialogContent>
-    </Dialog>
   )
 }
 

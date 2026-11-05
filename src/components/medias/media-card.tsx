@@ -3,6 +3,7 @@ import Link from 'next/link'
 import TMDBImage from '../image'
 import { MediaRating } from './media-rating'
 import { Skeleton } from '../ui/skeleton'
+import { cn } from 'cn'
 
 export default function MediaCard({ data, imageSizes }: { data: TMovie | TTv; imageSizes?: string }) {
   const type = 'name' in data ? 'tv' : 'movie'
@@ -39,9 +40,9 @@ export function MediaCardSkeleton() {
   )
 }
 
-export function MediaCardsLoadingFallback() {
+export function MediaCardsLoadingFallback({ className }: { className?: string }) {
   return (
-    <ul className="media-card-container">
+    <ul className={cn('media-card-container', className)}>
       {[...Array(20)].map((_, i) => (
         <li key={i}>
           <MediaCardSkeleton />

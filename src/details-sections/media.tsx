@@ -6,26 +6,22 @@ import { TMDBFetch } from '@/lib/fetcher'
 import { type TMediaImages, type TMediaVideo, type TMediaVideos } from '@/schema & types/tmdb'
 import { Suspense } from 'react'
 import { MediaSection, type SectionProps } from './helpers'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function MediaMediasSection(props: SectionProps) {
   return (
     <MediaSection section="Media">
       <Carousel opts={{ dragFree: true }}>
-        <Header />
-        <Suspense fallback={'media loading'}>
+        <div className="mb-6 flex items-center justify-between">
+          <h3 className="mb-0">Media</h3>
+          <CarouselPrevAndNext />
+        </div>
+
+        <Suspense fallback={<LoadingFallback />}>
           <Data {...props} />
         </Suspense>
       </Carousel>
     </MediaSection>
-  )
-}
-
-function Header() {
-  return (
-    <div className="mb-6 flex items-center justify-between">
-      <h3 className="mb-0">Media</h3>
-      <CarouselPrevAndNext />
-    </div>
   )
 }
 
@@ -87,5 +83,22 @@ function Content({ images, videos }: { images: TMediaImages; videos: TMediaVideo
 
       <MediaDialogContentRender medias={{ posters: images.posters, backdrops: images.backdrops, videos }} />
     </MediaDialog>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex w-full gap-10 overflow-hidden">
+      {Object.entries({ Posters: 4, Backdrops: 3, Videos: 3 }).map(([key, value]) => (
+        <div key={key} className="flex-1 shrink-0 basis-2/3 md:basis-[calc(100%*1/3-3.5rem)]">
+          <h4 className="sm-muted mb-2">{key}</h4>
+          <div className="flex aspect-square flex-wrap gap-1">
+            {[...Array(value)].map((_, i) => (
+              <Skeleton key={i} className="grow basis-[calc(50%-0.125rem)]" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }

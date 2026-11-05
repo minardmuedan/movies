@@ -17,10 +17,9 @@ export default async function MovieDetailsPage({ params }: { params: Promise<{ m
         <MediaReviewsSection media="movie" id={movie_id} />
         <MediaKeywordsSection media="movie" id={movie_id} />
       </MediaSection>
-
       <MediaMediasSection media="movie" id={movie_id} />
-      {/* <MediaSimilarSection media="movie" id={movie_id} />
-      <MediaRecommendationsSection media="movie" id={movie_id} /> */}
+      <MediaSimilarSection media="movie" id={movie_id} />
+      <MediaRecommendationsSection media="movie" id={movie_id} />
     </main>
   )
 }

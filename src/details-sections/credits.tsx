@@ -43,36 +43,30 @@ async function Data({ media, id }: SectionProps) {
       ) : result.data.cast.length < 1 ? (
         <EmptyFallback className="min-h-41" />
       ) : (
-        <Content credits={result.data} />
+        <>
+          <CarouselContent className="-ml-5 lg:-ml-8">
+            {result.data.cast.map((credit, i) => (
+              <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
+                <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
+                  <TMDBImage
+                    type="profile"
+                    src={credit.profile_path}
+                    alt={credit.name}
+                    sizes="(min-width: 1040px) 104px, (min-width: 780px) 116px, 100px"
+                    className="mb-2 aspect-square w-full rounded-full"
+                  />
+                  <div>{credit.name}</div>
+                  <p className="xs-muted line-clamp-2">{credit.character}</p>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+
+          <div className="mt-2 flex justify-center">
+            <CreditsDialog credits={result.data} />
+          </div>
+        </>
       )}
-    </>
-  )
-}
-
-function Content({ credits }: { credits: TMediaCredits }) {
-  return (
-    <>
-      <CarouselContent className="-ml-5 lg:-ml-8">
-        {credits.cast.map((credit, i) => (
-          <CarouselItem key={i} className="basis-30 pl-5 md:basis-34 lg:pl-8">
-            <Link href={`/person/${credit.id}`} className="text-center text-sm transition-opacity hover:opacity-75">
-              <TMDBImage
-                type="profile"
-                src={credit.profile_path}
-                alt={credit.name}
-                sizes="(min-width: 1040px) 104px, (min-width: 780px) 116px, 100px"
-                className="mb-2 aspect-square w-full rounded-full"
-              />
-              <div>{credit.name}</div>
-              <p className="xs-muted line-clamp-2">{credit.character}</p>
-            </Link>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-
-      <div className="mt-2 flex justify-center">
-        <CreditsDialog credits={credits} />
-      </div>
     </>
   )
 }
