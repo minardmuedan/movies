@@ -6,7 +6,7 @@ import { looseEqual } from '@/lib/utils'
 import { sortbySchema } from '@/schema & types/params'
 import { Undo2Icon, Wand2Icon, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { createContext, useContext, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '../ui/button'
 import FilterGenre from './genre'
 import FilterKeywords from './keywords'
@@ -14,16 +14,8 @@ import FilterLanguage from './language'
 import FilterRatings from './ratings'
 import FilterSortBy from './sort-by'
 
+const COOKIE_KEY = 'filterbar'
 type TFilterData = { sortby: TTMDB_SORT_BY[number]; genres: string[]; ratings: string; language: string; keywords: string[] }
-
-type Ctx = { sidebarOpen: boolean; toggleSidebarOpen: () => void }
-const context = createContext<Ctx | null>(null)
-
-const useFilterBarContext = () => {
-  const filterBarContext = useContext(context)
-  if (!filterBarContext) throw 'Filter bar must be used inside its parent'
-  return filterBarContext
-}
 
 const useFilterSearchParams = (): TFilterData => {
   const searchParams = useSearchParams()
@@ -36,29 +28,16 @@ const useFilterSearchParams = (): TFilterData => {
   }
 }
 
-const FilterBar = ({ defaultOpen, children }: { defaultOpen: boolean; children: React.ReactNode }) => {
-  const { genres, ratings, language, keywords } = useFilterSearchParams()
-  const shouldOpen = defaultOpen || genres.length > 0 || ratings !== '0-10' || language !== 'en' || keywords.length > 0
-  const [sidebarOpen, setCollapsed] = useState(shouldOpen)
-
-  const toggleSidebarOpen = () =>
-    setCollapsed((prev) => {
-      const next = !prev
-      document.cookie = `filter-sidebar=${next ? 'open' : 'closed'}; path=/; max-age=31536000; SameSite=Lax`
-      return next
-    })
-
-  return (
-    <context.Provider value={{ sidebarOpen, toggleSidebarOpen }}>
-      <div aria-expanded={sidebarOpen} className="group flex">
-        {children}
-      </div>
-    </context.Provider>
-  )
-}
+const checkHasFilter = (f: TFilterData) =>
+  f.sortby !== 'popularity.desc' || f.genres.length > 0 || f.ratings !== '0-10' || f.language !== 'en' || f.keywords.length > 0
 
 const FilterBarTrigger = ({ variant = 'accentMuted', children, className, ...props }: React.ComponentProps<typeof Button>) => {
-  const { toggleSidebarOpen } = useFilterBarContext()
+  const toggleSidebarOpen = () => {
+    const el = document.documentElement
+    const next = el.dataset.filterbar === 'open' ? 'closed' : 'open'
+    el.dataset.filterbar = next
+    document.cookie = `${COOKIE_KEY}=${next}; path=/; max-age=31536000`
+  }
 
   return (
     <Button variant={variant} onClick={toggleSidebarOpen} {...props} className={`relative ${className}`}>
@@ -75,12 +54,7 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
   const [filter, setFilter] = useState<TFilterData>(searchParamsFilter)
   const [prevFilter, setPrevFilter] = useState<TFilterData | undefined>(undefined)
 
-  const hasFilter =
-    filter.sortby !== 'popularity.desc' ||
-    filter.genres.length > 0 ||
-    filter.ratings !== '0-10' ||
-    filter.language !== 'en' ||
-    filter.keywords.length > 0
+  const hasFilter = checkHasFilter(filter)
 
   function handleFilter() {
     const params = new URLSearchParams()
@@ -142,14 +116,8 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
 }
 
 const FilterSidebarContent = () => {
-  const { sidebarOpen } = useFilterBarContext()
-
   return (
-    <div
-      inert={!sidebarOpen}
-      style={{ width: sidebarOpen ? 300 + 24 : 0 }}
-      className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out"
-    >
+    <div className={`sticky top-14 w-81 overflow-hidden transition-[width] duration-300 ease-out [html[data-filterbar=closed]_&]:w-0!`}>
       <div className="bg-background/50 mr-6 flex h-[calc(100svh-4rem)] min-w-75 flex-col rounded-xl border backdrop-blur-sm">
         <div className="relative flex justify-between border-b p-6 pb-3">
           <div>
@@ -215,4 +183,4 @@ const FilterCount = () => {
     )
 }
 
-export { FilterBar, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent, useFilterBarContext, type TFilterData }
+export { FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent, type TFilterData }

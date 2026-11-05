@@ -1,21 +1,9 @@
-import { FilterBar, FilterBarDialog, FilterBarTrigger, FilterSidebarContent } from '@/components/filter/filter-bar'
+import { FilterBarDialog, FilterBarTrigger, FilterSidebarContent } from '@/components/filter/filter-bar'
 import { SidebarIcon, Wand2Icon, XIcon } from 'lucide-react'
-import { cookies } from 'next/headers'
-import { Suspense } from 'react'
 
 export default function MoviesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<p>movies layout loading suspense</p>}>
-      <Content>{children}</Content>
-    </Suspense>
-  )
-}
-
-async function Content({ children }: { children: React.ReactNode }) {
-  const sidebarOpen = (await cookies()).get('filter-sidebar')?.value === 'open'
-
-  return (
-    <FilterBar defaultOpen={sidebarOpen}>
+    <div className="flex [&_.media-card-container]:[html[data-filterbar=open]_&]:lg:grid-cols-3 [&_.media-card-container]:[html[data-filterbar=open]_&]:xl:grid-cols-4 [&_.media-card-container]:[html[data-filterbar=open]_&]:2xl:grid-cols-5">
       <aside className="max-lg:hidden">
         <FilterSidebarContent />
       </aside>
@@ -39,6 +27,6 @@ async function Content({ children }: { children: React.ReactNode }) {
 
         {children}
       </section>
-    </FilterBar>
+    </div>
   )
 }

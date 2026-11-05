@@ -41,7 +41,7 @@ async function PageContent({ searchParams }: { searchParams: Awaited<SearchParam
     <>
       <MediaBackdrop backdrops={tvShows.map(({ backdrop_path }) => backdrop_path)} />
 
-      <ul className="media-card-container">
+      <ul className="media-card-container [html[data-filterbar=open]_&]:lg:grid-cols-3 [html[data-filterbar=open]_&]:xl:grid-cols-4 [html[data-filterbar=open]_&]:2xl:grid-cols-5">
         {tvShows.map((movie) => (
           <li key={movie.id}>
             <MediaCard data={movie} />
