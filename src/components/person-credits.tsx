@@ -24,6 +24,7 @@ export default function PersonCreditsClient({ media }: Props) {
       <div className="flex-1">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="mb-0">Credits</h2>
+
           <Dialog key={activeDepartment}>
             <DialogTrigger render={<Button variant="outline" />} className="md:hidden">
               {activeDepartment} <ChevronDown />
