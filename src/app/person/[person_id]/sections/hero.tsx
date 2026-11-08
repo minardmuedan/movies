@@ -17,7 +17,7 @@ export default function PersonHeroSection({ person_id }: { person_id: string }) 
 }
 
 async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TPersonDetails>(`/person/${person_id}`)
+  const result = await TMDBFetch<TPersonDetails>(`/person/${person_id}`, 'details')
   if (!result.isSuccess)
     return (
       <>

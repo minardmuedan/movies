@@ -19,7 +19,7 @@ export default function MediaKeywordsSection(props: SectionProps) {
 }
 
 async function Data({ media, id }: SectionProps) {
-  const result = await TMDBFetch<TMovieKeywords | TTvKeywords>(`/${media}/${id}/keywords`)
+  const result = await TMDBFetch<TMovieKeywords | TTvKeywords>(`/${media}/${id}/keywords`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
   if (!('keywords' in result.data) && !('results' in result.data)) return <EmptyFallback />

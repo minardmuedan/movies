@@ -2,32 +2,46 @@ import 'server-only'
 import { searchSchema, type TSearchSchema } from '@/schema & types/params'
 import type { TMovies, TTvShows } from '@/schema & types/tmdb'
 import { notFound, unstable_rethrow } from 'next/navigation'
+import { cacheLife } from 'next/cache'
+
+const BASE_URL = 'https://api.themoviedb.org/3'
+
+const CACHE_PROFILES = {
+  lists: { stale: 300, revalidate: 3600, expire: 86400 },
+  details: { stale: 3600, revalidate: 86400, expire: 604800 },
+  weeks: { stale: 86400, revalidate: 604800, expire: 2592000 },
+} as const
+
+type CacheProfile = keyof typeof CACHE_PROFILES
 
 type FetchReturn<T> = { isSuccess: true; data: T } | { isSuccess: false; status: number; message: string }
 
-const BASE_URL = 'http://localhost:3001' // 'https://api.themoviedb.org/3'
+async function cachedFetch<T>(route: string, profile: CacheProfile): Promise<T> {
+  'use cache'
+  cacheLife(CACHE_PROFILES[profile])
 
-export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
+  const res = await fetch(`${BASE_URL}${route}`, {
+    headers: { Authorization: `Bearer ${process.env.TMDB_KEY}` },
+  })
+
+  if (!res.ok) throw new Error(String(res.status))
+  return res.json()
+}
+
+export async function TMDBFetch<T>(route: string, profile: CacheProfile): Promise<FetchReturn<T>> {
   try {
-    const res = await fetch(`${BASE_URL}${route}`, {
-      headers: { Authorization: `Bearer ${process.env.TMDB_KEY}` },
-    })
-
-    if (!res.ok) {
-      console.log({ res })
-      if (res.status === 404) notFound()
-
-      throw '' // todo: put proper error handling
-    }
-
-    const data = await res.json()
+    const data = await cachedFetch<T>(route, profile)
     return { isSuccess: true, data }
   } catch (err) {
-    console.log('ERROR!:', err)
-
     unstable_rethrow(err)
-    if (err instanceof Error) return { isSuccess: false, status: 500, message: err.message }
-    return { isSuccess: false, status: 500, message: 'Something went wrong getting the data!' }
+    if (err instanceof Error && err.message === '404') notFound()
+
+    console.log('ERROR!:', err)
+    return {
+      isSuccess: false,
+      status: 500,
+      message: err instanceof Error ? err.message : 'Something went wrong getting the data!',
+    }
   }
 }
 
@@ -40,5 +54,5 @@ export async function TMDBDiscoverFetch(type: 'movie' | 'tv', params: Partial<Re
   })
 
   const route = `/discover/${type}?${searchParams}`
-  return await TMDBFetch<TMovies | TTvShows>(route)
+  return await TMDBFetch<TMovies | TTvShows>(route, 'lists')
 }

@@ -24,7 +24,7 @@ export default function MediaSimilarSection(props: SectionProps) {
 }
 
 async function Data({ media, id }: SectionProps) {
-  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/similar`)
+  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/similar`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
   if (result.data.results.length < 1) return <EmptyFallback />

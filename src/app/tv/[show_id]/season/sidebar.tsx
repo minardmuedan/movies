@@ -13,7 +13,7 @@ export default function TvSeasonsSidebar({ show_id }: { show_id: string }) {
 }
 
 async function Data({ show_id }: { show_id: string }) {
-  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`)
+  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
 
   if (!result.isSuccess) return
   return <SeasonSidebar show_id={show_id} seasons={result.data.seasons} showName={result.data.name} />

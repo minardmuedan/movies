@@ -31,7 +31,7 @@ function Header({ count }: { count?: number }) {
 }
 
 async function Data({ id }: { id: string }) {
-  const result = await TMDBFetch<TTvDetails>(`/tv/${id}`)
+  const result = await TMDBFetch<TTvDetails>(`/tv/${id}`, 'details')
 
   return (
     <MediaSection section="Seasons">

@@ -20,7 +20,7 @@ export default function MediaHeroSection(props: SectionProps) {
 }
 
 async function Data({ media, id }: SectionProps) {
-  const result = await TMDBFetch<TMovieDetails>(`/${media}/${id}`)
+  const result = await TMDBFetch<TMovieDetails>(`/${media}/${id}`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
   return <Content media={result.data} />

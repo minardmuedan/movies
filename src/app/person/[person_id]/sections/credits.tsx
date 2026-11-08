@@ -14,7 +14,7 @@ export default function PersonCreditsSection({ person_id }: { person_id: string 
 }
 
 async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${person_id}/combined_credits`)
+  const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${person_id}/combined_credits`, 'details')
 
   if (!result.isSuccess)
     return (

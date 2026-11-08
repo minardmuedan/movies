@@ -23,7 +23,7 @@ function Header({ count }: { count?: number }) {
 }
 
 async function Data({ media, id }: SectionProps) {
-  const result = await TMDBFetch<TMediaReviews>(`/${media}/${id}/reviews`)
+  const result = await TMDBFetch<TMediaReviews>(`/${media}/${id}/reviews`, 'details')
   return (
     <>
       <Header count={result.isSuccess ? result.data.total_results : undefined} />

@@ -26,7 +26,10 @@ export default function MediaMediasSection(props: SectionProps) {
 }
 
 async function Data({ media, id }: SectionProps) {
-  const promises = [TMDBFetch<TMediaImages>(`/${media}/${id}/images`), TMDBFetch<TMediaVideos>(`/${media}/${id}/videos`)] as const
+  const promises = [
+    TMDBFetch<TMediaImages>(`/${media}/${id}/images`, 'details'),
+    TMDBFetch<TMediaVideos>(`/${media}/${id}/videos`, 'details'),
+  ] as const
   const [imagesResult, videosResult] = await Promise.all(promises)
 
   if (!imagesResult.isSuccess || !videosResult.isSuccess) return <ErrorFallback message={'message' in imagesResult ? imagesResult.message : ''} />

@@ -7,7 +7,7 @@ import { TTVSeasonDetails } from '@/schema & types/tmdb'
 export default async function TvSeasonDetailsPage({ params }: { params: Promise<{ show_id: string; season_number: string }> }) {
   const { show_id, season_number } = await params
 
-  const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${show_id}/season/${season_number}`)
+  const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${show_id}/season/${season_number}`, 'details')
   if (!result.isSuccess) return <ErrorFallback message={result.message} className="h-[calc(100dvh-7rem)] w-full" />
 
   const season = result.data

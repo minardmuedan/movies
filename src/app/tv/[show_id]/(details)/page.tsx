@@ -1,6 +1,5 @@
-import BackButton from '@/components/back'
 import MediaCreditsSection from '@/details-sections/credits'
-import { MediaSection, MediaSectionProvider, MediaSectionSideNav } from '@/details-sections/helpers'
+import { MediaSection } from '@/details-sections/helpers'
 import MediaHeroSection from '@/details-sections/hero'
 import MediaKeywordsSection from '@/details-sections/keywords'
 import MediaMediasSection from '@/details-sections/media'

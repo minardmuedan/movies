@@ -16,13 +16,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ rout
     if (!query) notFound()
 
     if (routes.length === 1) {
-      const result = await TMDBFetch<TMovies | TTvShows>(`/search/${validatedMediaType}?query=${query}&page=${page}`)
+      const result = await TMDBFetch<TMovies | TTvShows>(`/search/${validatedMediaType}?query=${query}&page=${page}`, 'lists')
       if (!result.isSuccess) throw ''
       return Response.json(result.data)
     }
 
     if (routes[1] === 'keyword') {
-      const result = await TMDBFetch<TMovies | TTvShows>(`/search/keyword?query=${query}`)
+      const result = await TMDBFetch<TMovies | TTvShows>(`/search/keyword?query=${query}`, 'lists')
       if (!result.isSuccess) throw ''
       return Response.json(result.data)
     }
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ rout
 
   if (routes[0] === 'reviews' && routes[1]) {
     const media_id = routes[1]
-    const result = await TMDBFetch(`/${validatedMediaType}/${media_id}/reviews?page=${page}`)
+    const result = await TMDBFetch(`/${validatedMediaType}/${media_id}/reviews?page=${page}`, 'details')
     if (!result.isSuccess) return Response.json(null, { status: 500 })
     return Response.json(result.data)
   }

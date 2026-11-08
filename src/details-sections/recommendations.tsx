@@ -17,7 +17,7 @@ export default function MediaRecommendationsSection(props: SectionProps) {
   )
 }
 async function Data({ media, id }: SectionProps) {
-  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/recommendations`)
+  const result = await TMDBFetch<TMovies | TTvShows>(`/${media}/${id}/recommendations`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} className="h-120" />
   if (result.data.results.length < 1) return <EmptyFallback className="h-60" />

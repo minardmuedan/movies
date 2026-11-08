@@ -27,7 +27,7 @@ export default function PersonKnownForSection({ person_id }: { person_id: string
 }
 
 async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${person_id}`)
+  const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${person_id}`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
   return (
