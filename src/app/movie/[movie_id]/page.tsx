@@ -6,8 +6,19 @@ import MediaMediasSection from '@/details-sections/media'
 import MediaRecommendationsSection from '@/details-sections/recommendations'
 import MediaReviewsSection from '@/details-sections/reviews'
 import MediaSimilarSection from '@/details-sections/similar'
+import { Suspense } from 'react'
 
-export default async function MovieDetailsPage({ params }: { params: Promise<{ movie_id: string }> }) {
+type Params = { params: Promise<{ movie_id: string }> }
+
+export default function MovieDetailsPage({ params }: Params) {
+  return (
+    <Suspense fallback={null}>
+      <Data params={params} />
+    </Suspense>
+  )
+}
+
+async function Data({ params }: Params) {
   const { movie_id } = await params
   return (
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">

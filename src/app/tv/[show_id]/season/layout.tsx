@@ -1,8 +1,19 @@
 import { ButtonLink } from '@/components/ui/button'
 import { Undo2Icon } from 'lucide-react'
 import TvSeasonsSidebar from './sidebar'
+import { Suspense } from 'react'
 
-export default async function TvSeasonDetailsLayout({ params, children }: { params: Promise<{ show_id: string }>; children: React.ReactNode }) {
+type Props = { params: Promise<{ show_id: string }>; children: React.ReactNode }
+
+export default function TvSeasonDetailsLayout(props: Props) {
+  return (
+    <Suspense fallback={null}>
+      <Data {...props} />
+    </Suspense>
+  )
+}
+
+async function Data({ params, children }: Props) {
   const { show_id } = await params
 
   return (

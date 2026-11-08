@@ -19,15 +19,15 @@ export default function SeasonDetailsLoading() {
         <ul className="space-y-3">
           {[...Array(5)].map((_, i) => (
             <li key={i} className="flex h-24 w-full rounded-sm border py-2 md:h-28">
-              <div className="my-auto w-10 text-center">{i + 1}</div>
+              <div className="my-auto w-10 text-center text-sm">{i + 1}</div>
 
               <Skeleton className="aspect-video h-full rounded" />
 
-              <div className="*: space-y-1- ml-2 flex-1">
-                <Skeleton className="mb-1 h-3 w-24" />
+              <div className="ml-2 flex-1 space-y-1 pr-2">
+                <Skeleton className="mb-2 h-4 w-24" />
 
                 {['w-full', 'w-3/4'].map((cn, i) => (
-                  <Skeleton key={i} className={`mb-1 h-3 max-w-175 ${cn}`} />
+                  <Skeleton key={i} className={`h-3 max-w-175 ${cn}`} />
                 ))}
               </div>
             </li>

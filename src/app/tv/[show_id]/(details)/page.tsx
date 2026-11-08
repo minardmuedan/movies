@@ -8,8 +8,19 @@ import MediaRecommendationsSection from '@/details-sections/recommendations'
 import MediaReviewsSection from '@/details-sections/reviews'
 import TvSeasonsSection from '@/details-sections/seasons'
 import MediaSimilarSection from '@/details-sections/similar'
+import { Suspense } from 'react'
 
-export default async function TvDetailsPage({ params }: { params: Promise<{ show_id: string }> }) {
+type Params = { params: Promise<{ show_id: string }> }
+
+export default async function TvDetailsPage({ params }: Params) {
+  return (
+    <Suspense fallback={null}>
+      <Data params={params} />
+    </Suspense>
+  )
+}
+
+async function Data({ params }: Params) {
   const { show_id } = await params
 
   return (

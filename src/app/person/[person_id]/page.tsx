@@ -1,8 +1,19 @@
+import { Suspense } from 'react'
 import PersonCreditsSection from './sections/credits'
 import PersonHeroDetailsSection from './sections/hero'
 import PersonKnownForSection from './sections/known-for'
 
-export default async function PersonPage({ params }: { params: Promise<{ person_id: string }> }) {
+type Params = { params: Promise<{ person_id: string }> }
+
+export default function PersonPage({ params }: { params: Promise<{ person_id: string }> }) {
+  return (
+    <Suspense fallback={null}>
+      <Data params={params} />
+    </Suspense>
+  )
+}
+
+async function Data({ params }: Params) {
   const { person_id } = await params
 
   return (

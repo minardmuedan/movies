@@ -5,9 +5,11 @@ import { notFound, unstable_rethrow } from 'next/navigation'
 
 type FetchReturn<T> = { isSuccess: true; data: T } | { isSuccess: false; status: number; message: string }
 
+const BASE_URL = 'http://localhost:3001' // 'https://api.themoviedb.org/3'
+
 export async function TMDBFetch<T>(route: string): Promise<FetchReturn<T>> {
   try {
-    const res = await fetch(`https://api.themoviedb.org/3${route}`, {
+    const res = await fetch(`${BASE_URL}${route}`, {
       headers: { Authorization: `Bearer ${process.env.TMDB_KEY}` },
     })
 
