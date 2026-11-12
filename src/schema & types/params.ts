@@ -28,13 +28,14 @@ export const keywordSchema = z
 export const sortbySchema = z.enum([...TMDB_MOVIE_SORT_BY, ...TMDB_TV_SORT_BY]).catch('popularity.desc')
 
 export const searchSchema = z.object({
+  include_adult: z.boolean().optional().catch(false),
   page: z.coerce.number().min(1).catch(1),
+  sort_by: sortbySchema,
   with_genres: z.array(z.string()).or(z.string()).optional().catch(undefined),
   with_original_language: z.enum(TMDB_LANGUAGE.map(({ iso_639_1 }) => iso_639_1)).catch('en'),
-  'vote_average.lte': z.number().max(10),
-  'vote_average.gte': z.number().min(0),
+  'vote_average.lte': z.number().max(10).catch(10),
+  'vote_average.gte': z.number().min(0).catch(0),
   with_keywords: z.array(z.string()).or(z.string()).optional().catch(undefined),
-  sort_by: sortbySchema,
 })
 
 export type TSearchSchema = z.infer<typeof searchSchema>

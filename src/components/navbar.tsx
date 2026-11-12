@@ -15,7 +15,7 @@ export default function Navbar() {
 
         <ButtonLink href="/movies">Movies</ButtonLink>
 
-        <SearchDialog />
+        <SearchDialog className="w-fit *:data-[slot=placeholder]:max-md:sr-only md:w-52" />
       </nav>
     </header>
   )

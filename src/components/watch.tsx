@@ -22,12 +22,19 @@ type Server = {
 
 export const SERVERS: Server[] = [
   {
-    name: 'VidSrc',
+    name: 'Server 1',
+    url: ({ id, type, season, episode }) =>
+      type === 'tv'
+        ? `https://embed.vidrift.net/embed/tv/${id}/${season}/${episode}?font=Inter`
+        : `https://embed.vidrift.net/embed/movie/${id}?font=Inter`,
+  },
+  {
+    name: 'Server 2',
     url: ({ id, type, season, episode }) =>
       type === 'tv' ? `https://vidsrc.to/embed/tv/${id}/${season}/${episode}` : `https://vidsrc.to/embed/movie/${id}`,
   },
   {
-    name: 'VidCore',
+    name: 'Server 3',
     url: ({ id, type, season, episode }) =>
       type === 'tv' ? `https://vidcore.org/embed/tv/${id}/${season}/${episode}` : `https://vidcore.org/embed/movie/${id}`,
   },

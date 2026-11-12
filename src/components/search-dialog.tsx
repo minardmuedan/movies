@@ -3,10 +3,12 @@
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import useDebounce from '@/hooks/use-debounce'
 import { clientFetch } from '@/lib/client-fetcher'
-import { TMDB_MEDIA, type TTMDB_MEDIA } from '@/lib/tmdb'
+import { TMDB_MEDIA } from '@/lib/tmdb'
 import type { TMovies, TPersons, TTvShows } from '@/schema & types/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { PlayIcon, SearchIcon } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import { InView } from 'react-intersection-observer'
 import TMDBImage from './image'
@@ -14,22 +16,20 @@ import { MediaRating } from './medias/media-rating'
 import { Button } from './ui/button'
 import { Skeleton } from './ui/skeleton'
 import { Spinner } from './ui/spinner'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 
-export default function SearchDialog() {
+export default function SearchDialog({ className, placeholder = 'Search...' }: { className?: string; placeholder?: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="flex flex-col gap-4">
-      <Button onClick={() => setOpen(true)} variant="outline" className="w-fit justify-start md:w-52">
-        <SearchIcon /> <span className="sr-only md:not-sr-only">Search...</span>
+    <>
+      <Button onClick={() => setOpen(true)} variant="outline" className={`justify-start ${className}`}>
+        <SearchIcon /> <span data-slot="placeholder">{placeholder}</span>
       </Button>
 
       <CommandDialog title="Search" description="Have anything in mind?" open={open} onOpenChange={setOpen}>
         <CommandContent setOpen={setOpen} />
       </CommandDialog>
-    </div>
+    </>
   )
 }
 

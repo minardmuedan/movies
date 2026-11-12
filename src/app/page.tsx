@@ -1,37 +1,57 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import MediaCard from '@/components/medias/media-card'
+import SearchDialog from '@/components/search-dialog'
+import { ButtonLink } from '@/components/ui/button'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { TMDBDiscoverFetch, TMDBFetch } from '@/lib/fetcher'
+import type { TMovies } from '@/schema & types/tmdb'
+import Image from 'next/image'
 
-export default function Homepage() {
+export default async function Homepage() {
+  const sections = [
+    ['Popular Movies', await TMDBDiscoverFetch('movie', { sort_by: 'popularity.desc' })],
+    ['Now Playing Movies', await TMDBFetch<TMovies>('/movie/now_playing', 'lists')],
+    ['Top Rated Movies', await TMDBFetch<TMovies>('/movie/top_rated', 'lists')],
+    ['Upcoming Movies', await TMDBFetch<TMovies>('/movie/upcoming', 'lists')],
+  ] as const
+
   return (
-    <div className="[&_span]:text-muted-foreground space-y-6">
-      <div className="flex w-fit items-center gap-3 text-2xl">
-        <div>2xl text</div>
-        <Skeleton className="h-7 w-40" />
-        <span>h-7</span>
+    <>
+      <div className="mask-image absolute top-0 left-0 -z-1 inline-block h-svh w-full mask-b-to-transparent opacity-25">
+        <Image loading="eager" src="/hero-bg.png" alt="hero background" fill className="object-cover" />
       </div>
 
-      <div className="flex w-fit items-center gap-3 text-xl">
-        <div>base text</div>
-        <Skeleton className="h-6 w-36" />
-        <span>h-6</span>
-      </div>
+      <section className="flex h-[75svh] items-center justify-center">
+        <div className="text-center">
+          <div className="xs-muted">finding something to watch? this might be -</div>
+          <h1 className="font-bolota text-5xl lg:text-7xl">
+            YOUR ULTIMATE <br className="max-lg:hidden" />
+            <span className="text-primary [-webkit-text-stroke:1px_white]">ENTERTAINMENT</span> DESTINATION
+          </h1>
 
-      <div className="flex w-fit items-center gap-3">
-        <div>base text</div>
-        <Skeleton className="h-5 w-32" />
-        <span>h-5</span>
-      </div>
+          <nav className="mt-8 flex justify-center gap-2">
+            <ButtonLink href="/movies">Movies</ButtonLink>
+            <ButtonLink variant="outline" href="/tv-shows">
+              Tv Shows
+            </ButtonLink>
+            <SearchDialog className="*:data-[slot=placeholder]:max-md:sr-only md:w-52" />
+          </nav>
+        </div>
+      </section>
 
-      <div className="flex w-fit items-center gap-3 text-sm">
-        <div>sm text</div>
-        <Skeleton className="h-4 w-28" />
-        <span>h-4</span>
-      </div>
-
-      <div className="flex w-fit items-center gap-3 text-xs">
-        <div>xs text</div>
-        <Skeleton className="h-3 w-20" />
-        <span>h-3</span>
-      </div>
-    </div>
+      {sections.map(([title, datas], i) => (
+        <section key={i} className="mt-2 not-last-of-type:mb-20">
+          <h2 className="text-muted-foreground mb-3">{title}</h2>
+          <Carousel opts={{ dragFree: true }}>
+            <CarouselContent className="-ml-2">
+              {(datas.isSuccess ? datas.data.results : []).map((data, i2) => (
+                <CarouselItem key={i2} className="basis-4/9 pl-2 sm:basis-3/10 md:basis-2/9 lg:basis-2/11">
+                  <MediaCard data={data} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </section>
+      ))}
+    </>
   )
 }
