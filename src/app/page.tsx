@@ -2,17 +2,17 @@ import MediaCard from '@/components/medias/media-card'
 import SearchDialog from '@/components/search-dialog'
 import { ButtonLink } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { TMDBDiscoverFetch, TMDBFetch } from '@/lib/fetcher'
-import type { TMovies } from '@/schema & types/tmdb'
+import { TMDBDiscoverFetch, TMDBMovies } from '@/lib/fetcher'
+import { ArrowRightIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
 
 export default async function Homepage() {
-  const sections = [
-    ['Popular Movies', await TMDBDiscoverFetch('movie', { sort_by: 'popularity.desc' })],
-    ['Now Playing Movies', await TMDBFetch<TMovies>('/movie/now_playing', 'lists')],
-    ['Top Rated Movies', await TMDBFetch<TMovies>('/movie/top_rated', 'lists')],
-    ['Upcoming Movies', await TMDBFetch<TMovies>('/movie/upcoming', 'lists')],
-  ] as const
+  const promises = Object.values(TMDBMovies).map(({ fn }, i) => (i === 1 ? TMDBDiscoverFetch('movie', {}) : fn(1)))
+  const datas = await Promise.all(promises)
+  const movies = Object.entries(TMDBMovies).map(([key, { title }], i) => {
+    if (i === 1) return { href: 'movies/', title: 'Popular Movies', data: datas[i] }
+    return { href: `/movies/${key}`, title, data: datas[i] }
+  })
 
   return (
     <>
@@ -38,12 +38,19 @@ export default async function Homepage() {
         </div>
       </section>
 
-      {sections.map(([title, datas], i) => (
-        <section key={i} className="mt-2 not-last-of-type:mb-20">
-          <h2 className="text-muted-foreground mb-3">{title}</h2>
+      {movies.map(({ href, title, data }, i) => (
+        <section key={i} className={`mt-2 ${i !== movies.length - 1 ? 'mb-20' : ''}`}>
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <h2 className="text-muted-foreground">{title}</h2>
+
+            <ButtonLink href={href} variant="link">
+              View More <ArrowRightIcon />
+            </ButtonLink>
+          </div>
+
           <Carousel opts={{ dragFree: true }}>
             <CarouselContent className="-ml-2">
-              {(datas.isSuccess ? datas.data.results : []).map((data, i2) => (
+              {(data.isSuccess ? data.data.results : []).map((data, i2) => (
                 <CarouselItem key={i2} className="basis-4/9 pl-2 sm:basis-3/10 md:basis-2/9 lg:basis-2/11">
                   <MediaCard data={data} />
                 </CarouselItem>

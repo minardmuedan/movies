@@ -8,7 +8,7 @@ import { Suspense } from 'react'
 
 type SearchParams = Promise<Record<string, unknown>>
 
-export default async function MoviesPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function DiscoverMoviesPage({ searchParams }: { searchParams: SearchParams }) {
   const search = await searchParams
 
   return (

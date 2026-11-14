@@ -58,3 +58,9 @@ export async function TMDBDiscoverFetch(type: 'movie' | 'tv', params: Partial<Re
   console.log({ route })
   return await TMDBFetch<TMovies | TTvShows>(route, 'lists')
 }
+
+export const TMDBMovies = {
+  'now-playing': { title: 'Now Playing Movies', fn: async (page: number) => await TMDBFetch<TMovies>(`/movie/now_playing?page=${page}`, 'lists') },
+  'top-rated': { title: 'Top Rated Movies', fn: async (page: number) => await TMDBFetch<TMovies>(`/movie/top_rated?page=${page}`, 'lists') },
+  upcoming: { title: 'Upcoming Movies', fn: async (page: number) => await TMDBFetch<TMovies>(`/movie/upcoming?page=${page}`, 'lists') },
+}

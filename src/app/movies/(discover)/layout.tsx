@@ -2,7 +2,7 @@ import { FilterBarDialog, FilterBarTrigger, FilterSidebarContent } from '@/compo
 import { SidebarIcon, Wand2Icon, XIcon } from 'lucide-react'
 import { Suspense } from 'react'
 
-export default function MoviesLayout({ children }: { children: React.ReactNode }) {
+export default function DiscoverMoviesLayout({ children }: { children: React.ReactNode }) {
   return (
     <Suspense>
       <div className="flex [&_.media-card-container]:[html[data-filterbar=open]_&]:lg:grid-cols-3 [&_.media-card-container]:[html[data-filterbar=open]_&]:xl:grid-cols-4 [&_.media-card-container]:[html[data-filterbar=open]_&]:2xl:grid-cols-5">
