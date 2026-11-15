@@ -3,16 +3,18 @@ import SearchDialog from '@/components/search-dialog'
 import { ButtonLink } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { TMDBDiscoverFetch, TMDBMovies } from '@/lib/fetcher'
-import { ArrowRightIcon, ChevronRightIcon } from 'lucide-react'
+import { ArrowRightIcon } from 'lucide-react'
 import Image from 'next/image'
 
 export default async function Homepage() {
-  const promises = Object.values(TMDBMovies).map(({ fn }, i) => (i === 1 ? TMDBDiscoverFetch('movie', {}) : fn(1)))
-  const datas = await Promise.all(promises)
-  const movies = Object.entries(TMDBMovies).map(([key, { title }], i) => {
-    if (i === 1) return { href: 'movies/', title: 'Popular Movies', data: datas[i] }
-    return { href: `/movies/${key}`, title, data: datas[i] }
+  const moviesData = Object.entries(TMDBMovies).flatMap(([key, { title, fn }], i) => {
+    const d = { href: `/movies/${key}`, title, fn: fn(1) }
+    if (i == 0) return [d, { href: '/movies', title: 'Popular Movies', fn: TMDBDiscoverFetch('movie', {}) }]
+    return [d]
   })
+
+  const datas = await Promise.all(moviesData.map(({ fn }) => fn))
+  const movies = moviesData.map(({ href, title }, i) => ({ href, title, data: datas[i] }))
 
   return (
     <>
@@ -43,8 +45,8 @@ export default async function Homepage() {
           <div className="mb-2 flex items-center justify-between gap-2">
             <h2 className="text-muted-foreground">{title}</h2>
 
-            <ButtonLink href={href} variant="link">
-              View More <ArrowRightIcon />
+            <ButtonLink href={href} variant="link" className="hover:[&>svg]:translate-x-1">
+              View More <ArrowRightIcon className="transition-transform" />
             </ButtonLink>
           </div>
 
