@@ -1,13 +1,17 @@
 import { ButtonLink } from '@/components/ui/button'
 import { Undo2Icon } from 'lucide-react'
 import TvSeasonsSidebar from './sidebar'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function TvSeasonDetailsLayout({ children, params }: { params: Promise<{ show_id: string }>; children: React.ReactNode }) {
   const promisedShowId = params.then((p) => p.show_id)
 
   return (
     <>
-      <BackButton promisedShowId={promisedShowId} />
+      <Suspense fallback={<Skeleton className="h-9 w-40.25" />}>
+        <BackButton promisedShowId={promisedShowId} />
+      </Suspense>
 
       <div className="flex flex-col items-start gap-12 pt-2 lg:flex-row lg:gap-6">
         <TvSeasonsSidebar promisedShowId={promisedShowId} />

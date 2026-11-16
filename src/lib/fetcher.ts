@@ -54,8 +54,6 @@ export async function TMDBDiscoverFetch(type: 'movie' | 'tv', params: Partial<Re
   })
 
   const route = `/discover/${type}?${searchParams}`
-
-  console.log({ route })
   return await TMDBFetch<TMovies | TTvShows>(route, 'lists')
 }
 
