@@ -17,21 +17,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html
-      lang="en"
-      className={cn('dark h-full font-sans antialiased', inter.variable, bolota.variable)}
-      suppressHydrationWarning
-      data-scroll-behavior="smooth"
-    >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.dataset.filterbar =
-              document.cookie.includes('filterbar=open') ? 'open' : 'closed'`,
-          }}
-        />
-      </head>
-
+    <html lang="en" className={cn('dark h-full font-sans antialiased', inter.variable, bolota.variable)} data-scroll-behavior="smooth">
       <body className="flex min-h-full flex-col">
         <RootProvider>
           <Navbar />

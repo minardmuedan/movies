@@ -24,7 +24,11 @@ async function cachedFetch<T>(route: string, profile: CacheProfile): Promise<T> 
     headers: { Authorization: `Bearer ${process.env.TMDB_KEY}` },
   })
 
-  if (!res.ok) throw new Error(String(res.status))
+  if (!res.ok) {
+    if (res.status === 404) notFound()
+    throw new Error(String(res.status))
+  }
+
   return res.json()
 }
 
@@ -34,7 +38,6 @@ export async function TMDBFetch<T>(route: string, profile: CacheProfile): Promis
     return { isSuccess: true, data }
   } catch (err) {
     unstable_rethrow(err)
-    if (err instanceof Error && err.message === '404') notFound()
 
     console.log('ERROR!:', err)
     return {

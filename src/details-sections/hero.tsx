@@ -92,7 +92,7 @@ function Content({ media }: { media: TMovieDetails | TTvDetails }) {
 
           <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
             {media.genres.map((genre) => (
-              <ButtonLink key={genre.id} href={`movies?genre/${genre.id}`} variant="accentMuted">
+              <ButtonLink key={genre.id} href={`/${'name' in media ? 'tv-shows' : 'movies'}?genres=${genre.id}`} variant="accentMuted">
                 {genre.name}
               </ButtonLink>
             ))}

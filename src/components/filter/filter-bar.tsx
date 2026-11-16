@@ -6,7 +6,7 @@ import { looseEqual } from '@/lib/utils'
 import { sortbySchema } from '@/schema & types/params'
 import { Undo2Icon, Wand2Icon, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { Button } from '../ui/button'
 import FilterGenre from './genre'
 import FilterKeywords from './keywords'
@@ -14,8 +14,15 @@ import FilterLanguage from './language'
 import FilterRatings from './ratings'
 import FilterSortBy from './sort-by'
 
-const COOKIE_KEY = 'filterbar'
 type TFilterData = { sortby: TTMDB_SORT_BY[number]; genres: string[]; ratings: string; language: string; keywords: string[] }
+
+const filterbarContext = createContext<{ open: boolean; toggleOpen: () => void } | null>(null)
+
+const useFilterBarContext = () => {
+  const ctx = useContext(filterbarContext)
+  if (!ctx) throw 'Context must be wrapped by its provider'
+  return ctx
+}
 
 const useFilterSearchParams = (): TFilterData => {
   const searchParams = useSearchParams()
@@ -31,16 +38,26 @@ const useFilterSearchParams = (): TFilterData => {
 const checkHasFilter = (f: TFilterData) =>
   f.sortby !== 'popularity.desc' || f.genres.length > 0 || f.ratings !== '0-10' || f.language !== 'en' || f.keywords.length > 0
 
-const FilterBarTrigger = ({ variant = 'accentMuted', children, className, ...props }: React.ComponentProps<typeof Button>) => {
-  const toggleSidebarOpen = () => {
-    const el = document.documentElement
-    const next = el.dataset.filterbar === 'open' ? 'closed' : 'open'
-    el.dataset.filterbar = next
-    document.cookie = `${COOKIE_KEY}=${next}; path=/; max-age=31536000`
-  }
-
+const FilterBarContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const filterSearchParams = useFilterSearchParams()
+  const [open, setOpen] = useState(checkHasFilter(filterSearchParams))
+  const toggleOpen = () => setOpen((p) => !p)
   return (
-    <Button variant={variant} onClick={toggleSidebarOpen} {...props} className={`relative ${className}`}>
+    <filterbarContext.Provider key={JSON.stringify(filterSearchParams)} value={{ open, toggleOpen }}>
+      <div
+        aria-expanded={open}
+        className="flex aria-expanded:[&_.media-card-container]:lg:grid-cols-3 aria-expanded:[&_.media-card-container]:xl:grid-cols-4 aria-expanded:[&_.media-card-container]:2xl:grid-cols-5"
+      >
+        {children}
+      </div>
+    </filterbarContext.Provider>
+  )
+}
+
+const FilterBarTrigger = ({ variant = 'accentMuted', children, className, ...props }: React.ComponentProps<typeof Button>) => {
+  const { toggleOpen } = useFilterBarContext()
+  return (
+    <Button variant={variant} onClick={toggleOpen} {...props} className={`relative ${className}`}>
       {children} <FilterCount />
     </Button>
   )
@@ -116,8 +133,9 @@ const FilterBarContent = ({ onSave }: { onSave?: () => void }) => {
 }
 
 const FilterSidebarContent = () => {
+  const { open } = useFilterBarContext()
   return (
-    <div className={`sticky top-14 w-81 overflow-hidden transition-[width] duration-300 ease-out [html[data-filterbar=closed]_&]:w-0!`}>
+    <div style={{ width: open ? 324 : 0 }} className="sticky top-14 overflow-hidden transition-[width] duration-300 ease-out">
       <div className="bg-background/50 mr-6 flex h-[calc(100svh-4rem)] min-w-75 flex-col rounded-xl border backdrop-blur-sm">
         <div className="relative flex justify-between border-b p-6 pb-3">
           <div>
@@ -183,4 +201,4 @@ const FilterCount = () => {
     )
 }
 
-export { FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent, type TFilterData }
+export { FilterBarContextProvider, FilterBarContent, FilterBarDialog, FilterBarTrigger, FilterSidebarContent, type TFilterData }
