@@ -7,6 +7,12 @@ import { notFound } from 'next/navigation'
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string>> }
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params
+  const title = TMDBMovies[slug as keyof typeof TMDBMovies].title
+  return { title, description: `Browse ${title}` }
+}
+
 export default async function MoviesPage({ params, searchParams }: Props) {
   const { slug } = await params
   const page = Number((await searchParams).page || 1)

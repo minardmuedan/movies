@@ -5,19 +5,21 @@ import ExpandableText from '@/components/expandable-text'
 import { ErrorFallback } from '@/components/ui/empty-error'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Suspense } from 'react'
+import PersonAge from '@/components/medias/person-age'
 
-export default function PersonHeroSection({ person_id }: { person_id: string }) {
+export default function PersonHeroSection({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
   return (
     <section className="mt-4 flex flex-col flex-wrap gap-20 md:flex-row md:gap-10">
       <Suspense fallback={<LoadingFallback />}>
-        <Data person_id={person_id} />
+        <Data promisedPersonId={promisedPersonId} />
       </Suspense>
     </section>
   )
 }
 
-async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TPersonDetails>(`/person/${person_id}`, 'details')
+async function Data({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
+  const personId = await promisedPersonId
+  const result = await TMDBFetch<TPersonDetails>(`/person/${personId}`, 'details')
   if (!result.isSuccess)
     return (
       <>
@@ -42,10 +44,7 @@ async function Data({ person_id }: { person_id: string }) {
         <h1 className="mb-2 text-2xl font-semibold">{person.name}</h1>
         <ExpandableText text={person.biography} />
 
-        <div className="mt-12 mb-2">
-          <span>Age: </span>
-          {Math.floor((Date.now() - new Date(person.birthday).getTime()) / 31557600000)}
-        </div>
+        <PersonAge birthday={person.birthday} />
 
         <div className="mb-2">
           <span>Known for department: </span>

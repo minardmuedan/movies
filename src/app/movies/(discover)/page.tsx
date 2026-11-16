@@ -8,6 +8,8 @@ import { Suspense } from 'react'
 
 type SearchParams = Promise<Record<string, unknown>>
 
+export const metadata = { title: 'Discover Movies', description: 'Discover Movies that you can filter based on your interest' }
+
 export default async function DiscoverMoviesPage({ searchParams }: { searchParams: SearchParams }) {
   const search = await searchParams
 

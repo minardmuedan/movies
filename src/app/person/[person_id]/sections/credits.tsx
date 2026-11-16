@@ -5,16 +5,17 @@ import { TMDBFetch } from '@/lib/fetcher'
 import type { TPersonCombinedCredits } from '@/schema & types/tmdb'
 import { Suspense } from 'react'
 
-export default function PersonCreditsSection({ person_id }: { person_id: string }) {
+export default function PersonCreditsSection({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <Data person_id={person_id} />
+      <Data promisedPersonId={promisedPersonId} />
     </Suspense>
   )
 }
 
-async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${person_id}/combined_credits`, 'details')
+async function Data({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
+  const personId = await promisedPersonId
+  const result = await TMDBFetch<TPersonCombinedCredits>(`/person/${personId}/combined_credits`, 'details')
 
   if (!result.isSuccess)
     return (

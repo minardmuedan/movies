@@ -20,7 +20,7 @@ export default function ExpandableText({ text, className }: { text: string; clas
           </button>
         </>
       ) : (
-        <p> text</p>
+        <p>{text}</p>
       )}
     </div>
   )

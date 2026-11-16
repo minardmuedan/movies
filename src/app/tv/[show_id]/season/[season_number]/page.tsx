@@ -2,9 +2,17 @@ import TMDBImage from '@/components/image'
 import { EpisodeDialogTrigger, EpisodesDialog, EpisodesDialogContent } from '@/components/medias/episodes-dialog'
 import { ErrorFallback, EmptyFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
-import { TTVSeasonDetails } from '@/schema & types/tmdb'
+import { TTVSeasonDetails, type TTvDetails } from '@/schema & types/tmdb'
 
-export default async function TvSeasonDetailsPage({ params }: { params: Promise<{ show_id: string; season_number: string }> }) {
+type Params = { params: Promise<{ show_id: string; season_number: string }> }
+
+export async function generateMetadata({ params }: Params) {
+  const { show_id } = await params
+  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
+  return { title: result.isSuccess ? `${result.data.name} Seasons` : 'Tv Show Season details', description: 'Tv Show Season Details' }
+}
+
+export default async function TvSeasonDetailsPage({ params }: Params) {
   const { show_id, season_number } = await params
 
   const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${show_id}/season/${season_number}`, 'details')

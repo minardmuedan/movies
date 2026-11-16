@@ -8,6 +8,7 @@ import { Building2Icon, CalendarDaysIcon, HourglassIcon, LeafIcon, PlayIcon } fr
 import { Suspense } from 'react'
 import { MediaSection, type SectionProps } from './helpers'
 import { Skeleton } from '@/components/ui/skeleton'
+import { MediaRating } from '@/components/medias/media-rating'
 
 export default function MediaHeroSection(props: SectionProps) {
   return (
@@ -63,7 +64,11 @@ function Content({ media }: { media: TMovieDetails | TTvDetails }) {
 
           <WatchDrawer tmdbId={media.id} title={title} type={'title' in media ? 'movie' : 'tv'} />
 
-          <ul className="flex flex-wrap justify-center gap-6 text-sm *:flex *:gap-3 lg:justify-start [&_svg]:size-5 [&_svg]:shrink-0 [&_svg]:stroke-1">
+          <ul className="flex flex-wrap justify-center gap-6 *:flex **:gap-3 **:text-sm lg:justify-start [&_svg]:size-5 [&_svg]:shrink-0">
+            <li>
+              <MediaRating average={media.vote_average} />
+            </li>
+
             {runtime && (
               <li>
                 <HourglassIcon /> {runtime > 60 ? `${Math.floor(runtime / 60)} hr` : ''} {`${runtime % 60} min`}
@@ -122,9 +127,10 @@ function LoadingFallback() {
 
         <Skeleton className="bg-primary/50 h-9 w-40 max-lg:mx-auto" />
 
-        <div className="grid w-3/4 grid-cols-2 gap-6 max-lg:mx-auto">
+        <div className="flex w-3/4 flex-wrap gap-6 max-lg:mx-auto">
+          <Skeleton className="h-5 basis-10.5" />
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className={`h-5 ${i === 2 ? 'col-span-2' : ''}`} />
+            <Skeleton key={i} className={`h-5 ${i === 2 ? 'basis-full' : 'flex-1'}`} />
           ))}
         </div>
 

@@ -5,7 +5,7 @@ import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovies } from '@/schema & types/tmdb'
 import { Suspense } from 'react'
 
-export default function PersonKnownForSection({ person_id }: { person_id: string }) {
+export default function PersonKnownForSection({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
   return (
     <section>
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
@@ -19,15 +19,16 @@ export default function PersonKnownForSection({ person_id }: { person_id: string
         </div>
 
         <Suspense fallback={<LoadingFallback />}>
-          <Data person_id={person_id} />
+          <Data promisedPersonId={promisedPersonId} />
         </Suspense>
       </Carousel>
     </section>
   )
 }
 
-async function Data({ person_id }: { person_id: string }) {
-  const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${person_id}`, 'details')
+async function Data({ promisedPersonId }: { promisedPersonId: Promise<string> }) {
+  const personId = await promisedPersonId
+  const result = await TMDBFetch<TMovies>(`/discover/movie?sort_by=popularity.des&with_cast=${personId}`, 'details')
 
   if (!result.isSuccess) return <ErrorFallback message={result.message} />
   return (

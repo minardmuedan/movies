@@ -7,8 +7,16 @@ import MediaRecommendationsSection from '@/details-sections/recommendations'
 import MediaReviewsSection from '@/details-sections/reviews'
 import TvSeasonsSection from '@/details-sections/seasons'
 import MediaSimilarSection from '@/details-sections/similar'
+import { TMDBFetch } from '@/lib/fetcher'
+import type { TTvDetails } from '@/schema & types/tmdb'
 
 type Params = { params: Promise<{ show_id: string }> }
+
+export async function generateMetadata({ params }: Params) {
+  const { show_id } = await params
+  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
+  return { title: result.isSuccess ? result.data.name : 'Tv Show details', description: 'Tv Show Details' }
+}
 
 export default async function TvDetailsPage({ params }: Params) {
   const promisedId = params.then((p) => p.show_id)
