@@ -25,7 +25,9 @@ export default function MediaMediasSection(props: SectionProps) {
   )
 }
 
-async function Data({ media, id }: SectionProps) {
+async function Data({ media, promisedId }: SectionProps) {
+  const id = await promisedId
+
   const promises = [
     TMDBFetch<TMediaImages>(`/${media}/${id}/images`, 'details'),
     TMDBFetch<TMediaVideos>(`/${media}/${id}/videos`, 'details'),

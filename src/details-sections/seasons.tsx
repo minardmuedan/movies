@@ -3,18 +3,18 @@ import { MediaRating } from '@/components/medias/media-rating'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevAndNext } from '@/components/ui/carousel'
 import { EmptyFallback, ErrorFallback } from '@/components/ui/empty-error'
 import { Skeleton } from '@/components/ui/skeleton'
-import { MediaSection } from '@/details-sections/helpers'
+import { MediaSection, type SectionProps } from '@/details-sections/helpers'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails, TTvSeason } from '@/schema & types/tmdb'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-export default function TvSeasonsSection({ id }: { id: string }) {
+export default function TvSeasonsSection({ promisedId }: { promisedId: Promise<string> }) {
   return (
     <MediaSection section="Seasons">
       <Carousel opts={{ dragFree: true, slidesToScroll: 'auto' }}>
         <Suspense fallback={<LoadingFallback />}>
-          <Data id={id} />
+          <Data promisedId={promisedId} />
         </Suspense>
       </Carousel>
     </MediaSection>
@@ -30,7 +30,8 @@ function Header({ count }: { count?: number }) {
   )
 }
 
-async function Data({ id }: { id: string }) {
+async function Data({ promisedId }: { promisedId: Promise<string> }) {
+  const id = await promisedId
   const result = await TMDBFetch<TTvDetails>(`/tv/${id}`, 'details')
 
   return (

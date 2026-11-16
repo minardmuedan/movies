@@ -19,13 +19,8 @@ export default async function MoviesPage({ params, searchParams }: Props) {
 
   const movies = result.data.results
   return (
-    <section>
+    <>
       <MediaBackdrop backdrops={movies.map(({ backdrop_path }) => backdrop_path)} />
-
-      <header className="my-12 flex flex-col max-lg:text-center">
-        <h1 className="mb-2 text-3xl font-semibold">{activeRoute.title}</h1>
-        <p className="sm-muted mb-6">Discover something new to watch.</p>
-      </header>
 
       <ul className="media-card-container">
         {result.data.results.map((movie) => (
@@ -36,6 +31,6 @@ export default async function MoviesPage({ params, searchParams }: Props) {
       </ul>
 
       <MediaPagination page={Number(result.data.page)} totalPages={result.data.total_pages} />
-    </section>
+    </>
   )
 }

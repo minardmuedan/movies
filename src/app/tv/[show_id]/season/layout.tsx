@@ -1,33 +1,29 @@
 import { ButtonLink } from '@/components/ui/button'
 import { Undo2Icon } from 'lucide-react'
 import TvSeasonsSidebar from './sidebar'
-import { Suspense } from 'react'
 
-type Props = { params: Promise<{ show_id: string }>; children: React.ReactNode }
-
-export default function TvSeasonDetailsLayout(props: Props) {
-  return (
-    <Suspense fallback={null}>
-      <Data {...props} />
-    </Suspense>
-  )
-}
-
-async function Data({ params, children }: Props) {
-  const { show_id } = await params
+export default function TvSeasonDetailsLayout({ children, params }: { params: Promise<{ show_id: string }>; children: React.ReactNode }) {
+  const promisedShowId = params.then((p) => p.show_id)
 
   return (
     <>
-      <ButtonLink variant="link" href={`/tv/${show_id}`} className="top-14 lg:sticky">
-        <Undo2Icon />
-        Back to Overview
-      </ButtonLink>
+      <BackButton promisedShowId={promisedShowId} />
 
       <div className="flex flex-col items-start gap-12 pt-2 lg:flex-row lg:gap-6">
-        <TvSeasonsSidebar show_id={show_id} />
+        <TvSeasonsSidebar promisedShowId={promisedShowId} />
 
         {children}
       </div>
     </>
+  )
+}
+
+async function BackButton({ promisedShowId }: { promisedShowId: Promise<string> }) {
+  const showId = await promisedShowId
+  return (
+    <ButtonLink variant="link" href={`/tv/${showId}`} className="top-14 lg:sticky">
+      <Undo2Icon />
+      Back to Overview
+    </ButtonLink>
   )
 }

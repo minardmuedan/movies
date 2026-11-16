@@ -22,7 +22,9 @@ function Header({ count }: { count?: number }) {
   return <h3>Review {count && <span>{count}</span>}</h3>
 }
 
-async function Data({ media, id }: SectionProps) {
+async function Data({ media, promisedId }: SectionProps) {
+  const id = await promisedId
+
   const result = await TMDBFetch<TMediaReviews>(`/${media}/${id}/reviews`, 'details')
   return (
     <>

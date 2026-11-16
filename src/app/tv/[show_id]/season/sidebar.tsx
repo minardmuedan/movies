@@ -4,19 +4,20 @@ import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails } from '@/schema & types/tmdb'
 import { Suspense } from 'react'
 
-export default function TvSeasonsSidebar({ show_id }: { show_id: string }) {
+export default function TvSeasonsSidebar({ promisedShowId }: { promisedShowId: Promise<string> }) {
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <Data show_id={show_id} />
+      <Data promisedShowId={promisedShowId} />
     </Suspense>
   )
 }
 
-async function Data({ show_id }: { show_id: string }) {
-  const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
+async function Data({ promisedShowId }: { promisedShowId: Promise<string> }) {
+  const showId = await promisedShowId
+  const result = await TMDBFetch<TTvDetails>(`/tv/${showId}`, 'details')
 
   if (!result.isSuccess) return
-  return <SeasonSidebar show_id={show_id} seasons={result.data.seasons} showName={result.data.name} />
+  return <SeasonSidebar showId={showId} seasons={result.data.seasons} showName={result.data.name} />
 }
 
 function LoadingFallback() {

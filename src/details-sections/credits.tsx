@@ -32,7 +32,8 @@ function Header({ count }: { count?: number }) {
   )
 }
 
-async function Data({ media, id }: SectionProps) {
+async function Data({ media, promisedId }: SectionProps) {
+  const id = await promisedId
   const result = await TMDBFetch<TMediaCredits>(`/${media}/${id}/credits`, 'details')
   return (
     <>

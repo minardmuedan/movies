@@ -6,31 +6,23 @@ import MediaMediasSection from '@/details-sections/media'
 import MediaRecommendationsSection from '@/details-sections/recommendations'
 import MediaReviewsSection from '@/details-sections/reviews'
 import MediaSimilarSection from '@/details-sections/similar'
-import { Suspense } from 'react'
 
 type Params = { params: Promise<{ movie_id: string }> }
 
 export default function MovieDetailsPage({ params }: Params) {
-  return (
-    <Suspense fallback={null}>
-      <Data params={params} />
-    </Suspense>
-  )
-}
+  const promisedId = params.then((p) => p.movie_id)
 
-async function Data({ params }: Params) {
-  const { movie_id } = await params
   return (
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">
-      <MediaHeroSection media="movie" id={movie_id} />
-      <MediaCreditsSection media="movie" id={movie_id} />
+      <MediaHeroSection media="movie" promisedId={promisedId} />
+      <MediaCreditsSection media="movie" promisedId={promisedId} />
       <MediaSection as="div" section="Reviews_Keywords" className="flex flex-col gap-20 lg:flex-row lg:gap-6">
-        <MediaReviewsSection media="movie" id={movie_id} />
-        <MediaKeywordsSection media="movie" id={movie_id} />
+        <MediaReviewsSection media="movie" promisedId={promisedId} />
+        <MediaKeywordsSection media="movie" promisedId={promisedId} />
       </MediaSection>
-      <MediaMediasSection media="movie" id={movie_id} />
-      <MediaSimilarSection media="movie" id={movie_id} />
-      <MediaRecommendationsSection media="movie" id={movie_id} />
+      <MediaMediasSection media="movie" promisedId={promisedId} />
+      <MediaSimilarSection media="movie" promisedId={promisedId} />
+      <MediaRecommendationsSection media="movie" promisedId={promisedId} />
     </main>
   )
 }

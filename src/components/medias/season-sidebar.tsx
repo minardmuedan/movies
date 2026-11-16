@@ -10,9 +10,9 @@ import TMDBImage from '../image'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 
-type Props = { show_id: string; seasons: TTvSeason[] }
+type Props = { showId: string; seasons: TTvSeason[] }
 
-export default function SeasonSidebar({ show_id, seasons, showName }: Props & { showName: string }) {
+export default function SeasonSidebar({ showId, seasons, showName }: Props & { showName: string }) {
   const { season_number } = useParams<{ season_number?: string }>()
   const [open, setOpen] = useState(false)
   const activeSeason = Number(season_number)
@@ -27,7 +27,7 @@ export default function SeasonSidebar({ show_id, seasons, showName }: Props & { 
   return (
     <>
       <aside className="sticky top-25 h-fit w-72 max-lg:hidden">
-        <SeasonList show_id={show_id} seasons={seasons} />
+        <SeasonList showId={showId} seasons={seasons} />
       </aside>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -40,14 +40,14 @@ export default function SeasonSidebar({ show_id, seasons, showName }: Props & { 
             <DialogTitle>{showName} Seasons</DialogTitle>
           </DialogHeader>
 
-          <SeasonList show_id={show_id} seasons={seasons} isDialog className="px-2" />
+          <SeasonList showId={showId} seasons={seasons} isDialog className="px-2" />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-function SeasonList({ show_id, seasons, isDialog, className }: Props & { isDialog?: true; className?: string }) {
+function SeasonList({ showId, seasons, isDialog, className }: Props & { isDialog?: true; className?: string }) {
   const { season_number } = useParams<{ season_number?: string }>()
   const activeSeason = Number(season_number)
 
@@ -81,7 +81,7 @@ function SeasonList({ show_id, seasons, isDialog, className }: Props & { isDialo
             return (
               <li key={i}>
                 <Link
-                  href={`/tv/${show_id}/season/${season.season_number}`}
+                  href={`/tv/${showId}/season/${season.season_number}`}
                   className={`accent-muted bg-background flex items-center gap-2 rounded-lg p-2 ${isActive ? 'outline-primary bg-primary/30 pointer-events-none border-transparent outline-2' : ''}`}
                   ref={isActive ? activeRef : null}
                 >

@@ -82,6 +82,6 @@ const Navlink = ({ section, render }: { section: string; render?: string }) => {
   )
 }
 
-type SectionProps = { media: 'movie' | 'tv'; id: string }
+type SectionProps = { media: 'movie' | 'tv'; promisedId: Promise<string> }
 
 export { MediaSection, MediaSectionProvider, MediaSectionSideNav, type SectionProps }
