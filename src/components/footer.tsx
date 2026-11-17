@@ -58,16 +58,19 @@ export default function Footer() {
       <div className="relative px-2 pt-7 pb-5 md:px-4">
         <Image src="/hero-bg.png" alt="hero background" priority fill className="-z-10 object-cover opacity-5" />
 
-        <ul className="mb-7 flex flex-col justify-between gap-10 border-b pb-7 md:flex-row">
-          <li>
-            <p className="text-primary mb-2 text-xl font-medium">Minard Movies</p>
+        <div className="mb-7 flex flex-col justify-between gap-10 border-b pb-7 md:flex-row">
+          <div>
+            <div className="flex items-center gap-2">
+              <Image src="/logo.png" alt="logo" width={36} height={36} />
+              <p className="text-primary mb-2 text-xl font-medium">Minard Movies</p>
+            </div>
             <p className="text-muted-foreground max-w-175 text-sm">
               Discover endless entertainment with our curated collection of movies and TV shows. Explore a world of captivating stories and
               unforgettable moments. Your next favorite film or series awaits!
             </p>
-          </li>
+          </div>
 
-          <li className="flex justify-center gap-10 text-center whitespace-nowrap md:text-start">
+          <div className="flex justify-center gap-10 text-center whitespace-nowrap md:text-start">
             {navlinks.map(({ title, links }, i) => (
               <div key={i}>
                 <p className="mb-2">{title}</p>
@@ -84,7 +87,7 @@ export default function Footer() {
                 </nav>
               </div>
             ))}
-          </li>
+          </div>
 
           <div className="flex flex-col items-center gap-5">
             <p className="text-muted-foreground text-center text-xs">the provider of movies and tv shows</p>
@@ -92,7 +95,7 @@ export default function Footer() {
               <Image src="/tmdb-logo.svg" alt="tmdb logo" width={80} height={80} /> <span className="sr-only">go to tmdb website</span>
             </Link>
           </div>
-        </ul>
+        </div>
 
         <div className="flex flex-col items-center justify-between gap-5 md:flex-row">
           <p className="text-muted-foreground text-xs">© 2024 · Minard Parilla | All rights reserved</p>
