@@ -1,7 +1,7 @@
 import BackButton from '@/components/back'
 import { MediaSectionProvider, MediaSectionSideNav } from '@/details-sections/helpers'
 
-export default function TvDetailsLayout({ children }: { children: React.ReactNode }) {
+export default function TvDetailsLayout({ children }: LayoutProps<'/tv/[show_id]'>) {
   return (
     <>
       <BackButton className="bg-background/50 md:sticky md:top-14" />

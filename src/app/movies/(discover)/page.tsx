@@ -6,11 +6,9 @@ import { TMDBDiscoverFetch } from '@/lib/fetcher'
 import { ratingsSchema } from '@/schema & types/params'
 import { Suspense } from 'react'
 
-type SearchParams = Promise<Record<string, unknown>>
-
 export const metadata = { title: 'Discover Movies', description: 'Discover Movies that you can filter based on your interest' }
 
-export default async function DiscoverMoviesPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function DiscoverMoviesPage({ searchParams }: PageProps<'/movies'>) {
   const search = await searchParams
 
   return (
@@ -20,7 +18,7 @@ export default async function DiscoverMoviesPage({ searchParams }: { searchParam
   )
 }
 
-async function PageContent({ searchParams }: { searchParams: Awaited<SearchParams> }) {
+async function PageContent({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const { page, sortby, genres, language, ratings, keywords } = searchParams
   const parsedRatings = ratingsSchema.parse(ratings)
 

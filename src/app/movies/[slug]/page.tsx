@@ -5,15 +5,13 @@ import { ErrorFallback } from '@/components/ui/empty-error'
 import { TMDBMovies } from '@/lib/fetcher'
 import { notFound } from 'next/navigation'
 
-type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string>> }
-
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: PageProps<'/movies/[slug]'>) {
   const { slug } = await params
   const title = TMDBMovies[slug as keyof typeof TMDBMovies].title
   return { title, description: `Browse ${title}` }
 }
 
-export default async function MoviesPage({ params, searchParams }: Props) {
+export default async function MoviesPage({ params, searchParams }: PageProps<'/movies/[slug]'>) {
   const { slug } = await params
   const page = Number((await searchParams).page || 1)
 

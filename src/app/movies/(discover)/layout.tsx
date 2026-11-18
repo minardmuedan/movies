@@ -3,7 +3,7 @@ import { SidebarIcon, Wand2Icon, XIcon } from 'lucide-react'
 
 export const instant = false
 
-export default function DiscoverMoviesLayout({ children }: { children: React.ReactNode }) {
+export default function DiscoverMoviesLayout({ children }: LayoutProps<'/movies'>) {
   return (
     <FilterBarContextProvider>
       <aside className="max-lg:hidden">

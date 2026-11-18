@@ -10,15 +10,13 @@ import MediaSimilarSection from '@/details-sections/similar'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TTvDetails } from '@/schema & types/tmdb'
 
-type Params = { params: Promise<{ show_id: string }> }
-
-export async function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: PageProps<'/tv/[show_id]'>) {
   const { show_id } = await params
   const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
   return { title: result.isSuccess ? result.data.name : 'Tv Show details', description: 'Tv Show Details' }
 }
 
-export default async function TvDetailsPage({ params }: Params) {
+export default async function TvDetailsPage({ params }: PageProps<'/tv/[show_id]'>) {
   const promisedId = params.then((p) => p.show_id)
   return (
     <main className="[&_h3]:heading-title flex-1 space-y-28 overflow-x-hidden">

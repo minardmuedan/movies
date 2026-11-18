@@ -9,15 +9,13 @@ import MediaSimilarSection from '@/details-sections/similar'
 import { TMDBFetch } from '@/lib/fetcher'
 import type { TMovieDetails } from '@/schema & types/tmdb'
 
-type Params = { params: Promise<{ movie_id: string }> }
-
-export async function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: PageProps<'/movie/[movie_id]'>) {
   const { movie_id } = await params
   const result = await TMDBFetch<TMovieDetails>(`/movie/${movie_id}`, 'details')
   return { title: result.isSuccess ? result.data.title : 'Movie details', description: 'Movie Details' }
 }
 
-export default function MovieDetailsPage({ params }: Params) {
+export default function MovieDetailsPage({ params }: PageProps<'/movie/[movie_id]'>) {
   const promisedId = params.then((p) => p.movie_id)
 
   return (

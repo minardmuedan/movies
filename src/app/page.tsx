@@ -30,7 +30,7 @@ export default async function Homepage() {
             <span className="text-primary [-webkit-text-stroke:1px_white]">ENTERTAINMENT</span> DESTINATION
           </h1>
 
-          <nav className="mt-8 flex justify-center gap-2"> 
+          <nav className="mt-8 flex justify-center gap-2">
             <ButtonLink href="/movies">Movies</ButtonLink>
             <ButtonLink variant="outline" href="/tv-shows">
               Tv Shows

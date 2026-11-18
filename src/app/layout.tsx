@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: 'A movie browsing website made by Minard Parilla where you can watch movies and tv shows',
 }
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({ children, modal }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={cn('dark h-full font-sans antialiased', inter.variable, bolota.variable)} data-scroll-behavior="smooth">
       <head>
@@ -26,6 +26,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <Navbar />
           <main className="mx-auto w-full px-2 py-2 sm:px-4 lg:max-w-400 lg:px-6">{children}</main>
           <Footer />
+
+          {modal}
         </RootProvider>
       </body>
     </html>

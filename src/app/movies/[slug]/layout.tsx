@@ -1,11 +1,9 @@
 import { TMDBMovies } from '@/lib/fetcher'
 import { Suspense } from 'react'
 
-type Params = Promise<{ slug: string }>
-
 export const generateStaticParams = () => Object.keys(TMDBMovies).map((keys) => ({ slug: keys }))
 
-export default function MoviesLayout({ params, children }: { params: Params; children: React.ReactNode }) {
+export default function MoviesLayout({ params, children }: LayoutProps<'/movies/[slug]'>) {
   return (
     <section>
       <Suspense>
@@ -17,7 +15,7 @@ export default function MoviesLayout({ params, children }: { params: Params; chi
   )
 }
 
-async function Header({ params }: { params: Params }) {
+async function Header({ params }: Pick<LayoutProps<'/movies/[slug]'>, 'params'>) {
   const { slug } = await params
   const title = TMDBMovies[slug as keyof typeof TMDBMovies].title
 

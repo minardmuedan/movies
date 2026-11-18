@@ -3,7 +3,7 @@ import { SidebarIcon, Wand2Icon, XIcon } from 'lucide-react'
 
 export const instant = false
 
-export default function TvShowsLayout({ children }: { children: React.ReactNode }) {
+export default function TvShowsLayout({ children }: LayoutProps<'/tv-shows'>) {
   return (
     <FilterBarContextProvider>
       <aside className="max-lg:hidden">

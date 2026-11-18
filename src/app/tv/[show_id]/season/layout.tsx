@@ -4,7 +4,7 @@ import TvSeasonsSidebar from './sidebar'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 
-export default function TvSeasonDetailsLayout({ children, params }: { params: Promise<{ show_id: string }>; children: React.ReactNode }) {
+export default function TvSeasonDetailsLayout({ children, params }: LayoutProps<'/tv/[show_id]/season'>) {
   const promisedShowId = params.then((p) => p.show_id)
 
   return (

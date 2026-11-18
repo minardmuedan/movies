@@ -4,15 +4,13 @@ import { ErrorFallback, EmptyFallback } from '@/components/ui/empty-error'
 import { TMDBFetch } from '@/lib/fetcher'
 import { TTVSeasonDetails, type TTvDetails } from '@/schema & types/tmdb'
 
-type Params = { params: Promise<{ show_id: string; season_number: string }> }
-
-export async function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: PageProps<'/tv/[show_id]/season/[season_number]'>) {
   const { show_id } = await params
   const result = await TMDBFetch<TTvDetails>(`/tv/${show_id}`, 'details')
   return { title: result.isSuccess ? `${result.data.name} Seasons` : 'Tv Show Season details', description: 'Tv Show Season Details' }
 }
 
-export default async function TvSeasonDetailsPage({ params }: Params) {
+export default async function TvSeasonDetailsPage({ params }: PageProps<'/tv/[show_id]/season/[season_number]'>) {
   const { show_id, season_number } = await params
 
   const result = await TMDBFetch<TTVSeasonDetails>(`/tv/${show_id}/season/${season_number}`, 'details')
