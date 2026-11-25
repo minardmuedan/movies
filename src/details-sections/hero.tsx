@@ -1,14 +1,15 @@
 import TMDBImage from '@/components/image'
+import { MediaRating } from '@/components/medias/media-rating'
 import { ButtonLink } from '@/components/ui/button'
 import { ErrorFallback } from '@/components/ui/empty-error'
-import WatchDrawer from '@/components/watch'
+import { Skeleton } from '@/components/ui/skeleton'
 import { TMDBFetch } from '@/lib/fetcher'
 import { type TMovieDetails, type TTvDetails } from '@/schema & types/tmdb'
 import { Building2Icon, CalendarDaysIcon, HourglassIcon, LeafIcon, PlayIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import { MediaSection, type SectionProps } from './helpers'
-import { Skeleton } from '@/components/ui/skeleton'
-import { MediaRating } from '@/components/medias/media-rating'
+import { Watch } from '@/components/medias/watch'
+import { MediaDetailsList } from '@/components/medias/details-list'
 
 export default function MediaHeroSection(props: SectionProps) {
   return (
@@ -30,8 +31,6 @@ async function Data({ media, promisedId }: SectionProps) {
 
 function Content({ media }: { media: TMovieDetails | TTvDetails }) {
   const title = 'title' in media ? media.title : media.name
-  const firstRelease = 'release_date' in media ? media.release_date : media.first_air_date
-  const runtime = 'runtime' in media ? media.runtime : media.episode_run_time[0]
 
   return (
     <>
@@ -57,43 +56,14 @@ function Content({ media }: { media: TMovieDetails | TTvDetails }) {
             <h1 aria-label="title" className="text-3xl font-medium">
               {title}
             </h1>
-            <p aria-label="description" className="sm-muted mt-3 max-w-175">
+            <p aria-label="description" className="sm-muted mt-3 max-w-175 max-lg:mx-auto">
               {media.overview}
             </p>
           </div>
 
-          <WatchDrawer tmdbId={media.id} title={title} type={'title' in media ? 'movie' : 'tv'} />
+          <Watch {...media} />
 
-          <ul className="flex flex-wrap justify-center gap-6 *:flex **:gap-3 **:text-sm lg:justify-start [&_svg]:size-5 [&_svg]:shrink-0">
-            <li>
-              <MediaRating average={media.vote_average} />
-            </li>
-
-            {runtime && (
-              <li>
-                <HourglassIcon /> {runtime > 60 ? `${Math.floor(runtime / 60)} hr` : ''} {`${runtime % 60} min`}
-              </li>
-            )}
-
-            {'number_of_seasons' in media && (
-              <li>
-                <LeafIcon /> {media.number_of_seasons} seasons
-              </li>
-            )}
-            {'number_of_seasons' in media && (
-              <li>
-                <PlayIcon /> {media.number_of_episodes} episodes
-              </li>
-            )}
-
-            <li>
-              <CalendarDaysIcon /> {new Date(firstRelease).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
-            </li>
-
-            <li className="basis-full justify-center lg:justify-start">
-              <Building2Icon /> {media.production_companies.map(({ name }) => name).join(', ')}
-            </li>
-          </ul>
+          <MediaDetailsList media={media} />
 
           <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
             {media.genres.map((genre) => (
@@ -128,7 +98,7 @@ function LoadingFallback() {
         <Skeleton className="bg-primary/50 h-9 w-40 max-lg:mx-auto" />
 
         <div className="flex w-3/4 flex-wrap gap-6 max-lg:mx-auto">
-          <Skeleton className="h-5 basis-10.5" />
+          <Skeleton className="h-5 basis-13" />
           {[...Array(3)].map((_, i) => (
             <Skeleton key={i} className={`h-5 ${i === 2 ? 'basis-full' : 'flex-1'}`} />
           ))}

@@ -1,7 +1,7 @@
 import BackButton from '@/components/back'
 import { MediaSectionProvider, MediaSectionSideNav } from '@/details-sections/helpers'
 
-export default function MovieDetailsLayout({ children }: LayoutProps<'/movie/[movie_id]'>) {
+export default function MovieDetailsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BackButton className="bg-background/50 md:sticky md:top-14" />
@@ -9,6 +9,7 @@ export default function MovieDetailsLayout({ children }: LayoutProps<'/movie/[mo
       <div className="mt-60 flex gap-6">
         <MediaSectionProvider sections={['Details', 'Credits', 'Reviews_Keywords', 'Media', 'Similar', 'Recommendations']}>
           <MediaSectionSideNav />
+
           {children}
         </MediaSectionProvider>
       </div>
