@@ -16,12 +16,44 @@ export function Watch(media: TMovieDetails | TTvDetails) {
   const series = useTvSeries(media.id)
 
   const title = 'name' in media ? media.name : media.title
+
+  return (
+    <>
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} showSwipeHandle snapPoints={['19rem', 1]}>
+        <DrawerTrigger render={<Button />} className="lg:hidden">
+          <PlayIcon /> Watch Now
+        </DrawerTrigger>
+        <DrawerContent className="min-h-1/2 text-center">
+          <DrawerHeader>
+            <DrawerTitle>Watch {title}</DrawerTitle>
+          </DrawerHeader>
+          <WatchContent media={media} series={series} />
+        </DrawerContent>
+      </Drawer>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogTrigger render={<Button />} className="max-lg:hidden">
+          <PlayIcon /> Watch Now
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-xl">
+          <DialogHeader className="pb-0">
+            <DialogTitle>Watch {title}</DialogTitle>
+          </DialogHeader>
+          <WatchContent media={media} series={series} />
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+const WatchContent = ({ media, series }: { media: TMovieDetails | TTvDetails; series: ReturnType<typeof useTvSeries> }) => {
+  const title = 'name' in media ? media.name : media.title
   const src =
     'seasons' in media
       ? `https://embed.vidrift.net/embed/tv/${media.id}/${series.season}/${series.episode}?font=Inter`
       : `https://embed.vidrift.net/embed/movie/${media.id}?font=Inter`
 
-  const WatchContent = () => (
+  return (
     <div className="mt-6 flex flex-col space-y-12 overflow-y-auto px-2 pb-6 text-center *:mx-auto lg:px-3">
       {'seasons' in media && <SelectSeries media={media} {...series} />}
 
@@ -31,7 +63,7 @@ export function Watch(media: TMovieDetails | TTvDetails) {
         title={title}
         allowFullScreen
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-        referrerPolicy="origin"
+        referrerPolicy="strict-origin-when-cross-origin"
         className="bg-accent aspect-video max-h-[50svh] w-full overflow-hidden rounded-md"
       />
 
@@ -47,34 +79,6 @@ export function Watch(media: TMovieDetails | TTvDetails) {
         ))}
       </div>
     </div>
-  )
-
-  return (
-    <>
-      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} showSwipeHandle snapPoints={['19rem', 1]}>
-        <DrawerTrigger render={<Button />} className="lg:hidden">
-          <PlayIcon /> Watch Now
-        </DrawerTrigger>
-        <DrawerContent className="min-h-1/2 text-center">
-          <DrawerHeader>
-            <DrawerTitle>Watch {title}</DrawerTitle>
-          </DrawerHeader>
-          <WatchContent />
-        </DrawerContent>
-      </Drawer>
-
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogTrigger render={<Button />} className="max-lg:hidden">
-          <PlayIcon /> Watch Now
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-xl">
-          <DialogHeader className="pb-0">
-            <DialogTitle>Watch {title}</DialogTitle>
-          </DialogHeader>
-          <WatchContent />
-        </DialogContent>
-      </Dialog>
-    </>
   )
 }
 
